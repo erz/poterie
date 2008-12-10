@@ -21,6 +21,8 @@ BEGIN_MESSAGE_MAP(CPoterieApp, CWinApp)
 	// Commandes de fichier standard
 	ON_COMMAND(ID_FILE_NEW, &CWinApp::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
+	// Commande standard de configuration de l'impression
+	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinApp::OnFilePrintSetup)
 END_MESSAGE_MAP()
 
 
@@ -28,8 +30,6 @@ END_MESSAGE_MAP()
 
 CPoterieApp::CPoterieApp()
 {
-	EnableHtmlHelp();
-
 	// TODO : ajoutez ici du code de construction,
 	// Placez toutes les initialisations significatives dans InitInstance
 }
@@ -105,7 +105,7 @@ BOOL CPoterieApp::InitInstance()
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 	// La fenêtre principale a été initialisée et peut donc être affichée et mise à jour
-	pMainFrame->ShowWindow(m_nCmdShow);
+	pMainFrame->ShowWindow(SW_SHOWMAXIMIZED);
 	pMainFrame->UpdateWindow();
 
 	return TRUE;

@@ -98,34 +98,6 @@ de
 
 
 
-/////////////////////////////////////////////////////////////////////////////
-
-Prise en charge de l'aide :
-
-hlp\Poterie.hhp
-    Ce fichier est un fichier projet d'aide. Il contient les données requises 
-    pour compiler les fichiers d'aide dans un fichier .chm.
-
-hlp\Poterie.hhc
-    Ce fichier répertorie le contenu du projet d'aide.
-
-hlp\Poterie.hhk
-    Ce fichier contient un index des rubriques d'aide.
-
-hlp\afxcore.htm
-    Ce fichier contient les rubriques d'aide standard relatives aux 
-    objets de l'écran et aux commandes MFC standard. Ajoutez à ce fichier vos 
-propres rubriques d'aide.
-
-makehtmlhelp.bat
-    Ce fichier est utilisé par le système de génération pour compiler les 
-fichiers d'aide.
-
-hlp\Images\*.gif
-    Il s'agit de fichiers bitmap requis par le fichier des rubriques d'aide 
-standard pour 
-    les commandes standard de la bibliothèque Microsoft Foundation Class.
-
 
 /////////////////////////////////////////////////////////////////////////////
 
@@ -133,6 +105,12 @@ Autres fonctionnalités :
 
 Contrôles ActiveX
     L'application comprend la prise en charge des contrôles ActiveX.
+
+Prise en charge de l'impression et de l'aperçu avant impression
+    L'Assistant Application a généré un code pour gérer les commandes 
+d'impression, de configuration de l'impression et d'aperçu avant impression en 
+appelant les 
+     fonctions membres dans la classe CView, à partir de la bibliothèque MFC.
 
 /////////////////////////////////////////////////////////////////////////////
 

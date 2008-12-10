@@ -17,6 +17,10 @@
 IMPLEMENT_DYNCREATE(CPoterieView, CView)
 
 BEGIN_MESSAGE_MAP(CPoterieView, CView)
+	// Commandes d'impression standard
+	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CView::OnFilePrintPreview)
 END_MESSAGE_MAP()
 
 // construction ou destruction de CPoterieView
@@ -52,6 +56,25 @@ void CPoterieView::OnDraw(CDC* /*pDC*/)
 }
 
 
+// impression de CPoterieView
+
+BOOL CPoterieView::OnPreparePrinting(CPrintInfo* pInfo)
+{
+	// préparation par défaut
+	return DoPreparePrinting(pInfo);
+}
+
+void CPoterieView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+{
+	// TODO : ajoutez une initialisation supplémentaire avant l'impression
+}
+
+void CPoterieView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
+{
+	// TODO : ajoutez un nettoyage après l'impression
+}
+
+
 // diagnostics pour CPoterieView
 
 #ifdef _DEBUG
@@ -74,3 +97,7 @@ CPoterieDoc* CPoterieView::GetDocument() const // la version non déboguée est en
 
 
 // gestionnaires de messages pour CPoterieView
+
+
+
+

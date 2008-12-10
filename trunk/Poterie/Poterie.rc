@@ -43,6 +43,7 @@ BEGIN
 	"#pragma code_page(1252)\r\n"
 	"#include ""res\\Poterie.rc2""  // ressources non modifiées par Microsoft Visual C++\r\n"
 	"#include ""afxres.rc""  	// Composants standard\r\n"
+	"#include ""afxprint.rc""	// ressources impression/aperçu avant impression\r\n"
 	"#endif\r\n"
 	"\0"
 END
@@ -88,7 +89,6 @@ BEGIN
 	SEPARATOR
     BUTTON      ID_FILE_PRINT
     BUTTON      ID_APP_ABOUT
-    BUTTON      ID_CONTEXT_HELP
 END
 
 
@@ -109,6 +109,8 @@ BEGIN
 		MENUITEM "&Nouveau\tCtrl+N",                ID_FILE_NEW
 		MENUITEM "&Ouvrir...\tCtrl+O",            ID_FILE_OPEN
 		MENUITEM SEPARATOR
+		MENUITEM "&Configuration de l'impression...",             ID_FILE_PRINT_SETUP
+		MENUITEM SEPARATOR
 		MENUITEM "Fichier récent",                 ID_FILE_MRU_FILE1,GRAYED
 		MENUITEM SEPARATOR
 		MENUITEM "&Fermer",                      ID_FILE_CLOSE
@@ -121,8 +123,6 @@ BEGIN
 	END
 	POPUP "&Aide"
 	BEGIN
-		MENUITEM "&Rubriques d'aide",                ID_HELP_FINDER
-		MENUITEM SEPARATOR
 		MENUITEM "&À propos de Poterie...",          ID_APP_ABOUT
 	END
 END
@@ -135,6 +135,10 @@ BEGIN
 		MENUITEM "&Fermer",                      ID_FILE_CLOSE
 		MENUITEM "&Enregistrer\tCtrl+S",               ID_FILE_SAVE
 		MENUITEM "Enregistrer &sous...",                 ID_FILE_SAVE_AS
+		MENUITEM SEPARATOR
+		MENUITEM "&Imprimer...\tCtrl+P",           ID_FILE_PRINT
+		MENUITEM "&Aperçu avant impression",              ID_FILE_PRINT_PREVIEW
+		MENUITEM "&Configuration de l'impression...",             ID_FILE_PRINT_SETUP
 		MENUITEM SEPARATOR
 		MENUITEM "Fichier récent",                 ID_FILE_MRU_FILE1,GRAYED
 		MENUITEM SEPARATOR
@@ -162,8 +166,6 @@ BEGIN
 	END
 	POPUP "&Aide"
 	BEGIN
-		MENUITEM "&Rubriques d'aide",                ID_HELP_FINDER
-		MENUITEM SEPARATOR
 		MENUITEM "&À propos de Poterie...",          ID_APP_ABOUT
 	END
 END
@@ -181,6 +183,7 @@ BEGIN
 	"N",            ID_FILE_NEW,            VIRTKEY,CONTROL
 	"O",            ID_FILE_OPEN,           VIRTKEY,CONTROL
 	"S",            ID_FILE_SAVE,           VIRTKEY,CONTROL
+	"P",            ID_FILE_PRINT,          VIRTKEY,CONTROL
 	"e",            ID_EDIT_UNDO,           VIRTKEY,CONTROL
 	"X",            ID_EDIT_CUT,            VIRTKEY,CONTROL
 	"P",            ID_EDIT_COPY,           VIRTKEY,CONTROL
@@ -191,8 +194,6 @@ BEGIN
 	VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY,SHIFT
 	VK_F6,          ID_NEXT_PANE,           VIRTKEY 
 	VK_F6,          ID_PREV_PANE,           VIRTKEY,SHIFT
-	VK_F1,          ID_CONTEXT_HELP,        VIRTKEY,SHIFT
-	VK_F1,          ID_HELP,                VIRTKEY
 END
 
 
@@ -291,8 +292,7 @@ END
 STRINGTABLE   
 BEGIN
 	AFX_IDS_APP_TITLE       "Poterie"
-	AFX_IDS_IDLEMESSAGE     "Pour obtenir de l'aide, appuyez sur F1"
-	AFX_IDS_HELPMODEMESSAGE "Sélectionner un objet sur lequel vous désirez obtenir de l'aide"
+	AFX_IDS_IDLEMESSAGE     "Prêt"
 END
 STRINGTABLE  
 BEGIN
@@ -310,13 +310,12 @@ BEGIN
 	ID_FILE_CLOSE           "Ferme le document actif\nFermer"
 	ID_FILE_SAVE            "Enregistre le document actif\nEnregistrer"
 	ID_FILE_SAVE_AS         "Enregistre le document actif sous un nouveau nom\nEnregistrer sous"
+	ID_FILE_PAGE_SETUP      "Modifie les options d'impression\nMise en page"
+	ID_FILE_PRINT_SETUP     "Modifie les options d'impression et celles de l'imprimante\nConfiguration de l'impression"
+	ID_FILE_PRINT           "Imprime le document actif\nImprimer"
+	ID_FILE_PRINT_PREVIEW   "Affiche les pages entières\nAperçu avant impression"
 	ID_APP_ABOUT            "Affiche des informations concernant le programme, le numéro de version et le copyright\nÀ propos de"
 	ID_APP_EXIT             "Quitte l'application et demande si les documents doivent être enregistrés\nQuitter"
-	ID_CONTEXT_HELP         "Affiche l'aide sur les boutons, les menus et les fenêtres\nAide"
-	ID_HELP_INDEX           "Ouvre l'aide\nRubriques d'aide"
-	ID_HELP_FINDER			"Affiche les rubriques d'aide\nRubriques d'aide"
-	ID_HELP_USING           "Affiche des instructions sur l'utilisation de l'aide\nAide"
-	ID_HELP                 "Affiche l'aide sur la tâche ou la commande en cours\nAide"
 	ID_FILE_MRU_FILE1       "Ouvrir ce document"
 	ID_FILE_MRU_FILE2       "Ouvrir ce document"
 	ID_FILE_MRU_FILE3       "Ouvrir ce document"
@@ -368,6 +367,7 @@ BEGIN
 	AFX_IDS_SCRESTORE       "Restaure la fenêtre à sa taille normale"
 	AFX_IDS_SCTASKLIST      "Active la liste des tâches"
 	AFX_IDS_MDICHILD        "Active cette fenêtre"
+	AFX_IDS_PREVIEW_CLOSE   "Ferme le mode Aperçu avant l'impression\nAnnuler aperçu"
 END
 
 #endif
@@ -388,5 +388,6 @@ LANGUAGE 12, 1
 #pragma code_page(1252)
 #include "res\\Poterie.rc2"  // ressources non modifiées par Microsoft Visual C++
 #include "afxres.rc"  	// Composants standard
+#include "afxprint.rc"  // ressources impression/aperçu avant impression
 #endif
 #endif    // non APSTUDIO_INVOKED

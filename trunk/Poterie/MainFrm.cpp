@@ -17,11 +17,6 @@ IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
 	ON_WM_CREATE()
-	// Commandes d'aide globales
-	ON_COMMAND(ID_HELP_FINDER, &CMDIFrameWnd::OnHelpFinder)
-	ON_COMMAND(ID_HELP, &CMDIFrameWnd::OnHelp)
-	ON_COMMAND(ID_CONTEXT_HELP, &CMDIFrameWnd::OnContextHelp)
-	ON_COMMAND(ID_DEFAULT_HELP, &CMDIFrameWnd::OnHelpFinder)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -80,6 +75,9 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		return FALSE;
 	// TODO : changez ici la classe ou les styles Window en modifiant
 	//  CREATESTRUCT cs
+
+	cs.style = WS_OVERLAPPED | WS_CAPTION | FWS_ADDTOTITLE
+		 | WS_THICKFRAME | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_MAXIMIZE | WS_SYSMENU;
 
 	return TRUE;
 }
