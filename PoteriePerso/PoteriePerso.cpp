@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "PoteriePerso.h"
+#include "PoterieTraitement.h"
 #include "Console.h"
 #include "PoteriePersoDlg.h"
 
@@ -65,6 +66,7 @@ BOOL CPoteriePersoApp::InitInstance()
     ::AllocConsole();
     // synchroniser la CRT
     InitializeConsoleStdIO();
+	
 
 	CPoteriePersoDlg dlg;
 	m_pMainWnd = &dlg;
@@ -75,6 +77,8 @@ BOOL CPoteriePersoApp::InitInstance()
 		// TODO : placez ici le code définissant le comportement lorsque la boîte de dialogue est
 		//  fermée avec Annuler
 	}
+
+	
 
 	// Lorsque la boîte de dialogue est fermée, retourner FALSE afin de quitter
 	//  l'application, plutôt que de démarrer la pompe de messages de l'application.

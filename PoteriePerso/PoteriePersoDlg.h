@@ -38,7 +38,7 @@ public:
 public:
 	afx_msg void OnBnClickedOuvrir();
 private:
-	CImage m_image;
+	ATL::CImage m_image;
 	CStatic m_picture;
 public:
 	afx_msg void OnBnClickedPrec();

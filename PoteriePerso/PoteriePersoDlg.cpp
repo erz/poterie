@@ -7,7 +7,7 @@
 #include "PoterieSequence.h"
 #include "PoterieTraitement.h"
 #include "VariablesGlobales.h"
-
+#include <string>
 #include <iostream>
 #include <CString>
 #include <afxstr.h>
@@ -204,10 +204,16 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 		   { 
 				// At this point pszBuffer contains the selected path */. 
 				::SetCurrentDirectory(LPWSTR(pszBuffer));
+				string test;
+				for(int i=0;i<MAX_PATH;i++) 
+					 test = test + pszBuffer[i];
+				
+				cout<<"On set le repertoire courant\n"<<test<<endl;
+				seq->setRepertoireCourant(CString(pszBuffer));
 				//Parcours des fichiers du dossier
-
+		
 				CFileFind finder;
-	
+		
 				BOOL bWorking = finder.FindFile(CString("*.bmp*"));
 
 				
@@ -247,5 +253,17 @@ void CPoteriePersoDlg::OnBnClickedSuiv()
 	{
 		seq->nextImage();
 		refresh();
+		CPoterieImage newimage;
+
+		CString TMPREP = seq->getRepertoireCourant()+seq->getNom(1); 
+		wstring rep = TMPREP.GetBuffer(0);
+		string test; 
+		test.resize(rep.size());
+		wcstombs(&test[0], &rep[0], rep.size());
+		
+		
+		//string test = CStdStringA(CStdStringW(rep)).c_str(); 
+		cout<<"[DEBUG]\t"<<test<<endl;
+		newimage.afficher_image(seq->getRepertoireCourant()+seq->getNom(1));
 	}
 }
