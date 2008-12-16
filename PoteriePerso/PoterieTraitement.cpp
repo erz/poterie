@@ -92,11 +92,11 @@ void CPoteriePersoDlg::refresh ()
 void CPoterieImage::afficher_image(CString source)
 {
 	
-	img=cvLoadImage((const char *)source.GetBuffer(0));
-	//img=cvLoadImage("C:/Documents and Settings/Florent/Mes documents/Photos/100NCD80/DSC_0421.JPG");
+	//img=cvLoadImage((const char *)source.GetBuffer(0));
+	img=cvLoadImage("C:/Documents and Settings/Florent/Mes documents/ESIL/3A/PFE/Pics/étape 1.0.bmp");
 	cout<<"On rentre dans l'affichage"<<source.GetBuffer(0)<<endl;
-	cvNamedWindow("Hello",CV_WINDOW_AUTOSIZE);
-	cvShowImage("Hello",img);
+	cvNamedWindow("Opencv",CV_WINDOW_AUTOSIZE);
+	cvShowImage("Opencv",img);
 	cvWaitKey(0);
 
 	
