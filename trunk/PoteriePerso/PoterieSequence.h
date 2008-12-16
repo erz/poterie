@@ -17,6 +17,7 @@ class CPoterieSequence
 	int nbImages;
 	//CImage *tabImages;
 	CString *tabNoms;
+	CString directory;
 	int idPicCourante;
 
 	public :
@@ -112,4 +113,15 @@ class CPoterieSequence
 		if (nbImages>0)
 			idPicCourante = (idPicCourante+1)%nbImages;
 	}
+
+	void setRepertoireCourant(CString nom)
+	{
+		directory=nom;
+	}
+	
+	CString getRepertoireCourant()
+	{
+		return directory;
+	}
+
 };

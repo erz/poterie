@@ -6,6 +6,7 @@
 	Fonction de rafraichissement des données à l'écran
 */
 #include "stdafx.h"
+
 #include "PoteriePerso.h"
 #include "PoteriePersoDlg.h"
 #include "PoterieSequence.h"
@@ -28,7 +29,7 @@ void CPoteriePersoDlg::refresh ()
 		//Affichage de l'image
 		if (seq->getNbImages() > 0)
 		{
-			m_image = CImage();
+			m_image = ATL::CImage();
 			m_image.Load(seq->getNom(seq->getIdCour()));
 
 			///////////////////////////
@@ -86,4 +87,17 @@ void CPoteriePersoDlg::refresh ()
 	
 		}
 	}
+}
+
+void CPoterieImage::afficher_image(CString source)
+{
+	
+	img=cvLoadImage((const char *)source.GetBuffer(0));
+	//img=cvLoadImage("C:/Documents and Settings/Florent/Mes documents/Photos/100NCD80/DSC_0421.JPG");
+	cout<<"On rentre dans l'affichage"<<source.GetBuffer(0)<<endl;
+	cvNamedWindow("Hello",CV_WINDOW_AUTOSIZE);
+	cvShowImage("Hello",img);
+	cvWaitKey(0);
+
+	
 }
