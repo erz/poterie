@@ -88,7 +88,12 @@ void CPoteriePersoDlg::refresh ()
 		}
 	}
 }
-
+CPoterieImage::CPoterieImage()
+{
+	CvSeq* contours = 0;
+	CvMemStorage* storage = cvCreateMemStorage(0);
+    IplImage* img = cvCreateImage( cvSize(500,500), 8, 1 );
+}
 void CPoterieImage::afficher_image(CString source)
 {
 	
@@ -97,7 +102,37 @@ void CPoterieImage::afficher_image(CString source)
 	cout<<"On rentre dans l'affichage"<<source.GetBuffer(0)<<endl;
 	cvNamedWindow("Opencv",CV_WINDOW_AUTOSIZE);
 	cvShowImage("Opencv",img);
+
+	trouver_contour();
 	cvWaitKey(0);
 
 	
+	
+}
+
+void CPoterieImage::trouver_contour()
+{
+	CvSize sz = cvSize( img->width & -2, img->height & -2 );
+	IplImage* timg = cvCloneImage( img );
+	IplImage* gray = cvCreateImage( sz, 8, 1 ); 
+	IplImage* tgray= cvCreateImage( sz, 8, 1 );
+	cvSetImageCOI( timg, 1 );
+    cvCopy( timg, tgray, 0 );
+	
+	cvCanny( tgray, gray, 0, 50, 5 );
+	
+	cvFindContours( gray, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
+	contours = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 3, 1 );
+	
+	cvNamedWindow( "contours", 1 );
+
+	IplImage* cnt_img = cvCreateImage( cvGetSize(img), 8, 1 );
+    CvSeq* _contours = contours;
+    int _levels = 2 - 3;
+    if( _levels <= 0 ) // get to the nearest face to make it look more funny
+        _contours = _contours->h_next->h_next->h_next;
+    cvZero( cnt_img );
+    cvDrawContours( cnt_img, _contours, CV_RGB(255,0,0), CV_RGB(0,255,0), _levels, 3, CV_AA, cvPoint(0,0) );
+    cvShowImage( "contours", cnt_img );
+    cvReleaseImage( &cnt_img );
 }
