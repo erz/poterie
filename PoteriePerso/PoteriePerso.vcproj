@@ -234,6 +234,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Outils.h"
+				>
+			</File>
+			<File
 				RelativePath=".\PoteriePerso.h"
 				>
 			</File>
