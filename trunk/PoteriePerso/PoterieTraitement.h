@@ -17,11 +17,12 @@ void refresh ();
 class CPoterieImage
 {
 public:
-	CPoterieImage();
-	void afficher_image(CString source);
+	CPoterieImage(CString str);
+	void afficher_image();
 	void trouver_contour();
 private:
 	IplImage *img;
+	IplImage *imgCtrs;
 	CvMemStorage* storage;
 	CvSeq* contours;
 	CvSize sz ;
