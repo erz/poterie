@@ -209,6 +209,7 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 					 test = test + pszBuffer[i];
 				
 				cout<<"On set le repertoire courant\n"<<test<<endl;
+
 				seq->setRepertoireCourant(CString(pszBuffer));
 				//Parcours des fichiers du dossier
 		

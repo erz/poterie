@@ -121,18 +121,18 @@ void CPoterieImage::trouver_contour()
 	
 	cvCanny( tgray, gray, 0, 50, 5 );
 	
-	cvFindContours( gray, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
-	contours = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 3, 1 );
+	//cvFindContours( gray, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
+	//contours = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 3, 1 );
 	
 	cvNamedWindow( "contours", 1 );
 
 	IplImage* cnt_img = cvCreateImage( cvGetSize(img), 8, 1 );
     CvSeq* _contours = contours;
-    int _levels = 2 - 3;
-    if( _levels <= 0 ) // get to the nearest face to make it look more funny
-        _contours = _contours->h_next->h_next->h_next;
+    int _levels = 0;
+    //if( _levels <= 0 ) // get to the nearest face to make it look more funny
+    //    _contours = _contours->h_next->h_next->h_next;
     cvZero( cnt_img );
-    cvDrawContours( cnt_img, _contours, CV_RGB(255,0,0), CV_RGB(0,255,0), _levels, 3, CV_AA, cvPoint(0,0) );
+    //cvDrawContours( cnt_img, _contours, CV_RGB(255,0,0), CV_RGB(0,255,0), _levels, 3, CV_AA, cvPoint(0,0) );
     cvShowImage( "contours", cnt_img );
     cvReleaseImage( &cnt_img );
 }
