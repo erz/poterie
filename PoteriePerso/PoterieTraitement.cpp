@@ -93,12 +93,15 @@ void CPoteriePersoDlg::refresh ()
 		}
 	}
 }
+
 CPoterieImage::CPoterieImage()
 {
 	CvSeq* contours = 0;
 	CvMemStorage* storage = cvCreateMemStorage(0);
-    IplImage* img = cvCreateImage( cvSize(500,500), 8, 1 );
+	sz = cvSize( 500 , 500  );
+    img = cvCreateImage( sz, 8, 3 );
 }
+
 void CPoterieImage::afficher_image(CString source)
 {
 		
@@ -107,26 +110,21 @@ void CPoterieImage::afficher_image(CString source)
 	cvShowImage("Opencv",img);
 
 	trouver_contour();
-	cvWaitKey(0);
-
-	
+	cvWaitKey(0);	
 	
 }
 
 void CPoterieImage::trouver_contour()
 {
-	CvSize sz = cvSize( img->width & -2, img->height & -2 );
-	IplImage* timg = cvCloneImage( img );
-	IplImage* gray = cvCreateImage( sz, 8, 1 ); 
-	IplImage* tgray= cvCreateImage( sz, 8, 1 );
-	cvSetImageCOI( timg, 1 );
-    cvCopy( timg, tgray, 0 );
 	
-	cvCanny( tgray, gray, 0, 50, 5 );
-	
-	//cvFindContours( gray, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
+	IplImage* NvGris = cvCreateImage( sz, 8, 1 );
+	IplImage* copieImg = cvCloneImage( img ); 
+	cvSetImageCOI( copieImg, 1 );
+	//cvCopy( img, NvGris, 0 );
+
+	//cvFindContours( tmp, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
 	//contours = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 3, 1 );
-	
+	/*
 	cvNamedWindow( "contours", 1 );
 
 	IplImage* cnt_img = cvCreateImage( cvGetSize(img), 8, 1 );
@@ -138,4 +136,5 @@ void CPoterieImage::trouver_contour()
     //cvDrawContours( cnt_img, _contours, CV_RGB(255,0,0), CV_RGB(0,255,0), _levels, 3, CV_AA, cvPoint(0,0) );
     cvShowImage( "contours", cnt_img );
     cvReleaseImage( &cnt_img );
+	*/
 }

@@ -24,4 +24,5 @@ private:
 	IplImage *img;
 	CvMemStorage* storage;
 	CvSeq* contours;
+	CvSize sz ;
 };
