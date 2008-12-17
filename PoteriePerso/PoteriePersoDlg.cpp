@@ -255,12 +255,5 @@ void CPoteriePersoDlg::OnBnClickedSuiv()
 		seq->nextImage();
 		refresh();
 
-		//Création Image OPENCV
-		CPoterieImage newimage;
-		CString TMPREP = seq->getRepertoireCourant()+CString("\\")+seq->getNom(1); 
-		
-		cout<<tmpstr<<endl;
-		
-		newimage.afficher_image(TMPREP);
 	}
 }
