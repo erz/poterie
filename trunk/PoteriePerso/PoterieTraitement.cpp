@@ -84,7 +84,12 @@ void CPoteriePersoDlg::refresh ()
 		//	m_picture.SetBitmap((HBITMAP)m_image);
 		//	m_picture.Invalidate(); 
 
-	
+		
+
+			//Création Structure image OPENCV
+			CPoterieImage newimage;
+			CString TMPREP = seq->getRepertoireCourant()+CString("\\")+seq->getNom(seq->getIdCour()); 
+			newimage.afficher_image(TMPREP);
 		}
 	}
 }
@@ -97,9 +102,7 @@ CPoterieImage::CPoterieImage()
 void CPoterieImage::afficher_image(CString source)
 {
 		
-	//img=cvLoadImage(CString2Char(source));
-	img=cvLoadImage("C:/Documents and Settings/Florent/Mes documents/ESIL/3A/PFE/Pics/étape 1.0.bmp");
-	cout<<"On rentre dans l'affichage"<<source.GetBuffer(0)<<endl;
+	img=cvLoadImage(CString2Char(source));
 	cvNamedWindow("Opencv",CV_WINDOW_AUTOSIZE);
 	cvShowImage("Opencv",img);
 

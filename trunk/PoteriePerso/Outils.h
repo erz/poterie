@@ -7,7 +7,9 @@
 
 inline char* CString2Char(CString chaine)
 {
-	return (char*)(LPTSTR)(LPCTSTR)chaine;
+	char *sz= new char [chaine.GetLength()+1] ;
+	WideCharToMultiByte( CP_ACP, 0, chaine, -1, sz, chaine.GetLength()+1, NULL, NULL );
+	return sz;
 }
 
 inline CString Char2CString(char * chaine)
