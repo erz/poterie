@@ -87,25 +87,26 @@ void CPoteriePersoDlg::refresh ()
 		
 
 			//Création Structure image OPENCV
-			CPoterieImage newimage;
+			
 			CString TMPREP = seq->getRepertoireCourant()+CString("\\")+seq->getNom(seq->getIdCour()); 
-			newimage.afficher_image(TMPREP);
+			CPoterieImage *newImage = new CPoterieImage(TMPREP);
+
+			newImage->afficher_image();
+			newImage->trouver_contour();
 		}
 	}
 }
 
-CPoterieImage::CPoterieImage()
+CPoterieImage::CPoterieImage(CString str)
 {
-	CvSeq* contours = 0;
-	CvMemStorage* storage = cvCreateMemStorage(0);
-	sz = cvSize( 500 , 500  );
-    img = cvCreateImage( sz, 8, 3 );
+	contours = 0;
+	storage = cvCreateMemStorage(0);
+	img=cvLoadImage(CString2Char(str));
+	sz = cvSize(img->width, img->height);
 }
 
-void CPoterieImage::afficher_image(CString source)
+void CPoterieImage::afficher_image()
 {
-		
-	img=cvLoadImage(CString2Char(source));
 	cvNamedWindow("Opencv",CV_WINDOW_AUTOSIZE);
 	cvShowImage("Opencv",img);
 
@@ -116,15 +117,16 @@ void CPoterieImage::afficher_image(CString source)
 
 void CPoterieImage::trouver_contour()
 {
-	
-	IplImage* NvGris = cvCreateImage( sz, 8, 1 );
+	IplImage* NvGris = cvCreateImage(sz , 8, 1 );
 	IplImage* copieImg = cvCloneImage( img ); 
 	cvSetImageCOI( copieImg, 1 );
-	//cvCopy( img, NvGris, 0 );
+	cvCopy(copieImg, NvGris, NULL );
+	//cvNamedWindow("Gris",CV_WINDOW_AUTOSIZE);
+	//cvShowImage("Gris",NvGris);
 
-	//cvFindContours( tmp, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
-	//contours = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 3, 1 );
-	/*
+	cvFindContours(NvGris, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
+
+	contours = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 3, 1 );
 	cvNamedWindow( "contours", 1 );
 
 	IplImage* cnt_img = cvCreateImage( cvGetSize(img), 8, 1 );
@@ -133,8 +135,8 @@ void CPoterieImage::trouver_contour()
     //if( _levels <= 0 ) // get to the nearest face to make it look more funny
     //    _contours = _contours->h_next->h_next->h_next;
     cvZero( cnt_img );
-    //cvDrawContours( cnt_img, _contours, CV_RGB(255,0,0), CV_RGB(0,255,0), _levels, 3, CV_AA, cvPoint(0,0) );
+    cvDrawContours( cnt_img, _contours, CV_RGB(255,0,0), CV_RGB(0,255,0), _levels, 3, CV_AA, cvPoint(0,0) );
     cvShowImage( "contours", cnt_img );
     cvReleaseImage( &cnt_img );
-	*/
+	
 }
