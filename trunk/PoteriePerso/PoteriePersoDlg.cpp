@@ -204,13 +204,13 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 		   { 
 				// At this point pszBuffer contains the selected path */. 
 				::SetCurrentDirectory(LPWSTR(pszBuffer));
-				string test;
-				for(int i=0;i<MAX_PATH;i++) 
-					 test = test + pszBuffer[i];
 				
-				cout<<"On set le repertoire courant\n"<<test<<endl;
-
-				seq->setRepertoireCourant(CString(pszBuffer));
+				
+				
+				CString rep;
+				rep = Char2CString(pszBuffer);
+				MessageBox(rep);
+				seq->setRepertoireCourant(rep);
 				//Parcours des fichiers du dossier
 		
 				CFileFind finder;
@@ -254,17 +254,13 @@ void CPoteriePersoDlg::OnBnClickedSuiv()
 	{
 		seq->nextImage();
 		refresh();
-		CPoterieImage newimage;
 
-		CString TMPREP = seq->getRepertoireCourant()+seq->getNom(1); 
-		wstring rep = TMPREP.GetBuffer(0);
-		string test; 
-		test.resize(rep.size());
-		wcstombs(&test[0], &rep[0], rep.size());
+		//Création Image OPENCV
+		CPoterieImage newimage;
+		CString TMPREP = seq->getRepertoireCourant()+CString("\\")+seq->getNom(1); 
 		
+		cout<<tmpstr<<endl;
 		
-		//string test = CStdStringA(CStdStringW(rep)).c_str(); 
-		cout<<"[DEBUG]\t"<<test<<endl;
-		newimage.afficher_image(seq->getRepertoireCourant()+seq->getNom(1));
+		newimage.afficher_image(TMPREP);
 	}
 }

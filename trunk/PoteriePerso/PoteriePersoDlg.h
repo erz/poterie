@@ -6,6 +6,7 @@
 #include "afxwin.h"
 #include <afxstr.h>
 #include <atlimage.h>
+#include "Outils.h"
 
 // boîte de dialogue CPoteriePersoDlg
 class CPoteriePersoDlg : public CDialog
