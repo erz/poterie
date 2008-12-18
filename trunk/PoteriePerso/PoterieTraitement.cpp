@@ -270,21 +270,28 @@ void CPoterieImage::filtreMedianNVG(IplImage *src, IplImage *dst, int voisinage)
 
 void CPoterieImage::trouver_contour()
 {
-	IplImage* NvGris = cvCreateImage(sz , 8, 1 );
+
+	IplImage* cropped = cvCreateImage( cvSize(img->width/2,img->height/2), 8, 3);
+	CvMat *matCrop = cvCreateMatHeader( img->width/2, img->height/2, CV_8UC3 );
+	CvMat* src_region = cvGetSubRect(img, matCrop, cvRect(0, img->height/2, img->width/2, img->height/2) );
+	cvCopy(src_region, cropped);
+	
+	sz = cvSize(cropped->width, cropped->height);
+	IplImage* NvGris = cvCreateImage( sz, 8, 1 );
 	IplImage* gray = cvCreateImage(sz , 8, 1 );
-	IplImage* copieImg = cvCloneImage( img ); 
-	IplImage* pyr = cvCreateImage( cvSize(sz.width/2, sz.height/2), 8, 3 );
+	IplImage* copieImg = cvCloneImage( cropped ); 
+	IplImage* pyr = cvCreateImage( cvSize(cropped->width, cropped->height), 8, 3 );
 	
 	cvNamedWindow( "contours", 1 );
 
-	IplImage* cnt_img = cvCreateImage( cvGetSize(img), 8, 3 );
+	IplImage* cnt_img = cvCreateImage( sz, 8, 3 );
     cvZero( cnt_img );
 
 	CvSeq* result;
 	
 	//ON nettoire le bruit de l'image
-	cvPyrDown( copieImg, pyr, 7 );
-    cvPyrUp( pyr, copieImg, 7 );
+	//cvPyrDown( copieImg, pyr, 7 );
+    //cvPyrUp( pyr, copieImg, 7 );
 	
 	
 		//On choitsit un canal de l'image pour travailler dessus
