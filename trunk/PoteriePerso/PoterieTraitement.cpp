@@ -290,8 +290,8 @@ void CPoterieImage::trouver_contour()
 	CvSeq* result;
 	
 	//ON nettoire le bruit de l'image
-	//cvPyrDown( copieImg, pyr, 7 );
-    //cvPyrUp( pyr, copieImg, 7 );
+	//cvPyrDown( copieImg, pyr, 1 );
+    //cvPyrUp( pyr, copieImg, 1 );
 	
 	
 		//On choitsit un canal de l'image pour travailler dessus
@@ -315,7 +315,9 @@ void CPoterieImage::trouver_contour()
             {
 				//gradient : c'est le dernier parametre de cvcanny (degré de la dérivé)
                 cvCanny( NvGris, gray, 0, 50, 3 );
-                cvDilate( gray, gray, 0, 1 );
+				cvErode( gray, gray, 0, 2 );
+                cvDilate( gray, gray, 0, 2 );
+				
 				//cvNamedWindow("Gris",CV_WINDOW_AUTOSIZE);
 				//cvShowImage("Gris",gray);
             }
