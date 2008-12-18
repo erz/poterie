@@ -115,6 +115,159 @@ void CPoterieImage::afficher_image()
 	
 }
 
+void CPoterieImage::filtreMoyenNVG(IplImage *src, IplImage *dst, int voisinage){
+  
+    //On vérifie que le voisinage est impair, 
+    //on le corrige si ce n'est pas le cas
+    if(voisinage%2!=1)
+        voisinage++;
+    
+    
+    //On initialise un carré de côté "voisinage"
+    CvRect roi=cvRect(0,0,voisinage,voisinage);
+    
+    //On initialise un entier, pour la moyenne
+    int moyenne=0;
+    
+    //Un petit scalaire pour la route ^^
+    CvScalar scalaire;
+    
+    
+    /////////// FIN DE L'INITIALISATION //////////////
+    
+    
+    //On parcourt toute l'image
+    for(int x=0; x<src->width; x++)
+    {
+        for(int y=0; y<src->height; y++)
+        {
+            //Pour chaque pixel
+        
+            //S'il est trop "au bord" :
+            if(x<(voisinage-1)/2 || x>(src->width - 1 - (voisinage-1)/2) || y<(voisinage-1)/2 || y>(src->height - 1 - (voisinage-1)/2))
+            {
+                //Dans ce cas on recopie simplement le pixel 
+                cvSet2D(dst, y, x, cvGet2D(src, y, x));
+            }else
+            {
+                //On remet la moyenne à zéro 
+                moyenne=0;
+                
+                //On centre le voisinage sur le pixel en cours
+                roi.x= x - (voisinage-1)/2;
+                roi.y= y - (voisinage-1)/2;
+                
+                //On initialise la région d'intéret
+                cvSetImageROI(src, roi);
+                
+                //On parcourt le voisinage
+                for(int i=0; i<voisinage; i++)
+                {
+                    for(int j=0; j<voisinage; j++)
+                    {
+                    
+                        //On récupère les valeurs du voisinage que l'on additionne
+                        scalaire = cvGet2D(src, j, i);
+                        moyenne+= scalaire.val[0];                    
+                    }
+                }
+                
+                //On relache la région d'intéret
+                cvResetImageROI(src);
+
+                //On calcule la moyenne 
+                scalaire.val[0] = moyenne/(voisinage*voisinage);
+                
+                //On la remplace dans l'image de destination
+                cvSet2D(dst, y, x, scalaire);
+            }
+        }
+    }
+}
+
+
+void CPoterieImage::filtreMedianNVG(IplImage *src, IplImage *dst, int voisinage){
+
+    //On vérifie que les 2 images que l'on nous a fournies sont bien en NVG 
+    if(src->nChannels!=1||dst->nChannels!=1)
+        return;
+        
+    //On vérifie que les 2 images ont les mêmes dimensions
+    if((src->width!=dst->width)||(src->height!=dst->height))
+        return;
+    
+    
+    //On véridie que le voisinage est impair, on le corrige si ce n'est pas le cas
+    if(voisinage%2!=1)
+        voisinage++;
+    
+    
+    //On initialise un carré de côté "voisinage"
+    CvRect roi=cvRect(0,0,voisinage,voisinage);
+    
+    //On initialise un tableau d'entiers, pour le calcul de la médiane
+    int *voisins=new int[voisinage*voisinage];
+    
+    //Un petit scalaire pour la route ^^
+    CvScalar scalaire;
+    
+    
+    /////////// FIN DE L'INITIALISATION //////////////
+    
+    
+    //On parcourt toute l'image
+    for(int x=0; x<src->width; x++)
+    {
+        for(int y=0; y<src->height; y++)
+        {
+            //Pour chaque pixel
+        
+            //S'il est trop "au bord" :
+            if(x<(voisinage-1)/2 || x>(src->width - 1 - (voisinage-1)/2) || y<(voisinage-1)/2 || y>(src->height - 1 - (voisinage-1)/2))
+            {
+                //Dans ce cas on recopie simplement le pixel 
+                cvSet2D(dst, y, x, cvGet2D(src, y, x));
+            }else
+            {
+                //On centre le voisinage sur le pixel en cours
+                roi.x= x - (voisinage-1)/2;
+                roi.y= y - (voisinage-1)/2;
+                
+                //On initialise la région d'intéret
+                cvSetImageROI(src, roi);
+                
+                //On parcourt le voisinage
+                for(int i=0; i<voisinage; i++)
+                {
+                    for(int j=0; j<voisinage; j++)
+                    {
+                    
+                        //On récupère les valeurs du voisinage
+                        scalaire = cvGet2D(src, j, i);
+                        voisins[i*voisinage + j] = scalaire.val[0];                    
+                    }
+                }
+                
+                //On relache la région d'intéret
+                cvResetImageROI(src);
+
+                
+                //On classe les valeurs
+                sort( voisins, voisins + (voisinage*voisinage));
+                
+                //On choisit la valeur médiane 
+                scalaire.val[0] = voisins[ (voisinage-1)/2 + 1];
+                
+                //On la remplace dans l'image de destination
+                cvSet2D(dst, y, x, scalaire);
+            }
+        }
+    }
+    
+    delete[] voisins;
+}
+
+
 void CPoterieImage::trouver_contour()
 {
 	IplImage* NvGris = cvCreateImage(sz , 8, 1 );
@@ -128,20 +281,32 @@ void CPoterieImage::trouver_contour()
     cvZero( cnt_img );
 
 	CvSeq* result;
-
+	
+	//ON nettoire le bruit de l'image
 	cvPyrDown( copieImg, pyr, 7 );
     cvPyrUp( pyr, copieImg, 7 );
 	
-
 	
+		//On choitsit un canal de l'image pour travailler dessus
 		cvSetImageCOI( copieImg, 1 );
 		cvCopy(copieImg, NvGris, NULL );
 		
+		//On applique un filtre moyen à l'image en Niveau de gris
+		filtreMoyenNVG(NvGris,NvGris,7);
+		//On applique un filtre median à l'image en Niveau de gris
+		filtreMedianNVG(NvGris,NvGris,3);
+		//cvSmooth(NvGris, NvGris, CV_BLUR , 5);
+		//cvSmooth(NvGris, NvGris, CV_MEDIAN, 5);
+
+
 		int compteur=0;
+
+		//Recherche de contours
 		for(int l = 0; l < 11; l++ )
         {
             if( l == 0 )
             {
+				//gradient : c'est le dernier parametre de cvcanny (degré de la dérivé)
                 cvCanny( NvGris, gray, 0, 50, 3 );
                 cvDilate( gray, gray, 0, 1 );
 				//cvNamedWindow("Gris",CV_WINDOW_AUTOSIZE);
@@ -154,11 +319,11 @@ void CPoterieImage::trouver_contour()
 		
 			cvFindContours(gray, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
 			
-			
+			//On dessine les contours trouvés
 			 while( contours )
             {
 				result = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 0, 1 );
-				cvDrawContours( cnt_img, result, CV_RGB(100,0,0), CV_RGB(0,255,0), -1, 1, CV_AA, cvPoint(0,0) );
+				cvDrawContours( cnt_img, result, CV_RGB(255,255,255), CV_RGB(0,255,0), -1, 0, CV_AA, cvPoint(0,0) );
 				compteur++;
 				contours=contours->h_next;
 			}
@@ -167,7 +332,6 @@ void CPoterieImage::trouver_contour()
 		}
 	
 	cout<<"Nombre Contours: "<<compteur<<endl;
-	
 	cvShowImage( "contours", cnt_img );
     cvReleaseImage( &cnt_img );
 	

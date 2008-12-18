@@ -8,6 +8,8 @@
 #include <cv.h>
 #include <cxcore.h>
 #include <highgui.h>
+#include <algorithm>
+
 
 /*
 	Fonction de rafraichissement des données à l'écran
@@ -20,6 +22,9 @@ public:
 	CPoterieImage(CString str);
 	void afficher_image();
 	void trouver_contour();
+	void filtreMoyenNVG(IplImage *src, IplImage *dst, int voisinage);
+	void filtreMedianNVG(IplImage *src, IplImage *dst, int voisinage);
+
 private:
 	IplImage *img;
 	IplImage *imgCtrs;
