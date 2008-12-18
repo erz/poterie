@@ -169,6 +169,8 @@ void CPoteriePersoDlg::OnBnClickedCancel()
 {
 	// TODO : ajoutez ici le code de votre gestionnaire de notification de contrôle
 	OnCancel();
+	cvDestroyWindow("Opencv");
+	cvDestroyWindow("contours");
 }
 
 void CPoteriePersoDlg::OnBnClickedHelp()
