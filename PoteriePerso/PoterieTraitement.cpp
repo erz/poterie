@@ -282,6 +282,7 @@ void CPoterieImage::trouver_contour()
 	IplImage* copieImg = cvCloneImage( cropped ); 
 	IplImage* pyr = cvCreateImage( cvSize(cropped->width, cropped->height), 8, 3 );
 	
+
 	cvNamedWindow( "contours", 1 );
 
 	IplImage* cnt_img = cvCreateImage( sz, 8, 3 );
