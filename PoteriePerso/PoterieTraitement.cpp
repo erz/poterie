@@ -118,25 +118,60 @@ void CPoterieImage::afficher_image()
 void CPoterieImage::trouver_contour()
 {
 	IplImage* NvGris = cvCreateImage(sz , 8, 1 );
+	IplImage* gray = cvCreateImage(sz , 8, 1 );
 	IplImage* copieImg = cvCloneImage( img ); 
-	cvSetImageCOI( copieImg, 1 );
-	cvCopy(copieImg, NvGris, NULL );
-	//cvNamedWindow("Gris",CV_WINDOW_AUTOSIZE);
-	//cvShowImage("Gris",NvGris);
-
-	cvFindContours(NvGris, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
-
-	contours = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 3, 1 );
+	IplImage* pyr = cvCreateImage( cvSize(sz.width/2, sz.height/2), 8, 3 );
+	
 	cvNamedWindow( "contours", 1 );
-
-	IplImage* cnt_img = cvCreateImage( cvGetSize(img), 8, 1 );
-    CvSeq* _contours = contours;
-    int _levels = 0;
-    //if( _levels <= 0 ) // get to the nearest face to make it look more funny
-    //    _contours = _contours->h_next->h_next->h_next;
+	IplImage* cnt_img = cvCreateImage( cvGetSize(img), 8, 3 );
     cvZero( cnt_img );
-    cvDrawContours( cnt_img, _contours, CV_RGB(255,0,0), CV_RGB(0,255,0), _levels, 3, CV_AA, cvPoint(0,0) );
-    cvShowImage( "contours", cnt_img );
+
+	CvSeq* result;
+
+	cvPyrDown( copieImg, pyr, 7 );
+    cvPyrUp( pyr, copieImg, 7 );
+	
+
+	
+		cvSetImageCOI( copieImg, 1 );
+		cvCopy(copieImg, NvGris, NULL );
+		
+		int compteur=0;
+		for(int l = 0; l < 11; l++ )
+        {
+            if( l == 0 )
+            {
+                cvCanny( NvGris, gray, 0, 50, 3 );
+                cvDilate( gray, gray, 0, 1 );
+				//cvNamedWindow("Gris",CV_WINDOW_AUTOSIZE);
+				//cvShowImage("Gris",gray);
+            }
+            else
+            {
+                cvThreshold( NvGris, gray, (l+1)*255/11, 255, CV_THRESH_BINARY );
+            }
+		
+			cvFindContours(gray, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
+			
+			
+			 while( contours )
+            {
+				result = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 3, 1 );
+				cvDrawContours( cnt_img, result, CV_RGB(100,0,0), CV_RGB(0,255,0), -1, 3, CV_AA, cvPoint(0,0) );
+				compteur++;
+				contours=contours->h_next;
+			}
+			
+	
+		}
+	
+	cout<<"Nombre Contours: "<<compteur<<endl;
+
+	
+
+    //cvDrawContours( cnt_img, contours, CV_RGB(100,0,0), CV_RGB(0,255,0), -1, 3, CV_FILLED, cvPoint(0,0) );
+	
+	cvShowImage( "contours", cnt_img );
     cvReleaseImage( &cnt_img );
 	
 }
