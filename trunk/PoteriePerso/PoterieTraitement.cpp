@@ -123,6 +123,7 @@ void CPoterieImage::trouver_contour()
 	IplImage* pyr = cvCreateImage( cvSize(sz.width/2, sz.height/2), 8, 3 );
 	
 	cvNamedWindow( "contours", 1 );
+
 	IplImage* cnt_img = cvCreateImage( cvGetSize(img), 8, 3 );
     cvZero( cnt_img );
 
@@ -156,8 +157,8 @@ void CPoterieImage::trouver_contour()
 			
 			 while( contours )
             {
-				result = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 3, 1 );
-				cvDrawContours( cnt_img, result, CV_RGB(100,0,0), CV_RGB(0,255,0), -1, 3, CV_AA, cvPoint(0,0) );
+				result = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 0, 1 );
+				cvDrawContours( cnt_img, result, CV_RGB(100,0,0), CV_RGB(0,255,0), -1, 1, CV_AA, cvPoint(0,0) );
 				compteur++;
 				contours=contours->h_next;
 			}
@@ -166,10 +167,6 @@ void CPoterieImage::trouver_contour()
 		}
 	
 	cout<<"Nombre Contours: "<<compteur<<endl;
-
-	
-
-    //cvDrawContours( cnt_img, contours, CV_RGB(100,0,0), CV_RGB(0,255,0), -1, 3, CV_FILLED, cvPoint(0,0) );
 	
 	cvShowImage( "contours", cnt_img );
     cvReleaseImage( &cnt_img );
