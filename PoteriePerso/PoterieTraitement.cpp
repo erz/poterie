@@ -283,9 +283,7 @@ void CPoterieImage::trouver_contour()
 	IplImage* pyr = cvCreateImage( cvSize(cropped->width, cropped->height), 8, 3 );
 	
 
-	
-
-	IplImage* cnt_img = cvCreateImage( sz, 8, 3 );
+	cnt_img = cvCreateImage( sz, 8, 3 );
     cvZero( cnt_img );
 
 	CvSeq* result;
