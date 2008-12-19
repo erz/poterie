@@ -28,6 +28,7 @@ public:
 private:
 	IplImage *img;
 	IplImage *imgCtrs;
+	IplImage *cnt_img;
 	CvMemStorage* storage;
 	CvSeq* contours;
 	CvSize sz ;

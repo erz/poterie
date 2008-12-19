@@ -211,7 +211,7 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 				
 				CString rep;
 				rep = Char2CString(pszBuffer);
-				MessageBox(rep);
+				//MessageBox(rep);
 				seq->setRepertoireCourant(rep);
 				//Parcours des fichiers du dossier
 		
