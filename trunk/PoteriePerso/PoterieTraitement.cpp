@@ -344,3 +344,30 @@ void CPoterieImage::trouver_contour()
     cvReleaseImage( &cnt_img );
 	
 }
+
+
+//Fonction d'enregistrement des données
+void enregistrerDonnees(CString path)
+{
+	CFile fileTest;
+	BOOL bLecture = FALSE;
+
+	if( !fileTest.Open( path, CFile::modeWrite ) )
+	{
+		if( fileTest.Open( path, CFile::modeCreate | CFile::modeWrite ) )
+		{
+			bLecture = TRUE;
+		}
+	}
+	else
+	{
+		bLecture = TRUE;
+	}
+
+	if( bLecture )
+	{
+		fileTest.SeekToEnd();
+		fileTest.Write(path, path.GetLength());
+		fileTest.Close();
+	}
+}

@@ -77,6 +77,7 @@ BEGIN_MESSAGE_MAP(CPoteriePersoDlg, CDialog)
 	ON_BN_CLICKED(IDOUVRIR, &CPoteriePersoDlg::OnBnClickedOuvrir)
 	ON_BN_CLICKED(IDPREC, &CPoteriePersoDlg::OnBnClickedPrec)
 	ON_BN_CLICKED(IDSUIV, &CPoteriePersoDlg::OnBnClickedSuiv)
+	ON_BN_CLICKED(IDSAUVER, &CPoteriePersoDlg::OnBnClickedSauver)
 END_MESSAGE_MAP()
 
 
@@ -208,7 +209,6 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 				::SetCurrentDirectory(LPWSTR(pszBuffer));
 				
 				
-				
 				CString rep;
 				rep = Char2CString(pszBuffer);
 				//MessageBox(rep);
@@ -258,4 +258,17 @@ void CPoteriePersoDlg::OnBnClickedSuiv()
 		refresh();
 
 	}
+}
+void CPoteriePersoDlg::OnBnClickedSauver()
+{
+	// TODO : ajoutez ici le code de votre gestionnaire de notification de contrôle
+	CFileDialog fOpenDlg(FALSE, CString("csv"), NULL, OFN_HIDEREADONLY, CString("Donnees Poterie (*.csv)|*.csv||"), this);
+  
+	if(fOpenDlg.DoModal()==IDOK)
+	{
+		//On enregistre les données dans le fichier choisi
+		enregistrerDonnees(fOpenDlg.GetPathName());
+		MessageBox(CString("Vos données ont été enregistrées avec succès."));
+	}
+
 }

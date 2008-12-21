@@ -16,6 +16,11 @@
 */
 void refresh ();
 
+/*
+	Fonction d'enregistrement des données
+*/
+void enregistrerDonnees (CString);
+
 class CPoterieImage
 {
 public:
