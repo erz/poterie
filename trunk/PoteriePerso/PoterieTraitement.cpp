@@ -356,7 +356,7 @@ void CPoterieImage::trouver_contour()
 							cout<<"pt 2 :"<< test2->x <<endl;
 							cout<<"pt 1 :"<< test1->x <<endl;
 							cout<<"pt 0 :"<< test0->x <<endl;
-							//cout<<"Angle :"<<t<<endl;
+							cout<<"Angle :"<<t<<endl;
 							//cout<<"s : "<<s<<endl;
                         }
 					cvDrawContours( cnt_img, result, CV_RGB(255,255,255), CV_RGB(0,255,0), -1, 0, CV_AA, cvPoint(0,0) );
