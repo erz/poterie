@@ -105,6 +105,15 @@ CPoterieImage::CPoterieImage(CString str)
 	sz = cvSize(img->width, img->height);
 }
 
+double CPoterieImage::angle( CvPoint* pt1, CvPoint* pt2, CvPoint* pt0 )
+	{
+    double dx1 = pt1->x - pt0->x;
+    double dy1 = pt1->y - pt0->y;
+    double dx2 = pt2->x - pt0->x;
+    double dy2 = pt2->y - pt0->y;
+    return (dx1*dx2 + dy1*dy2)/sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);
+	}
+
 void CPoterieImage::afficher_image()
 {
 	cvNamedWindow("Opencv",CV_WINDOW_AUTOSIZE);
@@ -328,12 +337,32 @@ void CPoterieImage::trouver_contour()
 			cvFindContours(gray, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
 			
 			//On dessine les contours trouvés
+			int s=0;
+			int t=0;
+			int i=0;
+	
 			 while( contours )
             {
-				result = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP, 0, 1 );
-				cvDrawContours( cnt_img, result, CV_RGB(255,255,255), CV_RGB(0,255,0), -1, 0, CV_AA, cvPoint(0,0) );
-				compteur++;
-				contours=contours->h_next;
+				result = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP,  0, 1 );
+
+				if( i >= 2 && contours->h_next!=NULL)
+                        {
+							CvPoint* test2 = (CvPoint*) cvGetSeqElem( contours, i );
+							CvPoint* test1 = (CvPoint*) cvGetSeqElem( contours, i-1 );
+							CvPoint* test0 = (CvPoint*) cvGetSeqElem( contours, i-2 );
+                            t = fabs(angle((CvPoint*)cvGetSeqElem( result, i ),(CvPoint*)cvGetSeqElem( result, i-2 ),(CvPoint*)cvGetSeqElem( result, i-1 )));                            s = s > t ? s : t;
+							cout<<"**********************"<<endl;
+							cout<<"\t"<<compteur<<endl;
+							cout<<"pt 2 :"<< test2->x <<endl;
+							cout<<"pt 1 :"<< test1->x <<endl;
+							cout<<"pt 0 :"<< test0->x <<endl;
+							//cout<<"Angle :"<<t<<endl;
+							//cout<<"s : "<<s<<endl;
+                        }
+					cvDrawContours( cnt_img, result, CV_RGB(255,255,255), CV_RGB(0,255,0), -1, 0, CV_AA, cvPoint(0,0) );
+					compteur++;
+					i++;
+					contours=contours->h_next;
 			}
 			
 	

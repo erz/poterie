@@ -16,3 +16,4 @@ inline CString Char2CString(char * chaine)
 {
 	return (LPCTSTR) (LPTSTR) chaine;
 }
+

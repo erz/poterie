@@ -29,7 +29,7 @@ public:
 	void trouver_contour();
 	void filtreMoyenNVG(IplImage *src, IplImage *dst, int voisinage);
 	void filtreMedianNVG(IplImage *src, IplImage *dst, int voisinage);
-
+	double angle( CvPoint* pt1, CvPoint* pt2, CvPoint* pt0 );
 private:
 	IplImage *img;
 	IplImage *imgCtrs;
@@ -37,4 +37,6 @@ private:
 	CvMemStorage* storage;
 	CvSeq* contours;
 	CvSize sz ;
+
+	
 };
