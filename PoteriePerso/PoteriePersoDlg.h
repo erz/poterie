@@ -47,4 +47,5 @@ public:
 	afx_msg void OnBnClickedSuiv();
 public:
 	afx_msg void refresh();
+	afx_msg void OnBnClickedSauver();
 };
