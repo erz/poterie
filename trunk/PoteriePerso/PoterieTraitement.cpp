@@ -337,33 +337,39 @@ void CPoterieImage::trouver_contour()
 			cvFindContours(gray, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
 			
 			//On dessine les contours trouvés
-			int s=0;
-			int t=0;
+			double s=0;
+			double t=0;
 			int i=0;
-	
-			 while( contours )
-            {
+			bool sortirboucle=false;
+			 while( contours && !sortirboucle)
+             {
 				result = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP,  0, 1 );
+				
+				
+					if( i >= 2 && cvGetSeqElem( result, i )!=NULL)
+						{
+								CvPoint* test2 = (CvPoint*) cvGetSeqElem( result, i );
+								CvPoint* test1 = (CvPoint*) cvGetSeqElem( result, i-1 );
+								CvPoint* test0 = (CvPoint*) cvGetSeqElem( result, i-2 );
 
-				if( i >= 2 && contours->h_next!=NULL)
-                        {
-							CvPoint* test2 = (CvPoint*) cvGetSeqElem( contours, i );
-							CvPoint* test1 = (CvPoint*) cvGetSeqElem( contours, i-1 );
-							CvPoint* test0 = (CvPoint*) cvGetSeqElem( contours, i-2 );
-                            t = fabs(angle((CvPoint*)cvGetSeqElem( result, i ),(CvPoint*)cvGetSeqElem( result, i-2 ),(CvPoint*)cvGetSeqElem( result, i-1 )));                            s = s > t ? s : t;
-							cout<<"**********************"<<endl;
-							cout<<"\t"<<compteur<<endl;
-							cout<<"pt 2 :"<< test2->x <<endl;
-							cout<<"pt 1 :"<< test1->x <<endl;
-							cout<<"pt 0 :"<< test0->x <<endl;
-							cout<<"Angle :"<<t<<endl;
-							//cout<<"s : "<<s<<endl;
-                        }
-					cvDrawContours( cnt_img, result, CV_RGB(255,255,255), CV_RGB(0,255,0), -1, 0, CV_AA, cvPoint(0,0) );
-					compteur++;
-					i++;
-					contours=contours->h_next;
-			}
+								cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(0,255,0), 3);
+								//cvCircle( cnt_img, cvPoint(test1->x,test1->y) , 4, CV_RGB(255,255,0), 3);
+								//cvCircle( cnt_img, cvPoint(test0->x,test0->y) , 4, CV_RGB(0,0,255), 3);
+
+								t = fabs(angle(test2,test0,test1));
+								cout<<"**********************"<<endl;
+								cout<<"\t"<<compteur<<endl;
+								cout<<"pt 2 :\tx:"<< test2->x<<"\ty:"<<test2->y <<endl;
+								cout<<"Angle :"<<t<<endl;
+							}
+						
+				
+				cvDrawContours( cnt_img, result, CV_RGB(255,255,255), CV_RGB(0,255,0), -1, 0, CV_AA, cvPoint(0,0) );
+				if(cvGetSeqElem( result, i )==NULL) sortirboucle=true;
+				result=result->h_next;
+				i++;
+				compteur++;
+			 }
 			
 	
 		}
