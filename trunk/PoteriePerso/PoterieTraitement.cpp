@@ -353,7 +353,7 @@ void CPoterieImage::trouver_contour()
 								CvPoint* test1 = (CvPoint*) cvGetSeqElem( result, i-1 );
 								CvPoint* test0 = (CvPoint*) cvGetSeqElem( result, i-2 );
 
-								cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(50,50,50), 3);
+								cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(50,50,250), 3);
 								//cvCircle( cnt_img, cvPoint(test1->x,test1->y) , 4, CV_RGB(255,255,0), 3);
 								//cvCircle( cnt_img, cvPoint(test0->x,test0->y) , 4, CV_RGB(0,0,255), 3);
 
@@ -361,7 +361,7 @@ void CPoterieImage::trouver_contour()
 								double ecartX=(test2->x)-(test1->x);
 								double ecartY=(test2->y)-(test1->y);
 								cout<<"Ecart X\t:"<<ecartX<<"\tEcart Y\t:"<<ecartY<<endl;
-								if((fabs(ecartX)<30 && fabs(ecartY)<30))
+								if((fabs(ecartX)<30 && fabs(ecartY)<30) && test2->y>10)
 								{
 									cvSeqPush( contourPoterie,test2);	
 									cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(0,255,0), 3);
@@ -389,7 +389,7 @@ void CPoterieImage::trouver_contour()
         // read 4 vertices
         CV_READ_SEQ_ELEM( pt[0], reader );
         CV_READ_SEQ_ELEM( pt[1], reader );
-		cvPolyLine( cnt_img, &rect, &count, 1, 1, CV_RGB(255,255,255), 3, 0, 0 );
+		cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 3, 0, 0 );
 	}
 	//cout<<"Nombre Contours: "<<compteur<<endl;
 	cvShowImage( "contours", cnt_img );
