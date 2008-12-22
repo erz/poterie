@@ -346,30 +346,60 @@ void CPoterieImage::trouver_contour()
              {
 				result = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP,  0, 1 );
 				
-				
+					//On effectue des tests sur les points appartenant au contours
 					if( i >= 2 && cvGetSeqElem( result, i )!=NULL)
 						{
 								CvPoint* test2 = (CvPoint*) cvGetSeqElem( result, i );
 								CvPoint* test1 = (CvPoint*) cvGetSeqElem( result, i-1 );
 								CvPoint* test0 = (CvPoint*) cvGetSeqElem( result, i-2 );
-
+								
+								//On affiche tous les points trouvés
 								cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(50,50,250), 3);
-								//cvCircle( cnt_img, cvPoint(test1->x,test1->y) , 4, CV_RGB(255,255,0), 3);
-								//cvCircle( cnt_img, cvPoint(test0->x,test0->y) , 4, CV_RGB(0,0,255), 3);
 
 								t = fabs(angle(test2,test0,test1));
 								double ecartX=(test2->x)-(test1->x);
 								double ecartY=(test2->y)-(test1->y);
-								cout<<"Ecart X\t:"<<ecartX<<"\tEcart Y\t:"<<ecartY<<endl;
+								//cout<<"Ecart X\t:"<<ecartX<<"\tEcart Y\t:"<<ecartY<<endl;
+								
+								/***************************************************************************************/
+								//ici on rempli la structure contenant les points appartenant à la bordure de la poterie!
 								if((fabs(ecartX)<30 && fabs(ecartY)<30) && test2->y>10)
 								{
-									cvSeqPush( contourPoterie,test2);	
-									cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(0,255,0), 3);
+									if(i>=5)
+									{
+										double variationX=0;
+										double variationY=0;
+										CvPoint* tmp;
+										for(int j=0;j<5;j++)
+										{
+											tmp=(CvPoint*) cvGetSeqElem( result, i-j );
+											variationX+=tmp->x;
+											variationY+=tmp->y;
+										}
+										variationX=variationX/5;
+										variationY=variationY/5;
+										cout<<"VARIATION X\t:"<<variationX<<endl;
+										cout<<"VARIATION Y\t:"<<variationY<<endl;
+										cout<<"**************"<<endl;
+										if(variationX <300)
+										{
+										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i ));
+										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-1 ));
+										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-2 ));
+										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-3 ));
+										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-4 ));
+										cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(0,255,0), 3);
+										}
+									}
+									
 								}
+								/***************************************************************************************/
 						}
 						
 				
 				//cvDrawContours( cnt_img, result, CV_RGB(255,255,255), CV_RGB(0,255,0), -1, 0, CV_AA, cvPoint(0,0) );
+				
+				//POur sortir de la boucle! (oui ce n'est pas propre mais opencv c'est mal codé!)
 				if(cvGetSeqElem( result, i )==NULL) sortirboucle=true;
 				result=result->h_next;
 				i++;
@@ -378,6 +408,8 @@ void CPoterieImage::trouver_contour()
 			
 	
 		}
+
+	/*************Lecture et affichage du contour de la poterie****************/
 	CvSeqReader reader;
 	int compteurSelection = 0;
 	cvStartReadSeq( contourPoterie, &reader, 0 );
@@ -389,9 +421,12 @@ void CPoterieImage::trouver_contour()
         // read 4 vertices
         CV_READ_SEQ_ELEM( pt[0], reader );
         CV_READ_SEQ_ELEM( pt[1], reader );
-		cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 3, 0, 0 );
+		//cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 3, 0, 0 );
 	}
-	//cout<<"Nombre Contours: "<<compteur<<endl;
+	/*****************************************************************************/
+	
+
+
 	cvShowImage( "contours", cnt_img );
     cvReleaseImage( &cnt_img );
 	
