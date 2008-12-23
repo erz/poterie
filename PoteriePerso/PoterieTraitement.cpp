@@ -88,11 +88,15 @@ void CPoteriePersoDlg::refresh ()
 
 			//Création Structure image OPENCV
 			
-			CString TMPREP = seq->getRepertoireCourant()+CString("\\")+seq->getNom(seq->getIdCour()); 
-			CPoterieImage *newImage = new CPoterieImage(TMPREP);
+			if (seq->getImage(seq->getIdCour()) == NULL)
+			{
+				CString TMPREP = seq->getRepertoireCourant()+CString("\\")+seq->getNom(seq->getIdCour()); 
+				CPoterieImage *newImage = new CPoterieImage(TMPREP);
+				seq->setImage(seq->getIdCour(), newImage);
+			}
 
-			newImage->afficher_image();
-			newImage->trouver_contour();
+			seq->getImage(seq->getIdCour())->afficher_image();
+			seq->getImage(seq->getIdCour())->trouver_contour();
 		}
 	}
 }
@@ -103,6 +107,8 @@ CPoterieImage::CPoterieImage(CString str)
 	storage = cvCreateMemStorage(0);
 	img=cvLoadImage(CString2Char(str));
 	sz = cvSize(img->width, img->height);
+	imgCtrs = NULL;
+	cnt_img = NULL;
 }
 
 double CPoterieImage::angle( CvPoint* pt1, CvPoint* pt2, CvPoint* pt0 )
@@ -119,9 +125,11 @@ void CPoterieImage::afficher_image()
 	cvNamedWindow("Opencv",CV_WINDOW_AUTOSIZE);
 	cvShowImage("Opencv",img);
 	cvNamedWindow( "contours", 1 );
-	trouver_contour();
+	if (cnt_img == NULL)
+		trouver_contour();
+	cvShowImage( "contours", cnt_img );
+
 	cvWaitKey(0);	
-	
 }
 
 void CPoterieImage::filtreMoyenNVG(IplImage *src, IplImage *dst, int voisinage){
@@ -427,8 +435,8 @@ void CPoterieImage::trouver_contour()
 	
 
 
-	cvShowImage( "contours", cnt_img );
-    cvReleaseImage( &cnt_img );
+	//cvShowImage( "contours", cnt_img );
+    //cvReleaseImage( &cnt_img );
 	
 }
 
