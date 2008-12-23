@@ -3,7 +3,7 @@
 
 #pragma once
 
-
+#include "PoterieTraitement.h"
 #include "stdafx.h"
 
 #include <CString>
@@ -15,9 +15,11 @@ using namespace std;
 class CPoterieSequence
 {
 	int nbImages;
-	//CImage *tabImages;
+
 	CString *tabNoms;
 	CString directory;
+	CPoterieImage **tabImages;
+
 	int idPicCourante;
 
 	public :
@@ -50,41 +52,38 @@ class CPoterieSequence
 	int addImage(CString str)
 	{
 		nbImages++;
-		//CImage *temp = new CImage [nbImages];
+		CPoterieImage **temp = new CPoterieImage* [nbImages];
 		CString *temp2 = new CString [nbImages];
 		for (int i = 0; i < (nbImages-1); ++i)
 		{
-			//temp[i] = tabImages[i];
+			temp[i] = tabImages[i];
 			temp2[i] = tabNoms[i];
 		}
 
-		//CImage lImage;
-		//lImage.Load(str);
-		//temp[nbImages-1] = lImage;
+		temp[nbImages-1] = NULL;
 		temp2[nbImages-1] = str;
 
-		//tabImages = temp;
+		tabImages = temp;
 		tabNoms = temp2;
 
 		return nbImages;
 	}
 
-
-	/*
-		Modifie l'image à l'indice i
-	/
-	void setImage(CImage im, int i)
-	{
-		tabImages[i] = im; 
-	}*/
-
 	/*
 		Retourne l'image à l'indice i
-	/
-	CImage getImage(int i)
+	*/
+	CPoterieImage* getImage(int i)
 	{
 		return tabImages[i];
-	}*/
+	}
+
+	/*
+		Enregistre l'image à l'indice i
+	*/
+	void setImage(int i, CPoterieImage* im)
+	{
+		tabImages[i] = im;
+	}
 	
 	/*
 		Retourne le nom de l'image à l'indice i

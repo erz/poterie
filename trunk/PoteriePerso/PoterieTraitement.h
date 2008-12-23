@@ -24,6 +24,7 @@ void enregistrerDonnees (CString);
 class CPoterieImage
 {
 public:
+	CPoterieImage();
 	CPoterieImage(CString str);
 	void afficher_image();
 	void trouver_contour();
@@ -36,7 +37,5 @@ private:
 	IplImage *cnt_img;
 	CvMemStorage* storage;
 	CvSeq* contours;
-	CvSize sz ;
-
-	
+	CvSize sz ;	
 };
