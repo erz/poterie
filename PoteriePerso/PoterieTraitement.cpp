@@ -105,6 +105,7 @@ CPoterieImage::CPoterieImage(CString str)
 {
 	contours = 0;
 	storage = cvCreateMemStorage(0);
+	storageContours= cvCreateMemStorage(0);
 	img=cvLoadImage(CString2Char(str));
 	sz = cvSize(img->width, img->height);
 	imgCtrs = NULL;
@@ -304,7 +305,7 @@ void CPoterieImage::trouver_contour()
     cvZero( cnt_img );
 
 	CvSeq* result;
-	CvSeq* contourPoterie = cvCreateSeq( 0, sizeof(CvSeq), sizeof(CvPoint), storage );
+	CvSeq* contourPoterie = cvCreateSeq( 0, sizeof(CvSeq), sizeof(CvPoint), storageContours );
 
 	//ON nettoire le bruit de l'image
 	//cvPyrDown( copieImg, pyr, 1 );
@@ -387,9 +388,9 @@ void CPoterieImage::trouver_contour()
 										variationX=variationX/5;
 										variationY=variationY/5;
 
-										cout<<"Moyenne X\t:"<<variationX<<endl;
-										cout<<"Moyenne Y\t:"<<variationY<<endl;
-										cout<<"**************"<<endl;
+										//cout<<"Moyenne X\t:"<<variationX<<endl;
+										//cout<<"Moyenne Y\t:"<<variationY<<endl;
+										//cout<<"**************"<<endl;
 										
 										if(variationX <300)
 										{
@@ -428,9 +429,12 @@ void CPoterieImage::trouver_contour()
 		CvPoint pt[2], *rect = pt;
         int count = 2;
         
-        // read 4 vertices
+        // read 2 vertices
         CV_READ_SEQ_ELEM( pt[0], reader );
         CV_READ_SEQ_ELEM( pt[1], reader );
+		cout<<"Pt X:"<<pt[0].x<<"\tPt Y:"<<pt[0].y<<endl;
+		cout<<"Pt X:"<<pt[1].x<<"\tPt Y:"<<pt[1].y<<endl;
+		cout<<"*******************************"<<endl;
 		cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 3, 0, 0 );
 	}
 		
