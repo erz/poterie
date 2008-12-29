@@ -362,7 +362,7 @@ void CPoterieImage::trouver_contour()
 								CvPoint* test0 = (CvPoint*) cvGetSeqElem( result, i-2 );
 								
 								//On affiche tous les points trouvés
-								cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(50,50,250), 3);
+								//cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(50,50,250), 3);
 
 								t = fabs(angle(test2,test0,test1));
 								double ecartX=(test2->x)-(test1->x);
@@ -386,9 +386,11 @@ void CPoterieImage::trouver_contour()
 										}
 										variationX=variationX/5;
 										variationY=variationY/5;
-										cout<<"VARIATION X\t:"<<variationX<<endl;
-										cout<<"VARIATION Y\t:"<<variationY<<endl;
+
+										cout<<"Moyenne X\t:"<<variationX<<endl;
+										cout<<"Moyenne Y\t:"<<variationY<<endl;
 										cout<<"**************"<<endl;
+										
 										if(variationX <300)
 										{
 										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i ));
@@ -429,8 +431,9 @@ void CPoterieImage::trouver_contour()
         // read 4 vertices
         CV_READ_SEQ_ELEM( pt[0], reader );
         CV_READ_SEQ_ELEM( pt[1], reader );
-		//cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 3, 0, 0 );
+		cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 3, 0, 0 );
 	}
+		
 	/*****************************************************************************/
 	
 
