@@ -317,7 +317,7 @@ void CPoterieImage::trouver_contour()
 		cvCopy(copieImg, NvGris, NULL );
 		
 		//On applique un filtre moyen à l'image en Niveau de gris
-		filtreMoyenNVG(NvGris,NvGris,7);
+		filtreMoyenNVG(NvGris,NvGris,8);
 		//On applique un filtre median à l'image en Niveau de gris
 		filtreMedianNVG(NvGris,NvGris,3);
 		//cvSmooth(NvGris, NvGris, CV_BLUR , 5);
@@ -399,7 +399,7 @@ void CPoterieImage::trouver_contour()
 										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-2 ));
 										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-3 ));
 										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-4 ));
-										cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(255,255,0), 3);
+										//cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(255,255,0), 3);
 										}
 									}
 									
@@ -438,8 +438,8 @@ void CPoterieImage::trouver_contour()
 			//cout<<"Pt X:"<<pt[0].x<<"\tPt Y:"<<pt[0].y<<endl;
 			//cout<<"Pt X:"<<pt[1].x<<"\tPt Y:"<<pt[1].y<<endl;
 			//cout<<"*******************************"<<endl;
-			cvCircle( cnt_img, pt[0] , 4, CV_RGB(0,255,0), 3);
-			cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 3, 0, 0 );
+			//cvCircle( cnt_img, pt[0] , 4, CV_RGB(0,255,0), 3);
+			cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
 			
 		}
 	}
