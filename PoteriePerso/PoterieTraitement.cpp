@@ -317,7 +317,7 @@ void CPoterieImage::trouver_contour()
 		cvCopy(copieImg, NvGris, NULL );
 		
 		//On applique un filtre moyen à l'image en Niveau de gris
-		filtreMoyenNVG(NvGris,NvGris,8);
+		filtreMoyenNVG(NvGris,NvGris,7);
 		//On applique un filtre median à l'image en Niveau de gris
 		filtreMedianNVG(NvGris,NvGris,3);
 		//cvSmooth(NvGris, NvGris, CV_BLUR , 5);
@@ -332,7 +332,7 @@ void CPoterieImage::trouver_contour()
             if( l == 0 )
             {
 				//gradient : c'est le dernier parametre de cvcanny (degré de la dérivé)
-                cvCanny( NvGris, gray, 0, 50, 3 );
+                cvCanny( NvGris, gray, 0.5, 0.5, 3 );
 				cvErode( gray, gray, 0, 2 );
                 cvDilate( gray, gray, 0, 2 );
 				
