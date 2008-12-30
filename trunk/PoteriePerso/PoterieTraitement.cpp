@@ -365,7 +365,7 @@ void CPoterieImage::trouver_contour()
 								//On affiche tous les points trouvés
 								//cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(50,50,250), 3);
 
-								t = fabs(angle(test2,test0,test1));
+								//t = fabs(angle(test2,test0,test1));
 								double ecartX=(test2->x)-(test1->x);
 								double ecartY=(test2->y)-(test1->y);
 								//cout<<"Ecart X\t:"<<ecartX<<"\tEcart Y\t:"<<ecartY<<endl;
@@ -399,7 +399,7 @@ void CPoterieImage::trouver_contour()
 										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-2 ));
 										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-3 ));
 										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-4 ));
-										cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(0,255,0), 3);
+										cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(255,255,0), 3);
 										}
 									}
 									
@@ -432,10 +432,16 @@ void CPoterieImage::trouver_contour()
         // read 2 vertices
         CV_READ_SEQ_ELEM( pt[0], reader );
         CV_READ_SEQ_ELEM( pt[1], reader );
-		cout<<"Pt X:"<<pt[0].x<<"\tPt Y:"<<pt[0].y<<endl;
-		cout<<"Pt X:"<<pt[1].x<<"\tPt Y:"<<pt[1].y<<endl;
-		cout<<"*******************************"<<endl;
-		cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 3, 0, 0 );
+		float longeur = abs(pt[0].x-pt[1].x);
+		if(pt[0].x>30 && pt[0].y>20 && pt[1].x>10 && pt[1].y>15 && pt[0].x<300 && longeur<20)
+		{
+			//cout<<"Pt X:"<<pt[0].x<<"\tPt Y:"<<pt[0].y<<endl;
+			//cout<<"Pt X:"<<pt[1].x<<"\tPt Y:"<<pt[1].y<<endl;
+			//cout<<"*******************************"<<endl;
+			cvCircle( cnt_img, pt[0] , 4, CV_RGB(0,255,0), 3);
+			cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 3, 0, 0 );
+			
+		}
 	}
 		
 	/*****************************************************************************/
