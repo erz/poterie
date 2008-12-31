@@ -113,13 +113,13 @@ CPoterieImage::CPoterieImage(CString str)
 }
 
 double CPoterieImage::angle( CvPoint* pt1, CvPoint* pt2, CvPoint* pt0 )
-	{
+{
     double dx1 = pt1->x - pt0->x;
     double dy1 = pt1->y - pt0->y;
     double dx2 = pt2->x - pt0->x;
     double dy2 = pt2->y - pt0->y;
     return (dx1*dx2 + dy1*dy2)/sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);
-	}
+}
 
 void CPoterieImage::afficher_image()
 {
@@ -357,11 +357,13 @@ void CPoterieImage::trouver_contour()
 				
 					//On effectue des tests sur les points appartenant au contours
 					if( i >= 2 && cvGetSeqElem( result, i )!=NULL)
-						{
+					{
 								CvPoint* test2 = (CvPoint*) cvGetSeqElem( result, i );
 								CvPoint* test1 = (CvPoint*) cvGetSeqElem( result, i-1 );
-								CvPoint* test0 = (CvPoint*) cvGetSeqElem( result, i-2 );
+								//CvPoint* test0 = (CvPoint*) cvGetSeqElem( result, i-2 );
 								
+								cout<<"Point\t" << i << "\tX\t:"<< test2->x <<"\tY\t:"<< test2->y << endl;
+
 								//On affiche tous les points trouvés
 								//cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(50,50,250), 3);
 
@@ -372,7 +374,7 @@ void CPoterieImage::trouver_contour()
 								
 								/***************************************************************************************/
 								//ici on rempli la structure contenant les points appartenant à la bordure de la poterie!
-								if((fabs(ecartX)<30 && fabs(ecartY)<30) && test2->y>10)
+								if((fabs(ecartX)<30 && fabs(ecartY)<30) && test2->y>30 && test2->y<(gray->height-15))
 								{
 									if(i>=5)
 									{
@@ -395,10 +397,10 @@ void CPoterieImage::trouver_contour()
 										if(variationX <300)
 										{
 										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i ));
-										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-1 ));
-										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-2 ));
-										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-3 ));
-										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-4 ));
+										//cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-1 ));
+										//cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-2 ));
+										//cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-3 ));
+										//cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-4 ));
 										//cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(255,255,0), 3);
 										}
 									}
