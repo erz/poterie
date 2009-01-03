@@ -306,10 +306,6 @@ void CPoterieImage::trouver_contour()
 
 	CvSeq* result;
 	CvSeq* contourPoterie = cvCreateSeq( 0, sizeof(CvSeq), sizeof(CvPoint), storageContours );
-
-	//ON nettoire le bruit de l'image
-	//cvPyrDown( copieImg, pyr, 1 );
-    //cvPyrUp( pyr, copieImg, 1 );
 	
 	
 		//On choitsit un canal de l'image pour travailler dessus
@@ -320,9 +316,6 @@ void CPoterieImage::trouver_contour()
 		filtreMoyenNVG(NvGris,NvGris,7);
 		//On applique un filtre median à l'image en Niveau de gris
 		filtreMedianNVG(NvGris,NvGris,3);
-		//cvSmooth(NvGris, NvGris, CV_BLUR , 5);
-		//cvSmooth(NvGris, NvGris, CV_MEDIAN, 5);
-
 
 		int compteur=0;
 
@@ -344,7 +337,7 @@ void CPoterieImage::trouver_contour()
                 cvThreshold( NvGris, gray, (l+1)*255/11, 255, CV_THRESH_BINARY );
             }
 		
-			cvFindContours(gray, storage, &contours, sizeof(CvContour),CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );
+			cvFindContours(gray, storage, &contours, sizeof(CvContour),CV_RETR_EXTERNAL, CV_LINK_RUNS, cvPoint(0,0) );
 			
 			//On dessine les contours trouvés
 			double s=0;
@@ -360,14 +353,9 @@ void CPoterieImage::trouver_contour()
 					{
 								CvPoint* test2 = (CvPoint*) cvGetSeqElem( result, i );
 								CvPoint* test1 = (CvPoint*) cvGetSeqElem( result, i-1 );
-								//CvPoint* test0 = (CvPoint*) cvGetSeqElem( result, i-2 );
 								
 								cout<<"Point\t" << i << "\tX\t:"<< test2->x <<"\tY\t:"<< test2->y << endl;
 
-								//On affiche tous les points trouvés
-								//cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(50,50,250), 3);
-
-								//t = fabs(angle(test2,test0,test1));
 								double ecartX=(test2->x)-(test1->x);
 								double ecartY=(test2->y)-(test1->y);
 								//cout<<"Ecart X\t:"<<ecartX<<"\tEcart Y\t:"<<ecartY<<endl;
@@ -398,7 +386,7 @@ void CPoterieImage::trouver_contour()
 										{
 										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i ));
 										//cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-1 ));
-										//cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-2 ));
+										cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-2 ));
 										//cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-3 ));
 										//cvSeqPush( contourPoterie,(CvPoint*) cvGetSeqElem( result, i-4 ));
 										//cvCircle( cnt_img, cvPoint(test2->x,test2->y) , 4, CV_RGB(255,255,0), 3);
