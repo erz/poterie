@@ -354,7 +354,7 @@ void CPoterieImage::trouver_contour()
 								CvPoint* test2 = (CvPoint*) cvGetSeqElem( result, i );
 								CvPoint* test1 = (CvPoint*) cvGetSeqElem( result, i-1 );
 								
-								cout<<"Point\t" << i << "\tX\t:"<< test2->x <<"\tY\t:"<< test2->y << endl;
+								//cout<<"Point\t" << i << "\tX\t:"<< test2->x <<"\tY\t:"<< test2->y << endl;
 
 								double ecartX=(test2->x)-(test1->x);
 								double ecartY=(test2->y)-(test1->y);
@@ -373,10 +373,10 @@ void CPoterieImage::trouver_contour()
 										{
 											tmp=(CvPoint*) cvGetSeqElem( result, i-j );
 											variationX+=tmp->x;
-											variationY+=tmp->y;
+											//variationY+=tmp->y;
 										}
 										variationX=variationX/5;
-										variationY=variationY/5;
+										//variationY=variationY/5;
 
 										//cout<<"Moyenne X\t:"<<variationX<<endl;
 										//cout<<"Moyenne Y\t:"<<variationY<<endl;
