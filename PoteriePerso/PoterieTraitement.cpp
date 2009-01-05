@@ -286,7 +286,7 @@ void CPoterieImage::filtreMedianNVG(IplImage *src, IplImage *dst, int voisinage)
 }
 
 
-void CPoterieImage::trouver_contour()
+std::vector<Point> CPoterieImage::trouver_contour()
 {
 
 	IplImage* cropped = cvCreateImage( cvSize(img->width/2,img->height/2), 8, 3);
@@ -407,6 +407,7 @@ void CPoterieImage::trouver_contour()
 		}
 
 	/*************Lecture et affichage du contour de la poterie****************/
+	std::vector<Point> ContourPoterie;
 	CvSeqReader reader;
 	int compteurSelection = 0;
 	cvStartReadSeq( contourPoterie, &reader, 0 );
@@ -434,6 +435,7 @@ void CPoterieImage::trouver_contour()
 	//cvShowImage( "contours", cnt_img );
     //cvReleaseImage( &cnt_img );
 	
+	return ContourPoterie;
 }
 
 

@@ -1,6 +1,6 @@
 #pragma once
 
-
+#include "Outils.h"
 
 class CPoterieCourbe
 {
