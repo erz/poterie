@@ -17,3 +17,9 @@ inline CString Char2CString(char * chaine)
 	return (LPCTSTR) (LPTSTR) chaine;
 }
 
+class Point
+{
+	public:
+		int x;
+		int y;
+};
