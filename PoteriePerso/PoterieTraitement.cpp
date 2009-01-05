@@ -286,7 +286,7 @@ void CPoterieImage::filtreMedianNVG(IplImage *src, IplImage *dst, int voisinage)
 }
 
 
-std::vector<Point> CPoterieImage::trouver_contour()
+std::vector<Point *> CPoterieImage::trouver_contour()
 {
 
 	IplImage* cropped = cvCreateImage( cvSize(img->width/2,img->height/2), 8, 3);
@@ -407,7 +407,7 @@ std::vector<Point> CPoterieImage::trouver_contour()
 		}
 
 	/*************Lecture et affichage du contour de la poterie****************/
-	std::vector<Point> ContourPoterie;
+	std::vector<Point *> ContourPoterie;
 	CvSeqReader reader;
 	int compteurSelection = 0;
 	cvStartReadSeq( contourPoterie, &reader, 0 );
@@ -419,6 +419,8 @@ std::vector<Point> CPoterieImage::trouver_contour()
         // read 2 vertices
         CV_READ_SEQ_ELEM( pt[0], reader );
         CV_READ_SEQ_ELEM( pt[1], reader );
+		Point * Pttmp= new Point();
+		Point * Pttmp2= new Point();
 		float longeur = abs(pt[0].x-pt[1].x);
 		if(pt[0].x>30 && pt[0].y>20 && pt[1].x>10 && pt[1].y>15 && pt[0].x<300 && longeur<20)
 		{
@@ -426,7 +428,11 @@ std::vector<Point> CPoterieImage::trouver_contour()
 			//cout<<"Pt X:"<<pt[1].x<<"\tPt Y:"<<pt[1].y<<endl;
 			//cout<<"*******************************"<<endl;
 			cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
-			compteurSelection=compteurSelection+2;
+			Pttmp->x=pt[0].x;Pttmp->y=pt[0].y;
+			Pttmp2->x=pt[1].x;Pttmp2->y=pt[1].y;
+			ContourPoterie.push_back(Pttmp);
+			ContourPoterie.push_back(Pttmp2);
+			//compteurSelection=compteurSelection+2;
 		}
 	}
 	cout<<"Nbres de points:\t"<<compteurSelection<<endl;

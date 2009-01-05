@@ -2,3 +2,7 @@
 #include "PoterieCourbe.h"
 
 
+void InterpolationBSpline(std::vector<Point *>)
+{
+
+}
