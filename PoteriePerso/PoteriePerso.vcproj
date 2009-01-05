@@ -239,6 +239,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PoterieCourbe.h"
+				>
+			</File>
+			<File
 				RelativePath=".\PoteriePerso.h"
 				>
 			</File>
