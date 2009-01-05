@@ -28,7 +28,7 @@ public:
 	CPoterieImage();
 	CPoterieImage(CString str);
 	void afficher_image();
-	std::vector<Point> trouver_contour();
+	std::vector<Point *> trouver_contour();
 	void filtreMoyenNVG(IplImage *src, IplImage *dst, int voisinage);
 	void filtreMedianNVG(IplImage *src, IplImage *dst, int voisinage);
 	double angle( CvPoint* pt1, CvPoint* pt2, CvPoint* pt0 );
