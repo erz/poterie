@@ -96,6 +96,7 @@ void CPoteriePersoDlg::refresh ()
 				seq->setImage(seq->getIdCour(), newImage);
 			}
 
+
 			if (seq->getImage(seq->getIdCour())->getContour() == NULL)
 				seq->getImage(seq->getIdCour())->trouver_contour();
 			
