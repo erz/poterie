@@ -2,7 +2,12 @@
 #include "PoterieCourbe.h"
 
 
-void InterpolationBSpline(std::vector<Point *>)
+void CPoterieCourbe::InterpolationBSpline(std::vector<Point *> *pts)
 {
 
+}
+
+CPoterieCourbe::CPoterieCourbe (std::vector<Point *> *pts)
+{
+	InterpolationBSpline(pts);
 }

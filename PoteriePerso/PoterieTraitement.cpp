@@ -88,6 +88,7 @@ void CPoteriePersoDlg::refresh ()
 
 			//Création Structure image OPENCV
 			
+			//S'il le CImage n'existe pas, on le crée
 			if (seq->getImage(seq->getIdCour()) == NULL)
 			{
 				CString TMPREP = seq->getRepertoireCourant()+CString("\\")+seq->getNom(seq->getIdCour()); 
@@ -95,8 +96,18 @@ void CPoteriePersoDlg::refresh ()
 				seq->setImage(seq->getIdCour(), newImage);
 			}
 
+			if (seq->getImage(seq->getIdCour())->getContour() == NULL)
+				seq->getImage(seq->getIdCour())->trouver_contour();
+			
 			seq->getImage(seq->getIdCour())->afficher_image();
-			seq->getImage(seq->getIdCour())->trouver_contour();
+
+			//Si le CPoterieCourbe n'existe pas, on le crée
+			if (seq->getCourbe(seq->getIdCour()) == NULL)
+			{
+				CPoterieCourbe *newCourbe = new CPoterieCourbe(seq->getImage(seq->getIdCour())->getContour());
+				seq->setCourbe(seq->getIdCour(), newCourbe);
+			}
+
 		}
 	}
 }
@@ -110,6 +121,12 @@ CPoterieImage::CPoterieImage(CString str)
 	sz = cvSize(img->width, img->height);
 	imgCtrs = NULL;
 	cnt_img = NULL;
+	ContourPoterie = NULL;
+}
+
+std::vector<Point *> * CPoterieImage::getContour()
+{
+	return ContourPoterie;
 }
 
 double CPoterieImage::angle( CvPoint* pt1, CvPoint* pt2, CvPoint* pt0 )
@@ -286,7 +303,7 @@ void CPoterieImage::filtreMedianNVG(IplImage *src, IplImage *dst, int voisinage)
 }
 
 
-std::vector<Point *> CPoterieImage::trouver_contour()
+void CPoterieImage::trouver_contour()
 {
 
 	IplImage* cropped = cvCreateImage( cvSize(img->width/2,img->height/2), 8, 3);
@@ -407,7 +424,7 @@ std::vector<Point *> CPoterieImage::trouver_contour()
 		}
 
 	/*************Lecture et affichage du contour de la poterie****************/
-	std::vector<Point *> ContourPoterie;
+	ContourPoterie = new std::vector<Point *>;
 	CvSeqReader reader;
 	int compteurSelection = 0;
 	cvStartReadSeq( contourPoterie, &reader, 0 );
@@ -430,18 +447,18 @@ std::vector<Point *> CPoterieImage::trouver_contour()
 			cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
 			Pttmp->x=pt[0].x;Pttmp->y=pt[0].y;
 			Pttmp2->x=pt[1].x;Pttmp2->y=pt[1].y;
-			ContourPoterie.push_back(Pttmp);
-			ContourPoterie.push_back(Pttmp2);
+			ContourPoterie->push_back(Pttmp);
+			ContourPoterie->push_back(Pttmp2);
 			//compteurSelection=compteurSelection+2;
 		}
 	}
-	cout<<"Nbres de points:\t"<<compteurSelection<<endl;
+	//cout<<"Nbres de points:\t"<<compteurSelection<<endl;
 	/*****************************************************************************/
 
 	//cvShowImage( "contours", cnt_img );
     //cvReleaseImage( &cnt_img );
 	
-	return ContourPoterie;
+	//return ContourPoterie;
 }
 
 

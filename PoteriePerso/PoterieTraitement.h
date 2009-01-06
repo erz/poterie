@@ -10,6 +10,7 @@
 #include <highgui.h>
 #include <algorithm>
 #include <vector>
+#include "Outils.h"
 
 
 /*
@@ -28,10 +29,11 @@ public:
 	CPoterieImage();
 	CPoterieImage(CString str);
 	void afficher_image();
-	std::vector<Point *> trouver_contour();
+	void trouver_contour();
 	void filtreMoyenNVG(IplImage *src, IplImage *dst, int voisinage);
 	void filtreMedianNVG(IplImage *src, IplImage *dst, int voisinage);
 	double angle( CvPoint* pt1, CvPoint* pt2, CvPoint* pt0 );
+	std::vector<Point *> *getContour(void);
 private:
 	IplImage *img;
 	IplImage *imgCtrs;
@@ -40,4 +42,5 @@ private:
 	CvMemStorage* storageContours;
 	CvSeq* contours;
 	CvSize sz ;	
+	std::vector<Point *> *ContourPoterie;
 };
