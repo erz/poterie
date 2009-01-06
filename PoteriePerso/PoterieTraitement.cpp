@@ -88,7 +88,7 @@ void CPoteriePersoDlg::refresh ()
 
 			//Création Structure image OPENCV
 			
-			//S'il le CImage n'existe pas, on le crée
+			//Si le CImage n'existe pas, on le crée
 			if (seq->getImage(seq->getIdCour()) == NULL)
 			{
 				CString TMPREP = seq->getRepertoireCourant()+CString("\\")+seq->getNom(seq->getIdCour()); 
@@ -108,6 +108,14 @@ void CPoteriePersoDlg::refresh ()
 				seq->setCourbe(seq->getIdCour(), newCourbe);
 			}
 
+			//Si le CPoterieData n'existe pas, on le crée
+			if (seq->getData(seq->getIdCour()) == NULL)
+			{
+				CPoterieData *newData = new CPoterieData(seq->getImage(seq->getIdCour()));
+				seq->setData(seq->getIdCour(), newData);
+			}
+			seq->getData(seq->getIdCour())->RefreshListe();
+			cout << "hop" << endl
 		}
 	}
 }

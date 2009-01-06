@@ -5,6 +5,7 @@
 
 #include "PoterieTraitement.h"
 #include "PoterieCourbe.h"
+#include "PoterieData.h"
 #include "stdafx.h"
 
 #include <CString>
@@ -21,6 +22,7 @@ class CPoterieSequence
 	CString directory;
 	CPoterieImage **tabImages;
 	CPoterieCourbe **tabCourbes;
+	CPoterieData **tabData;
 
 	int idPicCourante;
 
@@ -57,23 +59,44 @@ class CPoterieSequence
 		CPoterieImage **temp = new CPoterieImage* [nbImages];
 		CPoterieCourbe **temp1 = new CPoterieCourbe* [nbImages];
 		CString *temp2 = new CString [nbImages];
+		CPoterieData **temp3 = new CPoterieData* [nbImages];
 
 		for (int i = 0; i < (nbImages-1); ++i)
 		{
 			temp[i] = tabImages[i];
 			temp1[i] = tabCourbes[i];
 			temp2[i] = tabNoms[i];
+			temp3[i] = tabData[i];
 		}
 
 		temp[nbImages-1] = NULL;
 		temp1[nbImages-1] = NULL;
 		temp2[nbImages-1] = str;
+		temp3[nbImages-1] = NULL;
 
 		tabImages = temp;
 		tabCourbes = temp1;
 		tabNoms = temp2;
+		tabData = temp3;
 
 		return nbImages;
+	}
+
+
+	/*
+		Retourne les données à l'indice i
+	*/
+	CPoterieData* getData(int i)
+	{
+		return tabData[i];
+	}
+
+	/*
+		Enregistre les données à l'indice i
+	*/
+	void setData(int i, CPoterieData* dat)
+	{
+		tabData[i] = dat;
 	}
 
 	/*
