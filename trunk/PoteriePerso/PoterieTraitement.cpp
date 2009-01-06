@@ -115,7 +115,6 @@ void CPoteriePersoDlg::refresh ()
 				seq->setData(seq->getIdCour(), newData);
 			}
 			seq->getData(seq->getIdCour())->RefreshListe();
-			cout << "hop" << endl
 		}
 	}
 }
