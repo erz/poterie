@@ -100,7 +100,7 @@ void CPoteriePersoDlg::refresh ()
 			if (seq->getImage(seq->getIdCour())->getContour() == NULL)
 				seq->getImage(seq->getIdCour())->trouver_contour();
 			
-			seq->getImage(seq->getIdCour())->afficher_image();
+			//seq->getImage(seq->getIdCour())->afficher_image();
 
 			//Si le CPoterieCourbe n'existe pas, on le crée
 			if (seq->getCourbe(seq->getIdCour()) == NULL)
@@ -452,11 +452,13 @@ void CPoterieImage::trouver_contour()
 			//cout<<"Pt X:"<<pt[0].x<<"\tPt Y:"<<pt[0].y<<endl;
 			//cout<<"Pt X:"<<pt[1].x<<"\tPt Y:"<<pt[1].y<<endl;
 			//cout<<"*******************************"<<endl;
-			cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
+			//cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
 			Pttmp->x=pt[0].x;Pttmp->y=pt[0].y;
 			Pttmp2->x=pt[1].x;Pttmp2->y=pt[1].y;
 			ContourPoterie->push_back(Pttmp);
 			ContourPoterie->push_back(Pttmp2);
+			cvCircle(cnt_img,pt[0],1,CV_RGB(0,255,0),1);
+			cvCircle(cnt_img,pt[1],1,CV_RGB(0,255,0),1);
 			//compteurSelection=compteurSelection+2;
 		}
 	}
