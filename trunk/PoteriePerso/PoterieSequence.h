@@ -4,6 +4,7 @@
 #pragma once
 
 #include "PoterieTraitement.h"
+#include "PoterieCourbe.h"
 #include "stdafx.h"
 
 #include <CString>
@@ -19,6 +20,7 @@ class CPoterieSequence
 	CString *tabNoms;
 	CString directory;
 	CPoterieImage **tabImages;
+	CPoterieCourbe **tabCourbes;
 
 	int idPicCourante;
 
@@ -53,17 +55,22 @@ class CPoterieSequence
 	{
 		nbImages++;
 		CPoterieImage **temp = new CPoterieImage* [nbImages];
+		CPoterieCourbe **temp1 = new CPoterieCourbe* [nbImages];
 		CString *temp2 = new CString [nbImages];
+
 		for (int i = 0; i < (nbImages-1); ++i)
 		{
 			temp[i] = tabImages[i];
+			temp1[i] = tabCourbes[i];
 			temp2[i] = tabNoms[i];
 		}
 
 		temp[nbImages-1] = NULL;
+		temp1[nbImages-1] = NULL;
 		temp2[nbImages-1] = str;
 
 		tabImages = temp;
+		tabCourbes = temp1;
 		tabNoms = temp2;
 
 		return nbImages;
@@ -83,6 +90,22 @@ class CPoterieSequence
 	void setImage(int i, CPoterieImage* im)
 	{
 		tabImages[i] = im;
+	}
+
+	/*
+		Retourne la courbe à l'indice i
+	*/
+	CPoterieCourbe* getCourbe(int i)
+	{
+		return tabCourbes[i];
+	}
+
+	/*
+		Enregistre la courbe à l'indice i
+	*/
+	void setCourbe(int i, CPoterieCourbe* cb)
+	{
+		tabCourbes[i] = cb;
 	}
 	
 	/*

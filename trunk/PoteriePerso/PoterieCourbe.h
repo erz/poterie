@@ -6,7 +6,8 @@
 class CPoterieCourbe
 {
 	public:
-		void InterpolationBSpline(std::vector<Point *>);
+		void InterpolationBSpline(std::vector<Point *>*);
+		CPoterieCourbe (std::vector<Point *>*);
 	private:
 
 };
