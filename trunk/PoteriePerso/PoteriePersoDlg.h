@@ -48,4 +48,5 @@ public:
 public:
 	afx_msg void refresh();
 	afx_msg void OnBnClickedSauver();
+	CListBox listeVars;
 };
