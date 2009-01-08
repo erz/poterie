@@ -23,6 +23,11 @@ void refresh ();
 */
 void enregistrerDonnees (CString);
 
+/*
+	Fonction d'étalonnage
+*/
+void etalonnerAvecImage(CString);
+
 class CPoterieImage
 {
 public:
@@ -34,6 +39,8 @@ public:
 	void filtreMedianNVG(IplImage *src, IplImage *dst, int voisinage);
 	double angle( CvPoint* pt1, CvPoint* pt2, CvPoint* pt0 );
 	std::vector<Point *> *getContour(void);
+	int getHeightCtr(void);
+	int getWidthCtr(void);
 private:
 	IplImage *img;
 	IplImage *imgCtrs;
