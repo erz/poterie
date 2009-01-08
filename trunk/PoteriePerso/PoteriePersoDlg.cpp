@@ -216,6 +216,9 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 				// At this point pszBuffer contains the selected path */. 
 				::SetCurrentDirectory(LPWSTR(pszBuffer));
 				
+				//Sequence d'image
+				if (seq != NULL)
+					seq = new CPoterieSequence();
 				
 				CString rep;
 				rep = Char2CString(pszBuffer);
