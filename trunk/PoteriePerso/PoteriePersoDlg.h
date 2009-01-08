@@ -49,4 +49,11 @@ public:
 	afx_msg void refresh();
 	afx_msg void OnBnClickedSauver();
 	CListBox listeVars;
+	CButton boutonSauver;
+	CButton boutonEtalonner;
+	CStatic texteBienvenue;
+	CButton boutonPrecedent;
+	CButton boutonSuivant;
+	CStatic texteListe;
+	afx_msg void OnBnClickedEtalonner();
 };
