@@ -180,6 +180,7 @@ void CPoteriePersoDlg::OnBnClickedCancel()
 	OnCancel();
 	cvDestroyWindow("Opencv");
 	cvDestroyWindow("contours");
+	cvDestroyWindow("CLIQUER SUR LES DEUX EXTREMITES DE L'ETALON");
 }
 
 void CPoteriePersoDlg::OnBnClickedHelp()
@@ -213,6 +214,17 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 		{ 
 			if (::SHGetPathFromIDList(pidl, LPWSTR(pszBuffer))) 
 		   { 
+			   				
+				//Affichage de l'ihm
+			   	boutonEtalonner.ShowWindow(SW_HIDE);
+				texteBienvenue.ShowWindow(SW_HIDE);
+				listeVars.ShowWindow(SW_SHOW);
+				boutonSauver.ShowWindow(SW_SHOW);
+				boutonPrecedent.ShowWindow(SW_SHOW);
+				boutonSuivant.ShowWindow(SW_SHOW);
+				texteListe.ShowWindow(SW_SHOW);
+				m_picture.RedrawWindow();
+
 				// At this point pszBuffer contains the selected path */. 
 				::SetCurrentDirectory(LPWSTR(pszBuffer));
 				
@@ -240,19 +252,11 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 					seq->addImage(finder.GetFileName());
 				}
 
-				//Affichage de l'ihm
-				listeVars.ShowWindow(SW_SHOW);
-				boutonSauver.ShowWindow(SW_SHOW);
-				boutonEtalonner.ShowWindow(SW_SHOW);
-				texteBienvenue.ShowWindow(SW_HIDE);
-				boutonPrecedent.ShowWindow(SW_SHOW);
-				boutonSuivant.ShowWindow(SW_SHOW);
-				texteListe.ShowWindow(SW_SHOW);
-
-				//texteBienvenue.su
 				
 				//Rafraichissement des données
 				refresh();
+
+
 			} 
 			// Free the PIDL allocated by SHBrowseForFolder. 
 			pMalloc->Free(pidl); 
@@ -278,7 +282,6 @@ void CPoteriePersoDlg::OnBnClickedSuiv()
 	{
 		seq->nextImage();
 		refresh();
-
 	}
 }
 void CPoteriePersoDlg::OnBnClickedSauver()

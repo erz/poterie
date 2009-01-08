@@ -21,6 +21,8 @@
 //Variables globales
 //Sequence d'image
 CPoterieSequence *seq = new CPoterieSequence();
+//Echelle par défaut
+double echelle = 0.076692;
 
 void CPoteriePersoDlg::refresh ()
 {
@@ -41,7 +43,6 @@ void CPoteriePersoDlg::refresh ()
 			CBitmap* pBmpOld; // Pointer to old bitmap
 			CSize m_size; // Size of bitmap
 			RECT rect; // rect of static member
-
 
 			bmpItem.Attach(m_image);
 
@@ -81,11 +82,6 @@ void CPoteriePersoDlg::refresh ()
 			bmpItem.DeleteObject();
 		//////////////////
 
-		//	m_picture.SetBitmap((HBITMAP)m_image);
-		//	m_picture.Invalidate(); 
-
-		
-
 			//Création Structure image OPENCV
 			
 			//Si le CImage n'existe pas, on le crée
@@ -115,7 +111,7 @@ void CPoteriePersoDlg::refresh ()
 				seq->setData(seq->getIdCour(), newData);
 			}
 			seq->getData(seq->getIdCour())->RefreshListe(&listeVars);
-
+			
 			//L'affichage d'image est bloquant ! alors, ne le faire qu'à la fin !
 			seq->getImage(seq->getIdCour())->afficher_image();
 
@@ -519,6 +515,38 @@ void etalonnerAvecImage(CString etalon)
 {
 	IplImage *img=cvLoadImage(CString2Char(etalon));
 	cvNamedWindow("CLIQUER SUR LES DEUX EXTREMITES DE L'ETALON",CV_WINDOW_AUTOSIZE);
-	cvShowImage("CLIQUEZ SUR LES DEUX EXTREMITES DE L'ETALON",img);
+	cvSetMouseCallback("CLIQUER SUR LES DEUX EXTREMITES DE L'ETALON",mouseHandler);
+	cvShowImage("CLIQUER SUR LES DEUX EXTREMITES DE L'ETALON",img);
 	cvWaitKey(0);
+}
+
+void mouseHandler(int event, int x, int y, int flags, void* param)
+{
+	static int clic1 = 0;
+	static int clic2 = 0;
+
+    switch(event)
+	{
+      case CV_EVENT_LBUTTONDOWN:
+	    if (clic1 != 0 && clic2 == 0)
+			clic2 = y;
+        else if ((clic1 != 0) && (clic2 != 0))
+		{
+			clic1 = y;
+			clic2 = 0;
+		}
+		else if (clic1 == 0)
+			clic1 = y;
+
+		if (clic1 != 0 && clic2 != 0)
+		{
+			if (abs(clic1-clic2) != 0)
+				echelle = 36.0 / abs(clic1-clic2);
+			//cout << "clic1 " << clic1 << " clic2 " << clic2 << endl; 
+			//cout << echelle << endl;
+		}
+
+        break;
+    }
+	
 }
