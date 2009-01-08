@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "PoterieData.h"
 
+#include "VariablesGlobales.h"
+
 CPoterieData::CPoterieData(CPoterieImage *im)
 {
 	if(im->getContour() != NULL)
@@ -61,16 +63,17 @@ void CPoterieData::RefreshListe(CListBox *liste)
 	while (liste->GetItemDataPtr(0) == 0)
 		liste->DeleteString(0);
 
+	//On crée les strings d'affichage (on n'oublie pas l'echelle!)
 	CString ouv;
-	ouv.Format(CString("Ouverture : %d"), ouverture);
+	ouv.Format(CString("Ouverture : %.4lf cm"), ouverture*echelle);
 	CString haut;
-	haut.Format(CString("Hauteur : %d"), hauteur);
+	haut.Format(CString("Hauteur : %.4lf cm"), hauteur*echelle);
 	CString diam;
-	diam.Format(CString("Diamètre maximal : %d"), maxDiam);
+	diam.Format(CString("Diamètre maximal : %.4lf cm"), maxDiam*echelle);
 	CString diamHaut;
-	diamHaut.Format(CString("Hauteur du diamètre max : %d"), maxDiamHauteur);
+	diamHaut.Format(CString("Hauteur du diamètre max : %.4lf cm"), maxDiamHauteur*echelle);
 	CString bas;
-	bas.Format(CString("Base : %d"), base);
+	bas.Format(CString("Base : %.4lf cm"), base*echelle);
 
 
 	liste->AddString(ouv);

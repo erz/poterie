@@ -27,6 +27,8 @@ void enregistrerDonnees (CString);
 	Fonction d'étalonnage
 */
 void etalonnerAvecImage(CString);
+//Fonction de Callback souris
+void mouseHandler(int event, int x, int y, int flags, void* param);
 
 class CPoterieImage
 {
