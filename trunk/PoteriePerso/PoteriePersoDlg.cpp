@@ -66,6 +66,12 @@ void CPoteriePersoDlg::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDPIC, m_picture);
 	DDX_Control(pDX, IDLIST, listeVars);
+	DDX_Control(pDX, IDSAUVER, boutonSauver);
+	DDX_Control(pDX, IDETALONNER, boutonEtalonner);
+	DDX_Control(pDX, IDTEXTEBIENVENUE, texteBienvenue);
+	DDX_Control(pDX, IDPREC, boutonPrecedent);
+	DDX_Control(pDX, IDSUIV, boutonSuivant);
+	DDX_Control(pDX, IDTEXT, texteListe);
 }
 
 BEGIN_MESSAGE_MAP(CPoteriePersoDlg, CDialog)
@@ -79,6 +85,7 @@ BEGIN_MESSAGE_MAP(CPoteriePersoDlg, CDialog)
 	ON_BN_CLICKED(IDPREC, &CPoteriePersoDlg::OnBnClickedPrec)
 	ON_BN_CLICKED(IDSUIV, &CPoteriePersoDlg::OnBnClickedSuiv)
 	ON_BN_CLICKED(IDSAUVER, &CPoteriePersoDlg::OnBnClickedSauver)
+	ON_BN_CLICKED(IDETALONNER, &CPoteriePersoDlg::OnBnClickedEtalonner)
 END_MESSAGE_MAP()
 
 
@@ -229,6 +236,17 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 					//Ajout de l'image
 					seq->addImage(finder.GetFileName());
 				}
+
+				//Affichage de l'ihm
+				listeVars.ShowWindow(SW_SHOW);
+				boutonSauver.ShowWindow(SW_SHOW);
+				boutonEtalonner.ShowWindow(SW_SHOW);
+				texteBienvenue.ShowWindow(SW_HIDE);
+				boutonPrecedent.ShowWindow(SW_SHOW);
+				boutonSuivant.ShowWindow(SW_SHOW);
+				texteListe.ShowWindow(SW_SHOW);
+
+				//texteBienvenue.su
 				
 				//Rafraichissement des données
 				refresh();
@@ -272,4 +290,14 @@ void CPoteriePersoDlg::OnBnClickedSauver()
 		MessageBox(CString("Vos données ont été enregistrées avec succès."));
 	}
 
+}
+
+void CPoteriePersoDlg::OnBnClickedEtalonner()
+{
+	//On demande le fichier d'étalon
+	CFileDialog fOpenDlg(TRUE, NULL, NULL, OFN_HIDEREADONLY, CString("Image Etalon (*.bmp)|*.bmp||"), this);
+	if (fOpenDlg.DoModal() == IDOK)
+	{
+		etalonnerAvecImage(fOpenDlg.GetPathName());
+	}
 }
