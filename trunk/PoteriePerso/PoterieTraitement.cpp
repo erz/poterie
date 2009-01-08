@@ -542,8 +542,11 @@ void mouseHandler(int event, int x, int y, int flags, void* param)
 		{
 			if (abs(clic1-clic2) != 0)
 				echelle = 36.0 / abs(clic1-clic2);
-			//cout << "clic1 " << clic1 << " clic2 " << clic2 << endl; 
-			//cout << echelle << endl;
+			
+			CString mess;
+			mess.Format(CString("Etalonnage terminé avec succès.\nEchelle : 1px = %.4lf cm.\nCela vous convient-t-il ? Choisissez non pour choisir deux nouveaux points."), echelle);
+			if (MessageBox(NULL, mess, CString("Succès"), MB_YESNO) == IDYES)
+				cvDestroyWindow("CLIQUER SUR LES DEUX EXTREMITES DE L'ETALON");
 		}
 
         break;
