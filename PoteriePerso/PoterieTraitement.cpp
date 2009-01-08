@@ -100,8 +100,7 @@ void CPoteriePersoDlg::refresh ()
 			if (seq->getImage(seq->getIdCour())->getContour() == NULL)
 				seq->getImage(seq->getIdCour())->trouver_contour();
 			
-			//seq->getImage(seq->getIdCour())->afficher_image();
-
+			
 			//Si le CPoterieCourbe n'existe pas, on le crée
 			if (seq->getCourbe(seq->getIdCour()) == NULL)
 			{
@@ -115,7 +114,11 @@ void CPoteriePersoDlg::refresh ()
 				CPoterieData *newData = new CPoterieData(seq->getImage(seq->getIdCour()));
 				seq->setData(seq->getIdCour(), newData);
 			}
-			seq->getData(seq->getIdCour())->RefreshListe();
+			seq->getData(seq->getIdCour())->RefreshListe(&listeVars);
+
+			//L'affichage d'image est bloquant ! alors, ne le faire qu'à la fin !
+			seq->getImage(seq->getIdCour())->afficher_image();
+
 		}
 	}
 }
@@ -135,6 +138,21 @@ CPoterieImage::CPoterieImage(CString str)
 std::vector<Point *> * CPoterieImage::getContour()
 {
 	return ContourPoterie;
+}
+
+
+int CPoterieImage::getHeightCtr(void)
+{
+	if (cnt_img != NULL)
+		return cnt_img->height;
+	return 0;
+}
+
+int CPoterieImage::getWidthCtr(void)
+{
+	if (cnt_img != NULL)
+		return cnt_img->width;
+	return 0;
 }
 
 double CPoterieImage::angle( CvPoint* pt1, CvPoint* pt2, CvPoint* pt0 )
@@ -452,13 +470,11 @@ void CPoterieImage::trouver_contour()
 			//cout<<"Pt X:"<<pt[0].x<<"\tPt Y:"<<pt[0].y<<endl;
 			//cout<<"Pt X:"<<pt[1].x<<"\tPt Y:"<<pt[1].y<<endl;
 			//cout<<"*******************************"<<endl;
-			//cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
+			cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
 			Pttmp->x=pt[0].x;Pttmp->y=pt[0].y;
 			Pttmp2->x=pt[1].x;Pttmp2->y=pt[1].y;
 			ContourPoterie->push_back(Pttmp);
 			ContourPoterie->push_back(Pttmp2);
-			cvCircle(cnt_img,pt[0],1,CV_RGB(0,255,0),1);
-			cvCircle(cnt_img,pt[1],1,CV_RGB(0,255,0),1);
 			//compteurSelection=compteurSelection+2;
 		}
 	}
@@ -496,4 +512,13 @@ void enregistrerDonnees(CString path)
 		fileTest.Write(path, path.GetLength());
 		fileTest.Close();
 	}
+}
+
+//Fonction d'etalonnage
+void etalonnerAvecImage(CString etalon)
+{
+	IplImage *img=cvLoadImage(CString2Char(etalon));
+	cvNamedWindow("CLIQUER SUR LES DEUX EXTREMITES DE L'ETALON",CV_WINDOW_AUTOSIZE);
+	cvShowImage("CLIQUEZ SUR LES DEUX EXTREMITES DE L'ETALON",img);
+	cvWaitKey(0);
 }
