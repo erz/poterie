@@ -10,16 +10,17 @@
 
 #include "PoterieTraitement.h"
 
+
 class CPoterieData
 {
 	public:
 		CPoterieData(CPoterieImage*);
-		void RefreshListe();
+		void RefreshListe(CListBox*);
 		
 	private:
-		float base;
-		float hauteur; 
-		float ouverture;
-		float maxDiam;
-		float maxDiamHauteur;
+		int base;
+		int hauteur; 
+		int ouverture;
+		int maxDiam;
+		int maxDiamHauteur;
 };
