@@ -6,3 +6,6 @@
 
 //Sequence d'images chargée
 extern CPoterieSequence *seq;
+
+//Echelle permettant la correspondance echelle/cm
+extern float echelle;
