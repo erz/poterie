@@ -90,7 +90,86 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	
 }
 
+double distance2D(Point A, Point B) {
+	int ux = A.x-B.x;
+	int uy = A.y-B.y;
+	double un = ux*ux+uy*uy;
+	return sqrt(un);
+}
+
+// TEST SNAKE
+// rebuild the snake using cubic spline interpolation
+void CPoterieCourbe::rebuild(vector <Point *> *pts) 
+{
+	vector <Point*> snake = *(pts);
+	int space = 16;
+	// precompute length(i) = length of the snake from start to point #i
+	double *clength = new double[snake.size()+1];
+	clength[0]=0;
+	for(int i=0;i<snake.size();i++) 
+	{
+		Point cur   = *(snake[i]);
+		Point next  = *(snake[(i+1)%snake.size()]);
+		clength[i+1]=clength[i]+distance2D(cur, next);
+	}
+ 
+	// compute number of points in the new snake
+	double total = clength[snake.size()];
+	int nmb = (int)(0.5+total/space);
+ 
+	// build a new snake
+	vector<Point*> newsnake;
+	for(int i=0,j=0;j<nmb;j++) 
+	{
+		// current length in the new snake
+		double dist = (j*total)/nmb;
+ 
+		// find corresponding interval of points in the original snake
+		while(! (clength[i]<=dist && dist<clength[i+1])) i++;
+ 
+		// get points (P-1,P,P+1,P+2) in the original snake
+		Point prev  = *(snake[(i+snake.size()-1)%snake.size()]);
+		Point cur   = *(snake[i]);
+		Point next  = *(snake[(i+1)%snake.size()]);
+		Point next2  = *(snake[(i+2)%snake.size()]);
+ 
+		// do cubic spline interpolation
+		double t =  (dist-clength[i])/(clength[i+1]-clength[i]);
+		double t2 = t*t, t3=t2*t;
+		double c0 =  1*t3;
+		double c1 = -3*t3 +3*t2 +3*t + 1;
+		double c2 =  3*t3 -6*t2 + 4;
+		double c3 = -1*t3 +3*t2 -3*t + 1;
+		double x = prev.x*c3 + cur.x*c2 + next.x* c1 + next2.x*c0;
+		double y = prev.y*c3 + cur.y*c2 + next.y* c1 + next2.y*c0;
+		Point* newpoint = new Point();
+		newpoint->x = (int)(0.5+x/6);
+		newpoint->y = (int)(0.5+y/6);
+ 
+		// add computed point to the new snake
+		newsnake.push_back(newpoint);
+	}
+	
+	cout << "Snake : " << endl;
+	for (int i = 0; i < snake.size(); ++i)
+		cout << "Point\t" << i << "\tX :\t" << snake[i]->x << "\tY :\t" << snake[i]->y << endl;
+
+	cout << "\nNewSnake : " << endl;
+	IplImage *img=cvCreateImage( cvSize(300,300), 8, 3);
+	for (int i = 0; i < newsnake.size(); ++i)
+	{
+		cout << "Point\t" << i << "\tX :\t" << newsnake[i]->x << "\tY :\t" << newsnake[i]->y << endl;
+		cvCircle(img,cvPoint(newsnake[i]->x,newsnake[i]->y),1,CV_RGB(0,255,0),1);
+	}
+
+	cvNamedWindow("Interpolation",CV_WINDOW_AUTOSIZE);
+	cvShowImage("Interpolation",img);
+	cvWaitKey(0);
+}
+
+
 CPoterieCourbe::CPoterieCourbe (vector <Point *> *pts)
 {
-	InterpolationBSpline(pts);
+	//InterpolationBSpline(pts);
+	rebuild(pts);
 }

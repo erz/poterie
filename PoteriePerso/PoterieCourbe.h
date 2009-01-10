@@ -12,6 +12,9 @@ class CPoterieCourbe
 		void calculcoeff(int n,std::vector<Point *> points);
 		void InterpolationBSpline(std::vector<Point *>*);
 		CPoterieCourbe (std::vector<Point *>*);
+
+		//TEST
+		void rebuild(std::vector<Point *>*);
 	private:
 		int t[100];
 		float A[200];

@@ -178,9 +178,12 @@ void CPoteriePersoDlg::OnBnClickedCancel()
 {
 	// TODO : ajoutez ici le code de votre gestionnaire de notification de contrôle
 	OnCancel();
+
+	//Destruction des fenetre OpenCv
 	cvDestroyWindow("Opencv");
 	cvDestroyWindow("contours");
 	cvDestroyWindow("CLIQUER SUR LES DEUX EXTREMITES DE L'ETALON");
+	cvDestroyWindow("Interpolation");
 }
 
 void CPoteriePersoDlg::OnBnClickedHelp()
