@@ -34,6 +34,7 @@ void CPoterieCourbe::calculcoeff(int n,vector<Point *> points)
 	gamma[0]=0;
 	delta[0]=1;
 	
+
 	for(int i=0;i<n;i++)
 	{	
 		q=(t[i]-t[i+1])/(t[i]-t[i-1]);
