@@ -461,6 +461,7 @@ void CPoterieImage::trouver_contour()
 		Point * Pttmp= new Point();
 		Point * Pttmp2= new Point();
 		float longeur = abs(pt[0].x-pt[1].x);
+		char * path= "C:\\hop.txt";
 		if(pt[0].x>30 && pt[0].y>20 && pt[1].x>10 && pt[1].y>15 && pt[0].x<300 && longeur<20)
 		{
 			//cout<<"Pt X:"<<pt[0].x<<"\tPt Y:"<<pt[0].y<<endl;
@@ -471,6 +472,7 @@ void CPoterieImage::trouver_contour()
 			Pttmp2->x=pt[1].x;Pttmp2->y=pt[1].y;
 			ContourPoterie->push_back(Pttmp);
 			ContourPoterie->push_back(Pttmp2);
+			enregistrerPoints(path,Pttmp);
 			//compteurSelection=compteurSelection+2;
 		}
 	}
@@ -510,6 +512,22 @@ void enregistrerDonnees(CString path)
 	}
 }
 
+//Fonction d'enregistrement des données
+void enregistrerPoints(char * path,Point * p)
+{
+	FILE* f;
+	f = fopen(path, "a");
+	 if (f!=NULL)
+		{
+		fprintf(f, "%d %d\n", p->x, p->y);
+		fclose(f);
+		}
+	 else
+		 {
+			cout<<"DTC"<<endl;	
+		 }
+	
+}
 //Fonction d'etalonnage
 void etalonnerAvecImage(CString etalon)
 {
