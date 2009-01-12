@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <vector>
 #include "Outils.h"
+#include <fstream>
+#include <iostream>
 
 
 /*
@@ -22,6 +24,7 @@ void refresh ();
 	Fonction d'enregistrement des données
 */
 void enregistrerDonnees (CString);
+void enregistrerPoints(char *,Point *);
 
 /*
 	Fonction d'étalonnage

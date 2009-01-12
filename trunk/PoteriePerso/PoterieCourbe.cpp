@@ -78,7 +78,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 			tmp->y= points[i]->y + ( (points[i+1]->y - points[i]->y) / (points[i+1]->x-points[i]->x))*(tmp->x-points[i]->x);
 		else tmp->y= points[i]->y;
 		
-		cout<<"Point "<<i<<" x: "<<tmp->x<<"\ty: "<<tmp->y<<endl;
+		//cout<<"Point "<<i<<" x: "<<tmp->x<<"\ty: "<<tmp->y<<endl;
 		cvCircle(img,cvPoint(tmp->x,tmp->y),1,CV_RGB(0,255,0),1);
 		//Spline.push_back(tmp);
 	}
@@ -151,7 +151,7 @@ void CPoterieCourbe::rebuild(vector <Point *> *pts)
 		newsnake.push_back(newpoint);
 	}
 	
-	cout << "Snake : " << endl;
+	/*cout << "Snake : " << endl;
 	for (int i = 0; i < snake.size(); ++i)
 		cout << "Point\t" << i << "\tX :\t" << snake[i]->x << "\tY :\t" << snake[i]->y << endl;
 
@@ -162,10 +162,11 @@ void CPoterieCourbe::rebuild(vector <Point *> *pts)
 		cout << "Point\t" << i << "\tX :\t" << newsnake[i]->x << "\tY :\t" << newsnake[i]->y << endl;
 		cvCircle(img,cvPoint(newsnake[i]->x,newsnake[i]->y),1,CV_RGB(0,255,0),1);
 	}
-
+	
 	cvNamedWindow("Interpolation",CV_WINDOW_AUTOSIZE);
 	cvShowImage("Interpolation",img);
 	cvWaitKey(0);
+	*/
 }
 
 
