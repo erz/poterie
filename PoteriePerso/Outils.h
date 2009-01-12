@@ -5,6 +5,7 @@
 #include <CString>
 
 
+
 inline char* CString2Char(CString chaine)
 {
 	char *sz= new char [chaine.GetLength()+1] ;
@@ -15,6 +16,18 @@ inline char* CString2Char(CString chaine)
 inline CString Char2CString(char * chaine)
 {
 	return (LPCTSTR) (LPTSTR) chaine;
+}
+
+//Ouverture fichier
+inline void ouvertureFichier(FILE* fichier, char* path)
+{
+	fichier = fopen(path, "a");
+}
+
+//Fermeture fichier
+inline void fermetureFichier(FILE* fichier)
+{
+	fclose(fichier);
 }
 
 class Point

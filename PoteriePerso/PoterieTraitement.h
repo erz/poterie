@@ -24,7 +24,9 @@ void refresh ();
 	Fonction d'enregistrement des données
 */
 void enregistrerDonnees (CString);
-void enregistrerPoints(char *,Point *);
+
+//Enregistre un point
+void enregistrerPoints(FILE *,Point *);
 
 /*
 	Fonction d'étalonnage
