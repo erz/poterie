@@ -9,3 +9,6 @@ extern CPoterieSequence *seq;
 
 //Echelle permettant la correspondance echelle/cm
 extern double echelle;
+
+//Fichier d'enregistrement des données
+extern FILE *fichierSortie;

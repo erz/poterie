@@ -23,6 +23,8 @@
 CPoterieSequence *seq = new CPoterieSequence();
 //Echelle par défaut
 double echelle = 0.076692;
+//Fichier d'enregistrement
+FILE *fichierSortie;
 
 void CPoteriePersoDlg::refresh ()
 {
@@ -111,6 +113,21 @@ void CPoteriePersoDlg::refresh ()
 				seq->setData(seq->getIdCour(), newData);
 			}
 			seq->getData(seq->getIdCour())->RefreshListe(&listeVars);
+			
+			//Enregistrement des points 
+			//Ouverture du fichier
+			//ouvertureFichier(fichierSortie,"C:\\hop.txt");
+			fichierSortie = fopen("C:\\hop.txt", "a");
+			//Parcours de tous les points
+			vector <Point*> pts = *(seq->getImage(seq->getIdCour())->getContour());
+			for (int i=0; i<pts.size();++i)
+			{
+				//enregistrerPoints(fichierSortie, pts[i]);
+				fprintf(fichierSortie, "%d %d\n", pts[i]->x, pts[i]->y);
+			}
+			//Fermeture du fichier
+			//fermetureFichier(fichierSortie);
+			fclose(fichierSortie);
 			
 			//L'affichage d'image est bloquant ! alors, ne le faire qu'à la fin !
 			seq->getImage(seq->getIdCour())->afficher_image();
@@ -450,6 +467,9 @@ void CPoterieImage::trouver_contour()
 	CvSeqReader reader;
 	int compteurSelection = 0;
 	cvStartReadSeq( contourPoterie, &reader, 0 );
+
+
+
 	for(int i = 0; i < contourPoterie->total; i += 2 )
     {
 		CvPoint pt[2], *rect = pt;
@@ -461,7 +481,6 @@ void CPoterieImage::trouver_contour()
 		Point * Pttmp= new Point();
 		Point * Pttmp2= new Point();
 		float longeur = abs(pt[0].x-pt[1].x);
-		char * path= "C:\\hop.txt";
 		if(pt[0].x>30 && pt[0].y>20 && pt[1].x>10 && pt[1].y>15 && pt[0].x<300 && longeur<20)
 		{
 			//cout<<"Pt X:"<<pt[0].x<<"\tPt Y:"<<pt[0].y<<endl;
@@ -472,10 +491,12 @@ void CPoterieImage::trouver_contour()
 			Pttmp2->x=pt[1].x;Pttmp2->y=pt[1].y;
 			ContourPoterie->push_back(Pttmp);
 			ContourPoterie->push_back(Pttmp2);
-			enregistrerPoints(path,Pttmp);
 			//compteurSelection=compteurSelection+2;
 		}
 	}
+
+
+
 	//cout<<"Nbres de points:\t"<<compteurSelection<<endl;
 	/*****************************************************************************/
 
@@ -512,21 +533,17 @@ void enregistrerDonnees(CString path)
 	}
 }
 
-//Fonction d'enregistrement des données
-void enregistrerPoints(char * path,Point * p)
+//Fonction d'enregistrement des points
+void enregistrerPoints(FILE* fichier, Point * p)
 {
-	FILE* f;
-	f = fopen(path, "a");
-	 if (f!=NULL)
-		{
-		fprintf(f, "%d %d\n", p->x, p->y);
-		fclose(f);
-		}
-	 else
-		 {
-			cout<<"DTC"<<endl;	
-		 }
-	
+	if (fichier!=NULL)
+	{
+		fprintf(fichier, "%d %d\n", p->x, p->y);
+	}
+	else
+	{
+		cout<<"Erreur d'écriture"<<endl;	
+	}
 }
 //Fonction d'etalonnage
 void etalonnerAvecImage(CString etalon)
