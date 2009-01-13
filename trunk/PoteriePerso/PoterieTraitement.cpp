@@ -130,7 +130,7 @@ void CPoteriePersoDlg::refresh ()
 			fclose(fichierSortie);
 			
 			//L'affichage d'image est bloquant ! alors, ne le faire qu'à la fin !
-			seq->getImage(seq->getIdCour())->afficher_image();
+			//seq->getImage(seq->getIdCour())->afficher_image();
 
 		}
 	}
@@ -398,10 +398,22 @@ void CPoterieImage::trouver_contour()
 			double t=0;
 			int i=0;
 			bool sortirboucle=false;
+				
 			 while( contours && !sortirboucle)
              {
-				result = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP,  0, 1 );
-				
+					result = cvApproxPoly( contours, sizeof(CvContour), storage, CV_POLY_APPROX_DP,  0, 1 );
+	
+					/*
+					int m = 0;
+					while (cvGetSeqElem( result, m ) != NULL)
+					{
+						CvPoint* point = (CvPoint*) cvGetSeqElem( result, m );
+						cout << "Point " << m << " :\t" << point->x << "\t" << point->y << endl;
+						m++;
+					}
+					*/
+						
+			
 					//On effectue des tests sur les points appartenant au contours
 					if( i >= 2 && cvGetSeqElem( result, i )!=NULL)
 					{
@@ -463,12 +475,10 @@ void CPoterieImage::trouver_contour()
 		}
 
 	/*************Lecture et affichage du contour de la poterie****************/
-	ContourPoterie = new std::vector<Point *>;
+	std::vector<Point *> *TempContourPoterie = new std::vector<Point *>;
 	CvSeqReader reader;
 	int compteurSelection = 0;
 	cvStartReadSeq( contourPoterie, &reader, 0 );
-
-
 
 	for(int i = 0; i < contourPoterie->total; i += 2 )
     {
@@ -489,11 +499,39 @@ void CPoterieImage::trouver_contour()
 			cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
 			Pttmp->x=pt[0].x;Pttmp->y=pt[0].y;
 			Pttmp2->x=pt[1].x;Pttmp2->y=pt[1].y;
-			ContourPoterie->push_back(Pttmp);
-			ContourPoterie->push_back(Pttmp2);
+			cout << "Pttmp1 :\t" << Pttmp->x << "\t" << Pttmp->y << endl; 
+			cout << "Pttmp2 :\t" << Pttmp2->x << "\t" << Pttmp2->y << endl;
+			TempContourPoterie->push_back(Pttmp);
+			TempContourPoterie->push_back(Pttmp2);
 			//compteurSelection=compteurSelection+2;
 		}
 	}
+
+	//Nettoyage du contour par suppression des points en double
+	ContourPoterie = new std::vector<Point *>;
+
+	for (int i = 0; i < TempContourPoterie->size(); ++i)
+	{
+		//Est-ce que le point qu'on veut mettre existe déjà 	
+		bool existePoint = false;
+		for (int j=0; j < ContourPoterie->size(); ++j)
+		{
+			std::vector<Point *> src = *(TempContourPoterie);
+			std::vector<Point *> dest = *(ContourPoterie);
+			if (dest[j]->x == src[i]->x && dest[j]->y == src[i]->y)
+			{
+				existePoint = true;
+				break;
+			}
+		}
+		//S'il n'est pas déja, on le met
+		if (existePoint == false)
+			ContourPoterie->push_back((*TempContourPoterie)[i]);
+	}
+
+	cout << "Apres Nettoyage : " << endl;
+	for (int i = 0; i < ContourPoterie->size(); ++i)
+		cout << "Point " << i << " :\t" << (*ContourPoterie)[i]->x << "\t" << (*ContourPoterie)[i]->y << endl;
 
 
 
