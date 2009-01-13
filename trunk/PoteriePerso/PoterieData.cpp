@@ -56,7 +56,34 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 	}
 }
 
+void CPoterieData::CentreDeMasse(CPoterieImage * im)
+{
+	int indiceMilieu = pts.size()/2-1;
+	int deltaPartieSup = abs(eHaute-eMoyenne)/indiceMilieu;
+	int deltaPartieInf = abs(eMoyenne-eBasse)/indiceMilieu;
+	
+	int hauteurInterieure= pts[0]->y+eBase;
+	unsigned int i=pts.size()-1;
+	int j,k=1;
+	while(i>=0 && pts[i]->y>hauteurInterieure)
+	{
+		if(i>indiceMilieu)
+		{
+			ptsProfilInterne[i]->x=pts[i]->x+deltaPartieSup*j;
+			ptsProfilInterne[i]->y=pts[i]->y;
+			++j;
+		}
+		else
+		{
+			ptsProfilInterne[i]->x=pts[i]->x+deltaPartieInf*j;
+			ptsProfilInterne[i]->y=pts[i]->y;
+			++k;
+		}
+		--i;
+	}
 
+
+}
 void CPoterieData::RefreshListe(CListBox *liste)
 {
 	//Vidage de la liste 
