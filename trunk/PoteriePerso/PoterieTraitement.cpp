@@ -24,7 +24,7 @@ CPoterieSequence *seq = new CPoterieSequence();
 //Echelle par défaut
 double echelle = 0.076692;
 //Fichier d'enregistrement
-FILE *fichierSortie;
+FILE *fichierSortie = new FILE;
 
 void CPoteriePersoDlg::refresh ()
 {
@@ -116,18 +116,18 @@ void CPoteriePersoDlg::refresh ()
 			
 			//Enregistrement des points 
 			//Ouverture du fichier
-			//ouvertureFichier(fichierSortie,"C:\\hop.txt");
-			fichierSortie = fopen("C:\\hop.txt", "a");
+			fichierSortie = ouvertureFichier(fichierSortie,"C:\\hop.txt");
+			//fichierSortie = fopen("C:\\hop.txt", "a");
 			//Parcours de tous les points
 			vector <Point*> pts = *(seq->getImage(seq->getIdCour())->getContour());
 			for (int i=0; i<pts.size();++i)
 			{
-				//enregistrerPoints(fichierSortie, pts[i]);
-				fprintf(fichierSortie, "%d %d\n", pts[i]->x, pts[i]->y);
+				enregistrerPoints(fichierSortie, pts[i]);
+				//fprintf(fichierSortie, "%d %d\n", pts[i]->x, pts[i]->y);
 			}
 			//Fermeture du fichier
-			//fermetureFichier(fichierSortie);
-			fclose(fichierSortie);
+			fermetureFichier(fichierSortie);
+			//fclose(fichierSortie);
 			
 			//L'affichage d'image est bloquant ! alors, ne le faire qu'à la fin !
 			//seq->getImage(seq->getIdCour())->afficher_image();

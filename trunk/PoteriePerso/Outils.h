@@ -19,9 +19,10 @@ inline CString Char2CString(char * chaine)
 }
 
 //Ouverture fichier
-inline void ouvertureFichier(FILE* fichier, char* path)
+inline FILE* ouvertureFichier(FILE* fichier, char* path)
 {
 	fichier = fopen(path, "a");
+	return fichier;
 }
 
 //Fermeture fichier
