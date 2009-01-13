@@ -116,7 +116,10 @@ void CPoteriePersoDlg::refresh ()
 			
 			//Enregistrement des points 
 			//Ouverture du fichier
-			fichierSortie = ouvertureFichier(fichierSortie,"C:\\hop.txt");
+			char path[100];
+			sprintf(path,"C:\\data_source_%d",seq->getIdCour());
+
+			fichierSortie = ouvertureFichier(fichierSortie,path);
 			//fichierSortie = fopen("C:\\hop.txt", "a");
 			//Parcours de tous les points
 			vector <Point*> pts = *(seq->getImage(seq->getIdCour())->getContour());
