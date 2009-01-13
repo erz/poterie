@@ -133,7 +133,7 @@ void CPoteriePersoDlg::refresh ()
 			//fclose(fichierSortie);
 			
 			//L'affichage d'image est bloquant ! alors, ne le faire qu'à la fin !
-			//seq->getImage(seq->getIdCour())->afficher_image();
+			seq->getImage(seq->getIdCour())->afficher_image();
 
 		}
 	}
