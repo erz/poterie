@@ -499,7 +499,7 @@ void CPoterieImage::trouver_contour()
 			//cout<<"Pt X:"<<pt[0].x<<"\tPt Y:"<<pt[0].y<<endl;
 			//cout<<"Pt X:"<<pt[1].x<<"\tPt Y:"<<pt[1].y<<endl;
 			//cout<<"*******************************"<<endl;
-			cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
+			cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(0,0,255), 1, 0, 0 );
 			Pttmp->x=pt[0].x;Pttmp->y=pt[0].y;
 			Pttmp2->x=pt[1].x;Pttmp2->y=pt[1].y;
 			cout << "Pttmp1 :\t" << Pttmp->x << "\t" << Pttmp->y << endl; 
@@ -512,6 +512,7 @@ void CPoterieImage::trouver_contour()
 
 	//Nettoyage du contour par suppression des points en double
 	ContourPoterie = new std::vector<Point *>;
+	
 
 	for (int i = 0; i < TempContourPoterie->size(); ++i)
 	{
@@ -519,24 +520,59 @@ void CPoterieImage::trouver_contour()
 		bool existePoint = false;
 		for (int j=0; j < ContourPoterie->size(); ++j)
 		{
-			std::vector<Point *> src = *(TempContourPoterie);
-			std::vector<Point *> dest = *(ContourPoterie);
-			if (dest[j]->x == src[i]->x && dest[j]->y == src[i]->y)
+			if ((*ContourPoterie)[j]->x == (*TempContourPoterie)[i]->x && (*ContourPoterie)[j]->y == (*TempContourPoterie)[i]->y)
 			{
 				existePoint = true;
 				break;
 			}
 		}
+
 		//S'il n'est pas déja, on le met
 		if (existePoint == false)
 			ContourPoterie->push_back((*TempContourPoterie)[i]);
 	}
-
+	
 	cout << "Apres Nettoyage : " << endl;
-	for (int i = 0; i < ContourPoterie->size(); ++i)
+	for (int i = 0; i+1 < ContourPoterie->size(); i+=2)
+	{
+		CvPoint pt[2], *rect = pt;
+		int count=2;
+		pt[0].x=(*ContourPoterie)[i]->x;
+		pt[0].y=(*ContourPoterie)[i]->y;
+		pt[1].x=(*ContourPoterie)[i+1]->x;
+		pt[1].y=(*ContourPoterie)[i+1]->y;
+		cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
 		cout << "Point " << i << " :\t" << (*ContourPoterie)[i]->x << "\t" << (*ContourPoterie)[i]->y << endl;
 
+	}
 
+	bool effacement=false;
+
+		float moyenne=((*ContourPoterie)[0]->y+(*ContourPoterie)[1]->y+(*ContourPoterie)[2]->y)/3.0;
+		int j=3;
+		
+		while(j<ContourPoterie->size() && fabs((float)(*ContourPoterie)[j]->y-moyenne)<=1)
+		{
+			j++;
+			effacement = true;
+		}
+
+		if(effacement) ContourPoterie->erase(ContourPoterie->begin(),ContourPoterie->begin()+j-1);
+	/*
+	cout << "Apres Nettoyage 2: " << endl;
+	for (int i = 0; i+1 < ContourPoterie->size(); i+=2)
+	{
+		CvPoint pt[2], *rect = pt;
+		int count=2;
+		pt[0].x=(*ContourPoterie)[i]->x;
+		pt[0].y=(*ContourPoterie)[i]->y;
+		pt[1].x=(*ContourPoterie)[i+1]->x;
+		pt[1].y=(*ContourPoterie)[i+1]->y;
+		cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
+		cout << "Point " << i << " :\t" << (*ContourPoterie)[i]->x << "\t" << (*ContourPoterie)[i]->y << endl;
+
+	}
+*/
 
 	//cout<<"Nbres de points:\t"<<compteurSelection<<endl;
 	/*****************************************************************************/
