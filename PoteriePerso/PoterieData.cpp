@@ -52,14 +52,15 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		
 		volume=0;
 		surface=0;
-		for (unsigned int i=0; i < pts.size()-1; i+=2)
+		for (unsigned int i=0; i < pts.size()-1; i++)
 		{
 			float base1=(ctrWidth-pts[i]->x)*echelle;
 			float base2=(ctrWidth-pts[i+1]->x)*echelle;
 			float generatrice=sqrt(pow((float)(pts[i]->x-pts[i+1]->x)*echelle,2)+pow((float)(pts[i]->y-pts[i+1]->y)*echelle,2) );
 			float hauteurSection=abs((pts[i]->y-pts[i+1]->y))*echelle;
 
-			volume+=(PI*(hauteurSection)*(base1*base1+base1*base2+base2*base2))/3.0;
+			//volume+=(PI*(hauteurSection)*(base1*base1+base1*base2+base2*base2))/3.0;
+			volume+=((PI*pow(base2,2)*hauteurSection)/3.0)*(1+(base1/base2)+(pow(base1,2)/pow(base2,2)));
 			surface+=PI*(base1+base2)*generatrice;
 
 		}
