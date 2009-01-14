@@ -12,3 +12,8 @@ extern double echelle;
 
 //Fichier d'enregistrement des données
 extern FILE *fichierSortie;
+
+//Données dépendantes de la forme de la poterie
+extern int formePoterie;
+extern double epaisseurBase;
+// ... A completer

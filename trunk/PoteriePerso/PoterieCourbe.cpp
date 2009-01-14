@@ -71,7 +71,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 
 
 	//Bspline
-	for(int i=0;i<pts->size()-1;i++)
+	for(unsigned int i=0;i<pts->size()-1;i++)
 	{
 		tmp->x= (points[i]->x+points[i+1]->x)/2;
 		if((points[i+1]->x-points[i]->x)>0.0001)
@@ -107,7 +107,7 @@ void CPoterieCourbe::rebuild(vector <Point *> *pts)
 	// precompute length(i) = length of the snake from start to point #i
 	double *clength = new double[snake.size()+1];
 	clength[0]=0;
-	for(int i=0;i<snake.size();i++) 
+	for(unsigned int i=0;i<snake.size();i++) 
 	{
 		Point cur   = *(snake[i]);
 		Point next  = *(snake[(i+1)%snake.size()]);

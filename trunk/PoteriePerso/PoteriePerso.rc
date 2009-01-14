@@ -98,7 +98,11 @@ BEGIN
     LTEXT           "Variables géométriques",IDTEXT,251,66,85,8,NOT WS_VISIBLE
     CONTROL         "",IDPIC,"Static",SS_BITMAP,33,54,172,117
     PUSHBUTTON      "Etalonner",IDETALONNER,191,20,50,16
-    LTEXT           "Bienvenue ! Ouvrez un dossier d'une séquence d'images pour commencer.",IDTEXTEBIENVENUE,97,116,237,19
+    CTEXT           "Bienvenue ! Ouvrez un dossier d'une séquence d'images pour commencer.\nN'oubliez pas d'étalonner si besoin est, ainsi que de choisir le bon type de poterie !",IDTEXTEBIENVENUE,97,116,265,19
+    CONTROL         "Type1",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,151,220,36,10
+    CONTROL         "Type2",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,200,220,36,10
+    CONTROL         "Type3",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,257,220,36,10
+    GROUPBOX        "Type",IDC_GROUPTYPE,133,208,170,36
 END
 
 
