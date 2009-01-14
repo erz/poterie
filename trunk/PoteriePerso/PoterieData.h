@@ -24,7 +24,8 @@ class CPoterieData
 		int ouverture;
 		int maxDiam;
 		int maxDiamHauteur;
-		int volume;
+		float volume;
+		float surface;
 		int surfaceVolumique;
 		int eHaute;
 		int eMoyenne;
