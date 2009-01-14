@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "PoterieData.h"
+#include <math.h>
 
 #include "VariablesGlobales.h"
+
+#define PI 3.14159265
 
 CPoterieData::CPoterieData(CPoterieImage *im)
 {
@@ -46,7 +49,20 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 				baseHauteur = pts[i]->y;
 			}
 		}
+		
+		volume=0;
+		surface=0;
+		for (unsigned int i=0; i < pts.size()-1; i+=2)
+		{
+			float base1=(ctrWidth-pts[i]->x)*echelle;
+			float base2=(ctrWidth-pts[i+1]->x)*echelle;
+			float generatrice=sqrt(pow((float)(pts[i]->x-pts[i+1]->x)*echelle,2)+pow((float)(pts[i]->y-pts[i+1]->y)*echelle,2) );
+			float hauteurSection=abs((pts[i]->y-pts[i+1]->y))*echelle;
 
+			volume+=(PI*(hauteurSection)*(base1*base1+base1*base2+base2*base2))/3.0;
+			surface+=PI*(base1+base2)*generatrice;
+
+		}
 		//On a toutes les variables : on les traite pour avoir les bons résultats.
 		ouverture = (ctrWidth-ouverture)*2;
 		hauteur = (baseHauteur-hauteur);
@@ -84,6 +100,7 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 
 
 }
+
 void CPoterieData::RefreshListe(CListBox *liste)
 {
 	//Vidage de la liste 
@@ -101,6 +118,10 @@ void CPoterieData::RefreshListe(CListBox *liste)
 	diamHaut.Format(CString("Hauteur du diamètre max : %.4lf cm"), maxDiamHauteur*echelle);
 	CString bas;
 	bas.Format(CString("Base : %.4lf cm"), base*echelle);
+	CString Surface;
+	Surface.Format(CString("Surface : %.4lf cm²"), surface);
+	CString Volume;
+	Volume.Format(CString("Volume : %.4lf cm3"), volume);
 
 
 	liste->AddString(ouv);
@@ -108,4 +129,6 @@ void CPoterieData::RefreshListe(CListBox *liste)
 	liste->AddString(diam);
 	liste->AddString(diamHaut);
 	liste->AddString(bas);
+	liste->AddString(Surface);
+	liste->AddString(Volume);
 }

@@ -243,14 +243,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MDBSpline.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MDLissage.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Outils.h"
 				>
 			</File>
