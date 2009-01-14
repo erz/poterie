@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "PoterieCourbe.h"
+#include "InterpolationSpline.h"
 #include <vector>
 #include <cv.h>
 #include <cxcore.h>
 #include <highgui.h>
 #include <math.h>
-
+gs
 using namespace std;
 
 int CPoterieCourbe::B0(int i,int x)
@@ -53,6 +54,7 @@ void CPoterieCourbe::calculcoeff(int n,vector<Point *> points)
 }
 void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 {
+	/*
 	IplImage *img=cvCreateImage( cvSize(300,300), 8, 3);
 	vector<Point *> points=*(pts);
 	vector<Point *>Spline ;
@@ -88,7 +90,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	
 	cvShowImage("Interpolation",img);
 	cvWaitKey(0);
-	
+	*/
 }
 
 double distance2D(Point A, Point B) {
@@ -172,6 +174,6 @@ void CPoterieCourbe::rebuild(vector <Point *> *pts)
 
 CPoterieCourbe::CPoterieCourbe (vector <Point *> *pts)
 {
-	//InterpolationBSpline(pts);
-	rebuild(pts);
+	InterpolationBSpline(pts);
+	//rebuild(pts);
 }
