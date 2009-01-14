@@ -60,4 +60,7 @@ public:
 	afx_msg void OnBnClickedRadio2();
 	afx_msg void OnBnClickedRadio1();
 	afx_msg void OnBnClickedRadio3();
+	CButton radio1;
+	CButton radio2;
+	CButton radio3;
 };
