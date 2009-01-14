@@ -69,6 +69,7 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		maxDiam = (ctrWidth-maxDiam)*2;
 		maxDiamHauteur = (baseHauteur-maxDiamHauteur);
 		base = (ctrWidth-base)*2;
+		circularite= pow(surface,3)/pow(volume,2);
 	}
 }
 
@@ -122,7 +123,8 @@ void CPoterieData::RefreshListe(CListBox *liste)
 	Surface.Format(CString("Surface : %.4lf cm²"), surface);
 	CString Volume;
 	Volume.Format(CString("Volume : %.4lf cm3"), volume);
-
+	CString Circularite;
+	Circularite.Format(CString("Circularite : %.2lf "), circularite);
 
 	liste->AddString(ouv);
 	liste->AddString(haut);
@@ -131,4 +133,5 @@ void CPoterieData::RefreshListe(CListBox *liste)
 	liste->AddString(bas);
 	liste->AddString(Surface);
 	liste->AddString(Volume);
+	liste->AddString(Circularite);
 }

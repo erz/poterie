@@ -31,6 +31,7 @@ class CPoterieData
 		int eMoyenne;
 		int eBasse;
 		int eBase;
+		float circularite;
 		std::vector<Point *> pts;
 		std::vector<Point *> ptsProfilInterne;
 };
