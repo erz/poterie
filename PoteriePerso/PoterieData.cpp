@@ -85,12 +85,12 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 	float deltaPartieSup = abs(eHaute-eMoyenne)/indiceMilieu;
 	float deltaPartieInf = abs(eMoyenne-eBasse)/indiceMilieu;
 	
-	int hauteurInterieure= pts[0]->y + eBase;
+	int hauteurInterieure= pts[pts.size()-1]->y + eBase;
 	unsigned int i=0;
 	int j=1;
 	int k=1;
 	
-	while(i<(pts.size()-1) /*&& pts[i]->y > hauteurInterieure*/)
+	while(i<(pts.size()-1) && pts[i]->y <= hauteurInterieure)
 	{
 		Point *tmp=new Point();
 		if(i<indiceMilieu)
@@ -131,7 +131,7 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 	cout<<"Volume interieur:\t"<<volumeInterieur<<endl;
 	
 
-
+	
 }
 
 void CPoterieData::RefreshListe(CListBox *liste)
