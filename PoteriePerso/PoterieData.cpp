@@ -12,7 +12,7 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 	{
 		int ctrWidth = im->getWidthCtr();
 		int ctrHeight = im->getHeightCtr();
-
+		
 		base = 0; 
 		int baseHauteur = 0;
 		hauteur = ctrHeight; 
@@ -20,8 +20,12 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		maxDiam = ctrWidth;
 		maxDiamHauteur = 0;
 
-
-		std::vector<Point *> pts = *(im->getContour());
+		//epaisseurs;
+		eHaute=0;
+		eMoyenne=0;
+		eBasse=0;
+		eBase=0;
+		pts = *(im->getContour());
 		for (unsigned int i=0; i < pts.size(); ++i)
 		{
 			//std::cout << "X\t" << pts[i]->x << "\tY\t" << pts[i]->y << std::endl;
@@ -49,7 +53,7 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 				baseHauteur = pts[i]->y;
 			}
 		}
-		
+		CentreDeMasse(im);
 		volume=0;
 		surface=0;
 		for (unsigned int i=0; i < pts.size()-1; i++)
@@ -76,16 +80,18 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 
 void CPoterieData::CentreDeMasse(CPoterieImage * im)
 {
+	cout<<"calcul centre de masse"<<endl;
 	int indiceMilieu = pts.size()/2-1;
-	int deltaPartieSup = abs(eHaute-eMoyenne)/indiceMilieu;
-	int deltaPartieInf = abs(eMoyenne-eBasse)/indiceMilieu;
+	float deltaPartieSup = abs(eHaute-eMoyenne)/indiceMilieu;
+	float deltaPartieInf = abs(eMoyenne-eBasse)/indiceMilieu;
 	
-	int hauteurInterieure= pts[0]->y+eBase;
-	unsigned int i=pts.size()-1;
+	int hauteurInterieure= pts[0]->y + eBase;
+	unsigned int i=0;
 	int j,k=1;
-	while(i>=0 && pts[i]->y>hauteurInterieure)
+	while(i<(pts.size()-1) /*&& pts[i]->y > hauteurInterieure*/)
 	{
-		if(i>indiceMilieu)
+		
+		if(i<indiceMilieu)
 		{
 			ptsProfilInterne[i]->x=pts[i]->x+deltaPartieSup*j;
 			ptsProfilInterne[i]->y=pts[i]->y;
@@ -97,7 +103,7 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 			ptsProfilInterne[i]->y=pts[i]->y;
 			++k;
 		}
-		--i;
+		++i;
 	}
 
 

@@ -547,8 +547,8 @@ void CPoterieImage::trouver_contour()
 		pt[1].x=(*ContourPoterie)[i+1]->x;
 		pt[1].y=(*ContourPoterie)[i+1]->y;
 		cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
-		cout << "Point " << i << " :\t" << (*ContourPoterie)[i]->x << "\t" << (*ContourPoterie)[i]->y << endl;
-		cout << "Point " << i+1 << " :\t" << (*ContourPoterie)[i+1]->x << "\t" << (*ContourPoterie)[i+1]->y << endl;
+		//cout << "Point " << i << " :\t" << (*ContourPoterie)[i]->x << "\t" << (*ContourPoterie)[i]->y << endl;
+		//cout << "Point " << i+1 << " :\t" << (*ContourPoterie)[i+1]->x << "\t" << (*ContourPoterie)[i+1]->y << endl;
 
 	}
 /*
