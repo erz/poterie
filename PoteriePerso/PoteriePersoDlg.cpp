@@ -72,6 +72,7 @@ void CPoteriePersoDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDPREC, boutonPrecedent);
 	DDX_Control(pDX, IDSUIV, boutonSuivant);
 	DDX_Control(pDX, IDTEXT, texteListe);
+	DDX_Control(pDX, IDC_GROUPTYPE, groupeBoutonsType);
 }
 
 BEGIN_MESSAGE_MAP(CPoteriePersoDlg, CDialog)
@@ -86,6 +87,9 @@ BEGIN_MESSAGE_MAP(CPoteriePersoDlg, CDialog)
 	ON_BN_CLICKED(IDSUIV, &CPoteriePersoDlg::OnBnClickedSuiv)
 	ON_BN_CLICKED(IDSAUVER, &CPoteriePersoDlg::OnBnClickedSauver)
 	ON_BN_CLICKED(IDETALONNER, &CPoteriePersoDlg::OnBnClickedEtalonner)
+	ON_BN_CLICKED(IDC_RADIO2, &CPoteriePersoDlg::OnBnClickedRadio2)
+	ON_BN_CLICKED(IDC_RADIO1, &CPoteriePersoDlg::OnBnClickedRadio1)
+	ON_BN_CLICKED(IDC_RADIO3, &CPoteriePersoDlg::OnBnClickedRadio3)
 END_MESSAGE_MAP()
 
 
@@ -221,6 +225,7 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 				//Affichage de l'ihm
 			   	boutonEtalonner.ShowWindow(SW_HIDE);
 				texteBienvenue.ShowWindow(SW_HIDE);
+				groupeBoutonsType.ShowWindow(SW_HIDE);
 				listeVars.ShowWindow(SW_SHOW);
 				boutonSauver.ShowWindow(SW_SHOW);
 				boutonPrecedent.ShowWindow(SW_SHOW);
@@ -255,7 +260,9 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 					seq->addImage(finder.GetFileName());
 				}
 
-				
+				//Remplissage des valeurs en fonction de la forme
+				remplirValeursSelonForme();
+
 				//Rafraichissement des données
 				refresh();
 
@@ -309,4 +316,19 @@ void CPoteriePersoDlg::OnBnClickedEtalonner()
 	{
 		etalonnerAvecImage(fOpenDlg.GetPathName());
 	}
+}
+
+void CPoteriePersoDlg::OnBnClickedRadio1()
+{
+	formePoterie = 1;
+}
+
+void CPoteriePersoDlg::OnBnClickedRadio2()
+{
+	formePoterie = 2;	
+}
+
+void CPoteriePersoDlg::OnBnClickedRadio3()
+{
+	formePoterie = 3;
 }

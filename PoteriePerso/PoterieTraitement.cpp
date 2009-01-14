@@ -25,6 +25,10 @@ CPoterieSequence *seq = new CPoterieSequence();
 double echelle = 0.076692;
 //Fichier d'enregistrement
 FILE *fichierSortie = new FILE;
+//Données dépendantes de la forme de la poterie
+int formePoterie = 1;
+double epaisseurBase = 0;
+// ... A completer
 
 void CPoteriePersoDlg::refresh ()
 {
@@ -117,13 +121,13 @@ void CPoteriePersoDlg::refresh ()
 			//Enregistrement des points 
 			//Ouverture du fichier
 			char path[100];
-			sprintf(path,"C:\\data_source_%d",seq->getIdCour());
+			sprintf_s(path,"C:\\data_source_%d",seq->getIdCour());
 
 			fichierSortie = ouvertureFichier(fichierSortie,path);
 			//fichierSortie = fopen("C:\\hop.txt", "a");
 			//Parcours de tous les points
 			vector <Point*> pts = *(seq->getImage(seq->getIdCour())->getContour());
-			for (int i=0; i<pts.size();++i)
+			for (unsigned int i=0; i<pts.size();++i)
 			{
 				enregistrerPoints(fichierSortie, pts[i]);
 				//fprintf(fichierSortie, "%d %d\n", pts[i]->x, pts[i]->y);
@@ -204,7 +208,7 @@ void CPoterieImage::filtreMoyenNVG(IplImage *src, IplImage *dst, int voisinage){
     CvRect roi=cvRect(0,0,voisinage,voisinage);
     
     //On initialise un entier, pour la moyenne
-    int moyenne=0;
+    double moyenne=0;
     
     //Un petit scalaire pour la route ^^
     CvScalar scalaire;
@@ -283,7 +287,7 @@ void CPoterieImage::filtreMedianNVG(IplImage *src, IplImage *dst, int voisinage)
     CvRect roi=cvRect(0,0,voisinage,voisinage);
     
     //On initialise un tableau d'entiers, pour le calcul de la médiane
-    int *voisins=new int[voisinage*voisinage];
+    double *voisins=new double[voisinage*voisinage];
     
     //Un petit scalaire pour la route ^^
     CvScalar scalaire;
@@ -493,13 +497,13 @@ void CPoterieImage::trouver_contour()
         CV_READ_SEQ_ELEM( pt[1], reader );
 		Point * Pttmp= new Point();
 		Point * Pttmp2= new Point();
-		float longeur = abs(pt[0].x-pt[1].x);
+		int longeur = abs(pt[0].x-pt[1].x);
 		if(pt[0].x>30 && pt[0].y>20 && pt[1].x>10 && pt[1].y>15 && pt[0].x<300 && longeur<20)
 		{
 			//cout<<"Pt X:"<<pt[0].x<<"\tPt Y:"<<pt[0].y<<endl;
 			//cout<<"Pt X:"<<pt[1].x<<"\tPt Y:"<<pt[1].y<<endl;
 			//cout<<"*******************************"<<endl;
-			cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(0,0,255), 1, 0, 0 );
+			//cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(0,0,255), 1, 0, 0 );
 			Pttmp->x=pt[0].x;Pttmp->y=pt[0].y;
 			Pttmp2->x=pt[1].x;Pttmp2->y=pt[1].y;
 			cout << "Pttmp1 :\t" << Pttmp->x << "\t" << Pttmp->y << endl; 
@@ -514,13 +518,14 @@ void CPoterieImage::trouver_contour()
 	ContourPoterie = new std::vector<Point *>;
 	
 
-	for (int i = 0; i < TempContourPoterie->size(); ++i)
+	for (unsigned int i = 0; i < TempContourPoterie->size(); ++i)
 	{
-		//Est-ce que le point qu'on veut mettre existe déjà 	
+		//Est-ce que le point qu'on veut mettre existe déjà, ici ou sur cette ligne (y)
 		bool existePoint = false;
-		for (int j=0; j < ContourPoterie->size(); ++j)
+		for (unsigned int j=0; j < ContourPoterie->size(); ++j)
 		{
-			if ((*ContourPoterie)[j]->x == (*TempContourPoterie)[i]->x && (*ContourPoterie)[j]->y == (*TempContourPoterie)[i]->y)
+			//if ((*ContourPoterie)[j]->x == (*TempContourPoterie)[i]->x && (*ContourPoterie)[j]->y == (*TempContourPoterie)[i]->y)
+			if (abs((*ContourPoterie)[j]->y -(*TempContourPoterie)[i]->y)<=1)
 			{
 				existePoint = true;
 				break;
@@ -533,7 +538,7 @@ void CPoterieImage::trouver_contour()
 	}
 	
 	cout << "Apres Nettoyage : " << endl;
-	for (int i = 0; i+1 < ContourPoterie->size(); i+=2)
+	for (unsigned int i = 0; i+1 < ContourPoterie->size(); i+=2)
 	{
 		CvPoint pt[2], *rect = pt;
 		int count=2;
@@ -543,24 +548,25 @@ void CPoterieImage::trouver_contour()
 		pt[1].y=(*ContourPoterie)[i+1]->y;
 		cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
 		cout << "Point " << i << " :\t" << (*ContourPoterie)[i]->x << "\t" << (*ContourPoterie)[i]->y << endl;
+		cout << "Point " << i+1 << " :\t" << (*ContourPoterie)[i+1]->x << "\t" << (*ContourPoterie)[i+1]->y << endl;
 
 	}
-
+/*
 	bool effacement=false;
 
-		float moyenne=((*ContourPoterie)[0]->y+(*ContourPoterie)[1]->y+(*ContourPoterie)[2]->y)/3.0;
-		int j=3;
-		
-		while(j<ContourPoterie->size() && fabs((float)(*ContourPoterie)[j]->y-moyenne)<=1)
-		{
-			j++;
-			effacement = true;
-		}
+	double moyenne=((*ContourPoterie)[0]->y+(*ContourPoterie)[1]->y+(*ContourPoterie)[2]->y)/3.0;
+	unsigned int j=3;
+	while(j<ContourPoterie->size() && fabs((float)(*ContourPoterie)[j]->y-moyenne)<=1)
+	{
+		j++;
+		effacement = true;
+	}
 
-		if(effacement) ContourPoterie->erase(ContourPoterie->begin(),ContourPoterie->begin()+j-1);
-	/*
+	if(effacement) 
+		ContourPoterie->erase(ContourPoterie->begin(),ContourPoterie->begin()+j-1);
+	
 	cout << "Apres Nettoyage 2: " << endl;
-	for (int i = 0; i+1 < ContourPoterie->size(); i+=2)
+	for (unsigned int i = 0; i+1 < ContourPoterie->size(); i+=2)
 	{
 		CvPoint pt[2], *rect = pt;
 		int count=2;
@@ -570,9 +576,8 @@ void CPoterieImage::trouver_contour()
 		pt[1].y=(*ContourPoterie)[i+1]->y;
 		cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
 		cout << "Point " << i << " :\t" << (*ContourPoterie)[i]->x << "\t" << (*ContourPoterie)[i]->y << endl;
-
-	}
-*/
+		cout << "Point " << i+1 << " :\t" << (*ContourPoterie)[i+1]->x << "\t" << (*ContourPoterie)[i+1]->y << endl;
+	}*/
 
 	//cout<<"Nbres de points:\t"<<compteurSelection<<endl;
 	/*****************************************************************************/
@@ -664,4 +669,28 @@ void mouseHandler(int event, int x, int y, int flags, void* param)
         break;
     }
 	
+}
+
+//Remplis les variables globales dépendantes de la forme en fonction de celle-ci
+void remplirValeursSelonForme()
+{
+	//Convention:
+	//1 = vase
+	//2 = ...
+	
+	switch (formePoterie)
+	{
+		case 1 :
+			//epaisseurBas = xxx
+			// ...
+			break;
+		case 2 :
+			//epaisseurBas = xxx
+			// ...
+			break;
+		// ...
+		default :
+			cout << "Mauvais choix de forme" << endl;
+	}
+
 }

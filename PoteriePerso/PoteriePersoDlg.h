@@ -56,4 +56,8 @@ public:
 	CButton boutonSuivant;
 	CStatic texteListe;
 	afx_msg void OnBnClickedEtalonner();
+	CStatic groupeBoutonsType;
+	afx_msg void OnBnClickedRadio2();
+	afx_msg void OnBnClickedRadio1();
+	afx_msg void OnBnClickedRadio3();
 };
