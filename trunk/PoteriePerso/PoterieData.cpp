@@ -89,10 +89,10 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 	unsigned int i=0;
 	int j=1;
 	int k=1;
-	Point *tmp=new Point();
+	
 	while(i<(pts.size()-1) /*&& pts[i]->y > hauteurInterieure*/)
 	{
-		cout<<"Boucle"<<endl;
+		Point *tmp=new Point();
 		if(i<indiceMilieu)
 		{
 			
@@ -108,8 +108,28 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 			ptsProfilInterne.push_back(tmp);
 			++k;
 		}
-		++i;
+		i++;
 	}
+	
+	cout<<"Apres translation"<<endl;
+	float volumeInterieur=0;
+	for (unsigned int i=0; i < ptsProfilInterne.size()-1; i++)
+		{
+			
+			float base1=(im->getWidthCtr()-ptsProfilInterne[i]->x)*echelle;
+			float base2=(im->getWidthCtr()-ptsProfilInterne[i+1]->x)*echelle;
+			float hauteurSection=abs((ptsProfilInterne[i]->y-ptsProfilInterne[i+1]->y))*echelle;
+			
+			cout<<"******************"<<endl;
+			cout<<"base1:\t"<<base1<<endl;
+			cout<<"base2:\t"<<base2<<endl;
+			cout<<"hauteur:\t"<<hauteurSection<<endl;
+			//volume+=(PI*(hauteurSection)*(base1*base1+base1*base2+base2*base2))/3.0;
+			volumeInterieur+=((PI*pow(base2,2)*hauteurSection)/3.0)*(1+(base1/base2)+(pow(base1,2)/pow(base2,2)));
+
+		}
+	cout<<"Volume interieur:\t"<<volumeInterieur<<endl;
+	
 
 
 }
