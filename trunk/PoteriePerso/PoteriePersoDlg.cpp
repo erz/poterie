@@ -73,6 +73,9 @@ void CPoteriePersoDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDSUIV, boutonSuivant);
 	DDX_Control(pDX, IDTEXT, texteListe);
 	DDX_Control(pDX, IDC_GROUPTYPE, groupeBoutonsType);
+	DDX_Control(pDX, IDC_RADIO1, radio1);
+	DDX_Control(pDX, IDC_RADIO2, radio2);
+	DDX_Control(pDX, IDC_RADIO3, radio3);
 }
 
 BEGIN_MESSAGE_MAP(CPoteriePersoDlg, CDialog)
@@ -226,6 +229,9 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 			   	boutonEtalonner.ShowWindow(SW_HIDE);
 				texteBienvenue.ShowWindow(SW_HIDE);
 				groupeBoutonsType.ShowWindow(SW_HIDE);
+				radio1.ShowWindow(SW_HIDE);
+				radio2.ShowWindow(SW_HIDE);
+				radio3.ShowWindow(SW_HIDE);
 				listeVars.ShowWindow(SW_SHOW);
 				boutonSauver.ShowWindow(SW_SHOW);
 				boutonPrecedent.ShowWindow(SW_SHOW);
