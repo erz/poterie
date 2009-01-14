@@ -87,20 +87,25 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 	
 	int hauteurInterieure= pts[0]->y + eBase;
 	unsigned int i=0;
-	int j,k=1;
+	int j=1;
+	int k=1;
+	Point *tmp=new Point();
 	while(i<(pts.size()-1) /*&& pts[i]->y > hauteurInterieure*/)
 	{
-		
+		cout<<"Boucle"<<endl;
 		if(i<indiceMilieu)
 		{
-			ptsProfilInterne[i]->x=pts[i]->x+deltaPartieSup*j;
-			ptsProfilInterne[i]->y=pts[i]->y;
+			
+			tmp->x=pts[i]->x+deltaPartieSup*j;
+			tmp->y=pts[i]->y;
+			ptsProfilInterne.push_back(tmp);
 			++j;
 		}
 		else
 		{
-			ptsProfilInterne[i]->x=pts[i]->x+deltaPartieInf*j;
-			ptsProfilInterne[i]->y=pts[i]->y;
+			tmp->x=pts[i]->x+deltaPartieInf*k;
+			tmp->y=pts[i]->y;
+			ptsProfilInterne.push_back(tmp);
 			++k;
 		}
 		++i;
