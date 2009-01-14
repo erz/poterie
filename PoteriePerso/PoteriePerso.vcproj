@@ -193,6 +193,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\InterpolationSpline.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PoterieCourbe.cpp"
 				>
 			</File>
@@ -240,6 +244,10 @@
 			>
 			<File
 				RelativePath=".\Console.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InterpolationSpline.h"
 				>
 			</File>
 			<File
