@@ -6,7 +6,7 @@
 #include <cxcore.h>
 #include <highgui.h>
 #include <math.h>
-gs
+
 using namespace std;
 
 int CPoterieCourbe::B0(int i,int x)
