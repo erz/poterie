@@ -17,7 +17,7 @@ class CPoterieData
 		CPoterieData(CPoterieImage*);
 		void RefreshListe(CListBox*);
 		void CentreDeMasse(CPoterieImage * im);
-		
+	
 	private:
 		int base;
 		int hauteur; 
@@ -27,11 +27,19 @@ class CPoterieData
 		float volume;
 		float surface;
 		int surfaceVolumique;
-		int eHaute;
-		int eMoyenne;
-		int eBasse;
-		int eBase;
+		float eHaute;
+		float eMoyenne;
+		float eBasse;
+		float eBase;
 		float circularite;
 		std::vector<Point *> pts;
 		std::vector<Point *> ptsProfilInterne;
 };
+
+struct TriAscendant
+	{		
+		inline bool operator() (Point * a, Point * b) const
+		{
+				return a->y < b->y;
+		}
+	};
