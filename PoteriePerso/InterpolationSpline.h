@@ -11,10 +11,10 @@ typedef float *matrice;
 typedef float* coor_pts; 
 typedef float* vecteur_parametres; 
 typedef int* table_travail_int;
-typedef float coor_pts_controle_c[MAX_PTS_C+1];      /* toujours le dilemme  n points, n+1 points */
-typedef float vecteur_noeuds[MAX_PTS_C+1+MAX_ORDRE]; /* idem */
-typedef float table_fonctions[MAX_ORDRE+1];
-typedef float table_travail[1+MAX_ORDRE*(MAX_ORDRE+1)/2];
+typedef float* coor_pts_controle_c;      /* toujours le dilemme  n points, n+1 points */
+typedef float* vecteur_noeuds; /* idem */
+typedef float* table_fonctions;
+typedef float* table_travail;
 
 
 /*
