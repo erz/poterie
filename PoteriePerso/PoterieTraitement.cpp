@@ -506,8 +506,8 @@ void CPoterieImage::trouver_contour()
 			//cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(0,0,255), 1, 0, 0 );
 			Pttmp->x=pt[0].x;Pttmp->y=pt[0].y;
 			Pttmp2->x=pt[1].x;Pttmp2->y=pt[1].y;
-			cout << "Pttmp1 :\t" << Pttmp->x << "\t" << Pttmp->y << endl; 
-			cout << "Pttmp2 :\t" << Pttmp2->x << "\t" << Pttmp2->y << endl;
+			//cout << "Pttmp1 :\t" << Pttmp->x << "\t" << Pttmp->y << endl; 
+			//cout << "Pttmp2 :\t" << Pttmp2->x << "\t" << Pttmp2->y << endl;
 			TempContourPoterie->push_back(Pttmp);
 			TempContourPoterie->push_back(Pttmp2);
 			//compteurSelection=compteurSelection+2;
@@ -537,7 +537,7 @@ void CPoterieImage::trouver_contour()
 			ContourPoterie->push_back((*TempContourPoterie)[i]);
 	}
 	
-	cout << "Apres Nettoyage : " << endl;
+	//cout << "Apres Nettoyage : " << endl;
 	for (unsigned int i = 0; i+1 < ContourPoterie->size(); i+=2)
 	{
 		CvPoint pt[2], *rect = pt;

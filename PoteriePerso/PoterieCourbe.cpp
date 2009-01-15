@@ -54,44 +54,6 @@ void CPoterieCourbe::calculcoeff(int n,vector<Point *> points)
 }
 void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 {
-	/*
-	IplImage *img=cvCreateImage( cvSize(300,300), 8, 3);
-	vector<Point *> points=*(pts);
-	vector<Point *>Spline ;
-	Point * tmp=new Point();
-
-
-	//Vecteur de noeud
-	t[0]=t[1]=t[2]=0;
-	int c=0;
-	for(int j=3;j<96;j++)
-	{
-		t[j]=c-3;
-		c++;
-	}
-	t[96]=t[97]=t[98]=c+1;
-
-
-	//Bspline
-	for(unsigned int i=0;i<pts->size()-1;i++)
-	{
-		tmp->x= (points[i]->x+points[i+1]->x)/2;
-		if((points[i+1]->x-points[i]->x)>0.0001)
-			tmp->y= points[i]->y + ( (points[i+1]->y - points[i]->y) / (points[i+1]->x-points[i]->x))*(tmp->x-points[i]->x);
-		else tmp->y= points[i]->y;
-		
-		//cout<<"Point "<<i<<" x: "<<tmp->x<<"\ty: "<<tmp->y<<endl;
-		cvCircle(img,cvPoint(tmp->x,tmp->y),1,CV_RGB(0,255,0),1);
-		//Spline.push_back(tmp);
-	}
-	
-	
-	cvNamedWindow("Interpolation",CV_WINDOW_AUTOSIZE);
-	
-	cvShowImage("Interpolation",img);
-	cvWaitKey(0);
-	*/
-
 	////////////////////////////
 	//Methode MD
 	///////////////////////////////
@@ -106,6 +68,9 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	//Nombre de points de controle
 	int m = 20;
 
+	if (m>n)
+		m = n;
+
 	//Coordonnées des points d'entrée
 	coor_pts	x = MemVecteurFloat(n);
 	coor_pts	y = MemVecteurFloat(n);
@@ -115,7 +80,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 		x[i] = (float)(*pts)[i]->x;
 		y[i] = (float)(*pts)[i]->y;
 
-		cout << x[i] << "\t" << y[i] << endl;
+		//cout << x[i] << "\t" << y[i] << endl;
 	}
 
 	//Coordonnées des points de controle
@@ -161,6 +126,20 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 
 	//Approximation de la BSpline
 	li2coc(x,y,n,m,k,vzeta,bnik,n+1,b,jf,xcontr,ycontr,vknot,&imax,&ir, &condi,&emoy,&esup);
+
+	
+	cout << "Points d'entree" << endl;
+	for (int i = 0; i < n; ++i)
+		cout << x[i] << " " << y[i] << endl;
+
+	cout << "Points de controle" << endl;
+	for (int i = 0; i < m; ++i)
+		cout << xcontr[i] << " " << ycontr[i] << endl;
+
+	cout << "Vecteur de noeud" << endl;
+	for (int i = 0; i < imax; ++i)
+		cout << vknot[i] << endl;
+
 
 	//Liberation mémoire
 	FreeVecteurFloat(&x);
@@ -255,7 +234,6 @@ void CPoterieCourbe::rebuild(vector <Point *> *pts)
 
 CPoterieCourbe::CPoterieCourbe (vector <Point *> *pts)
 {
-	cout << "HAHAH" << endl;
 	InterpolationBSpline(pts);
 	//rebuild(pts);
 }
