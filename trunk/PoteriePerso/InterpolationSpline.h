@@ -15,11 +15,33 @@ typedef float* coor_pts_controle_c;      /* toujours le dilemme  n points, n+1 p
 typedef float* vecteur_noeuds; /* idem */
 typedef float* table_fonctions;
 typedef float* table_travail;
+typedef float* vecteur_float;
+typedef int* vecteur_int;
+
 
 
 /*
              fonctions
  */
+
+/*----Allocation mémoire
+*
+********************************/
+
+vecteur_float MemVecteurFloat(int n);
+
+void FreeVecteurFloat(vecteur_float *v);
+
+vecteur_int MemVecteurInt(int n);
+
+void FreeVecteurInt(vecteur_int *v);
+
+
+//Fonction de parametrisation
+void parameterization(coor_pts x, coor_pts y, int n,int m,int k,vecteur_parametres zeta, 
+					  coor_pts_controle_c xcontr,coor_pts_controle_c ycontr,
+					  vecteur_noeuds vknot, int* imax, int *ir,
+                      float* condi, float* emoy, float* esup, int choix_para, int choix_noeuds);
 
 /*
        vecteur_noeuds   vknot;
