@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Modelisation3D.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PoterieCourbe.cpp"
 				>
 			</File>
@@ -248,6 +252,10 @@
 			</File>
 			<File
 				RelativePath=".\InterpolationSpline.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Modelisation3D.h"
 				>
 			</File>
 			<File
