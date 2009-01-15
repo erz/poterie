@@ -45,6 +45,11 @@ void parameterization(coor_pts x, coor_pts y, int n,int m,int k,vecteur_parametr
 //Fonction interne de parametrisation
 void parac2(coor_pts x, coor_pts y, int n, vecteur_parametres zeta, float tmax, float e);
 
+//Fonction interne de création du vecteur de noeud
+void cvkno1(int n,int k,int *imax,vecteur_noeuds vknot);
+
+//Fonction de creation du vecteur de noeud
+void knots(int n, int m, int k, vecteur_parametres zeta, int* imax, vecteur_noeuds vknot, int choix);
 
 /*
        vecteur_noeuds   vknot;

@@ -150,6 +150,39 @@ else
       }
    }
 }
+
+//Fonction interne de création du vecteur de noeud
+void cvkno1(int n,int k,int *imax,vecteur_noeuds vknot)
+{
+	int i,mmax;
+
+	mmax=n-k+2;
+	for (i=0;i<=k-2;i=i+1)
+		vknot[i]=0;
+	for (i=0;i<=mmax;i=i+1)
+	   vknot[i+k-1]=i;
+	for (i=0;i<=k-2;i=i+1)
+	   vknot[i+k+mmax]=mmax;
+	*imax=n+k;
+	return;
+} /* cvkno1 */
+
+//Calcul du vecteur de noeuds
+void knots(int n, int m, int k, vecteur_parametres zeta, int* imax, vecteur_noeuds vknot, int choix)
+{
+   *imax=m+k;
+   switch (choix) { 
+      case 1 : cvkno1(m, k, imax, vknot);
+               break;
+	  default :
+		  std::cout << "Erreur de création du vecteur de noeud" << std::endl;
+   }
+
+   return;
+} /* knots */
+
+
+
 /*---------------------------------------------------------------------------------------*/
 /*---------------------------------------------------------------------------------------*/
 /*                     calcul des k fonctions de base non nulles en t
