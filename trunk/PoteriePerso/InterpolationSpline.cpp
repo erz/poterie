@@ -42,12 +42,11 @@ void parameterization(coor_pts x, coor_pts y, int n,int m,int k,vecteur_parametr
 					  vecteur_noeuds vknot, int* imax, int *ir,
                       float* condi, float* emoy, float* esup, int choix_para, int choix_noeuds)
 {
-   float e, tmax, p;
-   int itype;
+   float e, tmax;
    vecteur_parametres zeta_init;
 
    /* ALLOCATION MEMOIRE */
-   zeta_init=MemVecteurFloat(N);
+   zeta_init=MemVecteurFloat(n);
 
    tmax = (float) (m - k + 2);
    switch (choix_para) 
@@ -56,7 +55,7 @@ void parameterization(coor_pts x, coor_pts y, int n,int m,int k,vecteur_parametr
                 parac2(x, y, n, zeta, tmax, e);
                 break;
 	  default :	
-				cout << "Erreur de parametrisation" << endl;
+				std::cout << "Erreur de parametrisation" << std::endl;
 				break;
    }
 
@@ -67,6 +66,55 @@ void parameterization(coor_pts x, coor_pts y, int n,int m,int k,vecteur_parametr
 
    return;
 } /* parameterization */
+
+//Fonction interne de parametrisation
+void parac2(coor_pts x, coor_pts y, int n, vecteur_parametres zeta, float tmax, float e)
+{
+    /* System generated locals */
+    int  i__1;
+    float r__1, r__2;
+    double d__1, d__2;
+
+    /* Local variables */
+    static float somt;
+    static int  i;
+    static float const__, ee, xl;
+
+/*                       TEST DE LA VALEUR DE E                               */
+    if (e < (float)0. || e > (float)1.) 
+    {
+	ee = (float).5;
+    } 
+    else 
+    {
+	ee = e;
+    }
+
+    somt = (float)0.;
+    zeta[0] = (float)0.;
+    i__1 = n - 1;
+    for (i = 0; i <= i__1; ++i) 
+    {
+	/* Computing 2nd power */
+	r__1 = x[i + 1] - x[i];
+	/* Computing 2nd power */
+	r__2 = y[i + 1] - y[i];
+	xl = sqrt(r__1 * r__1 + r__2 * r__2);
+	d__1 = (double) xl;
+	d__2 = (double) ee;
+	somt += pow(d__1, d__2);
+	zeta[i + 1] = somt;
+    }
+
+/*                 PONDERATION DES VALEURS TROUVEES (AMPLIFICATION)           */
+    const__ = tmax / somt;
+    i__1 = n;
+    for (i = 1; i <= i__1; ++i) 
+    {
+	zeta[i] *= const__;
+    }
+    return;
+} /* parac2 */
 
 /*---------------------------------------------------------------------------------------*/
 /*                     positionnement du parametre dans le vecteur de noeuds 
