@@ -107,8 +107,8 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	int m = 20;
 
 	//Coordonnées des points d'entrée
-	coor_pts	x = (coor_pts) malloc (sizeof(float)*n);
-	coor_pts	y = (coor_pts) malloc (sizeof(float)*n);
+	coor_pts	x = MemVecteurFloat(n);
+	coor_pts	y = MemVecteurFloat(n);
 
 	for (unsigned int i = 0; i < n; ++i)
 	{
@@ -119,36 +119,41 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	}
 
 	//Coordonnées des points de controle
-	coor_pts_controle_c	xcontr = (coor_pts_controle_c) malloc (sizeof(float)*m);
-	coor_pts_controle_c	ycontr = (coor_pts_controle_c) malloc (sizeof(float)*m);
+	coor_pts_controle_c	xcontr = MemVecteurFloat(m);
+	coor_pts_controle_c	ycontr = MemVecteurFloat(m);
 
 	//vecteur des parametres
-	vecteur_parametres	vzeta  = (vecteur_parametres) malloc (sizeof(float)*n);
+	vecteur_parametres	vzeta  = MemVecteurFloat(n);
+	vecteur_noeuds		vknot  = MemVecteurFloat(m+k);
+	
+	//indice du dernier noeud de vknot
+	int	imax;		
+	
+	//choix de parametrisation
+	int choix_para = 1;
+	
+	//choix du vecteur de noeud
+	int choix_noeuds = 1;
 
-//vecteur_parametres	vzeta;		/* vecteur des parametres             */
-//vecteur_noeuds 		vknot;		/* vecteurs de noeuds                 */
-//int 			imax;		/* indice du dernier noeud de vknot   */
-//vecteur_char		chaine;		/* chaines de caracteres              */
-//int			choix_para,	/* choix de l'utilisateur en matiere  */
-					/* de parametrisation                 */
-//			choix_noeuds,	/* choix de l'utilisateur en matiere  */
-					/* de vecteur de noeuds               */
-//			ir;		/* indice de bon deroulement          */
-//float                   condi,		/* conditionnement du systeme         */
-  //                      emoy, esup;	/* erreurs moyenne et superieure      */
-//float 			eps;		/* une distance inferieure ou egale a */
-					/* eps entraine que les deux entites  */
-					/* sont egales                        */
-//matrice                 bnik;           /* matrice du systeme lineaire        */
-//table_travail_int       jf;
-//table_fonctions		b;
-//char                    *chaine1,  
- //                       *chaine2;       /* chaines de caracteres              */
-//   vknot=MemVecteurFloat(M+K);
-  // vzeta=MemVecteurFloat(N);
-  // bnik=MemVecteurFloat((N+5)*(N+2));
-  // b=MemVecteurFloat(K);
-  // jf=MemVecteurInt(M);
+	//indice de bon deroulement 
+	int ir;		
+
+	//conditionnement du systeme
+	float condi;
+
+	//erreurs moyenne et superieure
+	float emoy, esup;
+	
+	//une distance inferieure ou egale a eps entraine que les deux entites sont egales 
+	float eps = (float)1e-04;
+
+	//matrice du systeme lineaire
+	matrice bnik = (matrice) malloc (sizeof(float)*((n+5)*(n+2)));
+
+	table_travail_int	jf = MemVecteurInt(m);
+	table_fonctions		b  = MemVecteurFloat(k);
+
+	
 }
 
 double distance2D(Point A, Point B) {

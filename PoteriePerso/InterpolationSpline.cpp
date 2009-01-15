@@ -2,6 +2,72 @@
 #include "InterpolationSpline.h"
 #include <math.h>
 
+
+/*----Allocation mémoire
+*
+********************************/
+vecteur_float MemVecteurFloat(int n)
+{
+  vecteur_float v;
+
+  v=(float *) calloc((n+1),sizeof(float));
+  if (!v) return NULL; else return (v);
+}
+
+void FreeVecteurFloat(vecteur_float *v)
+{
+  free((float *) (*v));
+  *v=NULL;
+  return;
+}
+
+vecteur_int MemVecteurInt(int n)
+{
+  vecteur_int v;
+
+  v=(int *) calloc((n+1),sizeof(int));
+  if (!v) return NULL; else return (v);
+}
+
+void FreeVecteurInt(vecteur_int *v)
+{
+  free((int *) (*v));
+  *v=NULL;
+  return;
+}
+
+//Fonction de parametrisation
+void parameterization(coor_pts x, coor_pts y, int n,int m,int k,vecteur_parametres zeta, 
+					  coor_pts_controle_c xcontr,coor_pts_controle_c ycontr,
+					  vecteur_noeuds vknot, int* imax, int *ir,
+                      float* condi, float* emoy, float* esup, int choix_para, int choix_noeuds)
+{
+   float e, tmax, p;
+   int itype;
+   vecteur_parametres zeta_init;
+
+   /* ALLOCATION MEMOIRE */
+   zeta_init=MemVecteurFloat(N);
+
+   tmax = (float) (m - k + 2);
+   switch (choix_para) 
+   { 
+      case 1  : e=0.;
+                parac2(x, y, n, zeta, tmax, e);
+                break;
+	  default :	
+				cout << "Erreur de parametrisation" << endl;
+				break;
+   }
+
+   /* affiche(zeta,zeta,n,"zeta"); */
+
+   /* LIBERATION MEMOIRE */
+   FreeVecteurFloat(&zeta_init);
+
+   return;
+} /* parameterization */
+
 /*---------------------------------------------------------------------------------------*/
 /*                     positionnement du parametre dans le vecteur de noeuds 
  */
