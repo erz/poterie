@@ -18,7 +18,7 @@ int CPoterieCourbe::B0(int i,int x)
 
 float CPoterieCourbe::B1(int i,int x)
 {
-	return (x-t[i])/(t[i+1]-t[i])*B0(i,x)+(t[i+2]-x)/(t[i+2]-t[i+1])*B0(i+1,x);
+	return (x-t[i])/(float)(t[i+1]-t[i])*B0(i,x)+(t[i+2]-x)/(float)(t[i+2]-t[i+1])*B0(i+1,x);
 }
 
 float CPoterieCourbe::B2(int i,int x)
@@ -38,7 +38,7 @@ void CPoterieCourbe::calculcoeff(int n,vector<Point *> points)
 
 	for(int i=0;i<n;i++)
 	{	
-		q=(t[i]-t[i+1])/(t[i]-t[i-1]);
+		q=(float)(t[i]-t[i+1])/(float)(t[i]-t[i-1]);
 		gamma[i]=gamma[i-1]*q+points[i]->y*(1-q);
 		delta[i]=delta[i-1]*q;
 		u=u+delta[i]*gamma[i];
@@ -101,7 +101,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	int k = 3;
 
 	//Nombre de points
-	int n = (pts->size());
+	int n = (int)(pts->size());
 
 	//Nombre de points de controle
 	int m = 20;
@@ -110,10 +110,10 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	coor_pts	x = MemVecteurFloat(n);
 	coor_pts	y = MemVecteurFloat(n);
 
-	for (unsigned int i = 0; i < n; ++i)
+	for (int i = 0; i < n; ++i)
 	{
-		x[i] = (*pts)[i]->x;
-		y[i] = (*pts)[i]->y;
+		x[i] = (float)(*pts)[i]->x;
+		y[i] = (float)(*pts)[i]->y;
 
 		cout << x[i] << "\t" << y[i] << endl;
 	}
@@ -153,7 +153,25 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	table_travail_int	jf = MemVecteurInt(m);
 	table_fonctions		b  = MemVecteurFloat(k);
 
-	
+	//parameterisation
+	parameterization(x, y, n, m, k, vzeta, xcontr, ycontr, vknot, &imax, &ir, &condi, &emoy, &esup, choix_para, choix_noeuds);
+
+	//Noeuds
+	knots(n,m,k,vzeta,&imax,vknot,choix_noeuds);
+
+	//Approximation de la BSpline
+	li2coc(x,y,n,m,k,vzeta,bnik,n+1,b,jf,xcontr,ycontr,vknot,&imax,&ir, &condi,&emoy,&esup);
+
+	//Liberation mémoire
+	FreeVecteurFloat(&x);
+	FreeVecteurFloat(&y);
+	FreeVecteurFloat(&xcontr);
+	FreeVecteurFloat(&ycontr);
+	FreeVecteurFloat(&vknot);
+	FreeVecteurFloat(&vzeta);
+	FreeVecteurFloat(&bnik);
+	FreeVecteurFloat(&b);
+	FreeVecteurInt(&jf);
 }
 
 double distance2D(Point A, Point B) {
