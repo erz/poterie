@@ -91,6 +91,54 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	cvShowImage("Interpolation",img);
 	cvWaitKey(0);
 	*/
+
+	////////////////////////////
+	//Methode MD
+	///////////////////////////////
+
+	
+	//Degré
+	int k = 3;
+
+	//Nombre de points
+	int n = (pts->size());
+
+	//Nombre de points de controle
+	int m = 20;
+
+	//Coordonnées des points d'entrée
+	coor_pts	x = (coor_pts) malloc (sizeof(float)*(pts->size()));
+	coor_pts	y = (coor_pts) malloc (sizeof(float)*(pts->size()));
+
+	for (unsigned int i = 0; i < n; ++i)
+	{
+		x[i] = (*pts)[i]->x;
+		y[i] = (*pts)[i]->y;
+	}
+
+
+//coor_pts_controle_c	xcontr,ycontr;	/* coordonnees des points de controle */
+//vecteur_parametres	vzeta;		/* vecteur des parametres             */
+//vecteur_noeuds 		vknot;		/* vecteurs de noeuds                 */
+//int 			imax;		/* indice du dernier noeud de vknot   */
+//vecteur_char		chaine;		/* chaines de caracteres              */
+//int			choix_para,	/* choix de l'utilisateur en matiere  */
+					/* de parametrisation                 */
+//			choix_noeuds,	/* choix de l'utilisateur en matiere  */
+					/* de vecteur de noeuds               */
+//			ir;		/* indice de bon deroulement          */
+//float                   condi,		/* conditionnement du systeme         */
+  //                      emoy, esup;	/* erreurs moyenne et superieure      */
+//float 			eps;		/* une distance inferieure ou egale a */
+					/* eps entraine que les deux entites  */
+					/* sont egales                        */
+//matrice                 bnik;           /* matrice du systeme lineaire        */
+//table_travail_int       jf;
+//table_fonctions		b;
+//char                    *chaine1,  
+ //                       *chaine2;       /* chaines de caracteres              */
+
+
 }
 
 double distance2D(Point A, Point B) {
