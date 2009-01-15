@@ -2,6 +2,8 @@
 #include "PoterieData.h"
 #include <math.h>
 
+#include <algorithm>
+
 #include "VariablesGlobales.h"
 
 #define PI 3.14159265
@@ -21,14 +23,19 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		maxDiamHauteur = 0;
 
 		//epaisseurs;
-		eHaute=0;
-		eMoyenne=0;
-		eBasse=0;
-		eBase=0;
+		eHaute=1.3/echelle;
+		eMoyenne=1.5/echelle;
+		eBasse=1.6/echelle;
+		eBase=2.0/echelle;
 		pts = *(im->getContour());
+	
+
+		sort(pts.begin(),pts.end(),TriAscendant());
+		cout<<"***************"<<endl;
 		for (unsigned int i=0; i < pts.size(); ++i)
 		{
-			//std::cout << "X\t" << pts[i]->x << "\tY\t" << pts[i]->y << std::endl;
+			
+			cout << "X\t" << pts[i]->x << "\tY\t" << pts[i]->y << endl;
 			//Il faut faire attention : l'axe des Y est inversé !
 			//Avant d'avoir les bons résultats, on se sert des variables pour y stocker les résultats intermédiaires.
 			//ouverture : on y met la coordonnée x du point le plus haut.
@@ -90,7 +97,7 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 	int j=1;
 	int k=1;
 	
-	while(i<(pts.size()-1) && pts[i]->y <= hauteurInterieure)
+	while(i<pts.size() && pts[i]->y <= hauteurInterieure)
 	{
 		Point *tmp=new Point();
 		if(i<indiceMilieu)
