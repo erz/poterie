@@ -27,11 +27,15 @@ class CPoterieData
 		float volume;
 		float surface;
 		int surfaceVolumique;
+		int baseHauteur;
+
 		float eHaute;
 		float eMoyenne;
 		float eBasse;
 		float eBase;
+
 		float circularite;
+		float hauteurCDM;
 		std::vector<Point *> pts;
 		std::vector<Point *> ptsProfilInterne;
 };

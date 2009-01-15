@@ -16,7 +16,7 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		int ctrHeight = im->getHeightCtr();
 		
 		base = 0; 
-		int baseHauteur = 0;
+		baseHauteur = 0;
 		hauteur = ctrHeight; 
 		ouverture = 0; 
 		maxDiam = ctrWidth;
@@ -60,7 +60,7 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 				baseHauteur = pts[i]->y;
 			}
 		}
-		CentreDeMasse(im);
+		
 		volume=0;
 		surface=0;
 		for (unsigned int i=0; i < pts.size()-1; i++)
@@ -75,6 +75,8 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 			surface+=PI*(base1+base2)*generatrice;
 
 		}
+
+		CentreDeMasse(im);
 		//On a toutes les variables : on les traite pour avoir les bons résultats.
 		ouverture = (ctrWidth-ouverture)*2;
 		hauteur = (baseHauteur-hauteur);
@@ -122,22 +124,36 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 	float volumeInterieur=0;
 	for (unsigned int i=0; i < ptsProfilInterne.size()-1; i++)
 		{
-			
+		
+
 			float base1=(im->getWidthCtr()-ptsProfilInterne[i]->x)*echelle;
 			float base2=(im->getWidthCtr()-ptsProfilInterne[i+1]->x)*echelle;
 			float hauteurSection=abs((ptsProfilInterne[i]->y-ptsProfilInterne[i+1]->y))*echelle;
 			
-			cout<<"******************"<<endl;
-			cout<<"base1:\t"<<base1<<endl;
-			cout<<"base2:\t"<<base2<<endl;
-			cout<<"hauteur:\t"<<hauteurSection<<endl;
 			//volume+=(PI*(hauteurSection)*(base1*base1+base1*base2+base2*base2))/3.0;
 			volumeInterieur+=((PI*pow(base2,2)*hauteurSection)/3.0)*(1+(base1/base2)+(pow(base1,2)/pow(base2,2)));
 
 		}
-	cout<<"Volume interieur:\t"<<volumeInterieur<<endl;
-	
 
+	
+	float volumeMilieu= (volume-volumeInterieur)/2;
+	
+	i=0;
+	float volumeTmp=0;
+	while(i<ptsProfilInterne.size()-1 && volumeTmp<volumeMilieu)
+	{	
+		float base1=(im->getWidthCtr()-pts[i]->x)*echelle;
+		float base2=(im->getWidthCtr()-pts[i+1]->x)*echelle;
+		float hauteurSectionExterieure=abs((pts[i]->y-pts[i+1]->y))*echelle;
+
+		float base3=(im->getWidthCtr()-ptsProfilInterne[i]->x)*echelle;
+		float base4=(im->getWidthCtr()-ptsProfilInterne[i+1]->x)*echelle;
+		float hauteurSection=abs((ptsProfilInterne[i]->y-ptsProfilInterne[i+1]->y))*echelle;
+		volumeTmp+=((PI*pow(base2,2)*hauteurSectionExterieure)/3.0)*(1+(base1/base2)+(pow(base1,2)/pow(base2,2))) - ((PI*pow(base4,2)*hauteurSection)/3.0)*(1+(base3/base4)+(pow(base3,2)/pow(base4,2)));
+		i++;	
+	}
+	
+	hauteurCDM=(baseHauteur-pts[i]->y)*echelle;
 	
 }
 
@@ -164,6 +180,8 @@ void CPoterieData::RefreshListe(CListBox *liste)
 	Volume.Format(CString("Volume : %.4lf cm3"), volume);
 	CString Circularite;
 	Circularite.Format(CString("Circularite : %.2lf "), circularite);
+	CString HauteurCDM;
+	HauteurCDM.Format(CString("Hauteur du CDM : %.2lf cm"), hauteurCDM);
 
 	liste->AddString(ouv);
 	liste->AddString(haut);
@@ -173,4 +191,5 @@ void CPoterieData::RefreshListe(CListBox *liste)
 	liste->AddString(Surface);
 	liste->AddString(Volume);
 	liste->AddString(Circularite);
+	liste->AddString(HauteurCDM);
 }
