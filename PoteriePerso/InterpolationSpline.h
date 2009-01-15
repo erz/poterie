@@ -2,7 +2,6 @@
 #include "afxwin.h"
 #include <afxstr.h>
 #include <iostream>
-#include <CString>
 
 #define MAX_ORDRE 10
 #define MAX_PTS_C 1000
@@ -42,6 +41,10 @@ void parameterization(coor_pts x, coor_pts y, int n,int m,int k,vecteur_parametr
 					  coor_pts_controle_c xcontr,coor_pts_controle_c ycontr,
 					  vecteur_noeuds vknot, int* imax, int *ir,
                       float* condi, float* emoy, float* esup, int choix_para, int choix_noeuds);
+
+//Fonction interne de parametrisation
+void parac2(coor_pts x, coor_pts y, int n, vecteur_parametres zeta, float tmax, float e);
+
 
 /*
        vecteur_noeuds   vknot;
