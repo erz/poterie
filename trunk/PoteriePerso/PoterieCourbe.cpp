@@ -8,7 +8,7 @@
 #include <math.h>
 
 using namespace std;
-
+/*
 int CPoterieCourbe::B0(int i,int x)
 {
 	if(x<t[i]&& x>t[i+1]) return 0;
@@ -52,6 +52,9 @@ void CPoterieCourbe::calculcoeff(int n,vector<Point *> points)
 	}
 
 }
+
+*/
+
 void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 {
 	////////////////////////////
@@ -127,20 +130,74 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	//Approximation de la BSpline
 	li2coc(x,y,n,m,k,vzeta,bnik,n+1,b,jf,xcontr,ycontr,vknot,&imax,&ir, &condi,&emoy,&esup);
 
-	
-	cout << "Points d'entree" << endl;
-	for (int i = 0; i < n; ++i)
-		cout << x[i] << " " << y[i] << endl;
-
+	//Points de controle
+	pointsControle = new std::vector<Point *>;
 	cout << "Points de controle" << endl;
 	for (int i = 0; i < m; ++i)
-		cout << xcontr[i] << " " << ycontr[i] << endl;
+	{
+		Point *pt = new Point;
+		pt->x = (int)xcontr[i];
+		pt->y = (int)ycontr[i];
+		pointsControle->push_back(pt);
+		cout << pt->x << "\t" << pt->y << endl;
+	}
 
-	cout << "Vecteur de noeud" << endl;
-	for (int i = 0; i < imax; ++i)
-		cout << vknot[i] << endl;
+	//Vecteur de noeuds
+	vecteurNoeuds = vknot;
+	cout << "Vecteur de noeuds" << endl;
+	for (int i = 0; i <= imax; ++i)
+	{
+		cout << vecteurNoeuds[i] << " - ";
+	}
+	cout << endl;
 
+	//Points sur la BSpline
+	bspline = new std::vector<Point *>;
 
+	float t, pas, l, xcal, ycal;
+    pas = (vknot[imax]-vknot[0])/(n-1);
+	t=vknot[0];
+	cout << "BSpline : " << endl;
+	for(l=0;l<n-1;l=l+1)
+	{
+		calc2x(xcontr,ycontr,t,&xcal,&ycal,vknot,imax,k,b,&ir);
+		t=t+pas;
+		Point* pt = new Point;
+		pt->x = (int)xcal;
+		pt->y = (int)ycal;
+		bspline->push_back(pt);
+		cout << pt->x << "\t" << pt->y << endl;
+	}
+
+    t=vknot[imax];
+	calc2x(xcontr,ycontr,t,&xcal,&ycal,vknot,imax,k,b,&ir);
+
+	Point* pt = new Point;
+	pt->x = (int)xcal;
+	pt->y = (int)ycal;
+	bspline->push_back(pt);
+
+	//Affichage de la BSpline
+	/*IplImage* cnt_img = cvCreateImage( cvSize(300, 300), 8, 3 );
+    cvZero( cnt_img );
+
+	cvNamedWindow("BSpline", 0);
+
+	for (unsigned int i = 0; i+1 < bspline->size(); i+=2)
+	{
+		CvPoint pt[2], *rect = pt;
+		int count=2;
+		pt[0].x=(*bspline)[i]->x;
+		pt[0].y=(*bspline)[i]->y;
+		pt[1].x=(*bspline)[i+1]->x;
+		pt[1].y=(*bspline)[i+1]->y;
+		cvPolyLine( cnt_img, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
+	}
+
+	cvShowImage("BSpline", cnt_img);
+	cvWaitKey();
+*/
+	
 	//Liberation mémoire
 	FreeVecteurFloat(&x);
 	FreeVecteurFloat(&y);
@@ -160,80 +217,7 @@ double distance2D(Point A, Point B) {
 	return sqrt(un);
 }
 
-// TEST SNAKE
-// rebuild the snake using cubic spline interpolation
-void CPoterieCourbe::rebuild(vector <Point *> *pts) 
-{
-	vector <Point*> snake = *(pts);
-	int space = 16;
-	// precompute length(i) = length of the snake from start to point #i
-	double *clength = new double[snake.size()+1];
-	clength[0]=0;
-	for(unsigned int i=0;i<snake.size();i++) 
-	{
-		Point cur   = *(snake[i]);
-		Point next  = *(snake[(i+1)%snake.size()]);
-		clength[i+1]=clength[i]+distance2D(cur, next);
-	}
- 
-	// compute number of points in the new snake
-	double total = clength[snake.size()];
-	int nmb = (int)(0.5+total/space);
- 
-	// build a new snake
-	vector<Point*> newsnake;
-	for(int i=0,j=0;j<nmb;j++) 
-	{
-		// current length in the new snake
-		double dist = (j*total)/nmb;
- 
-		// find corresponding interval of points in the original snake
-		while(! (clength[i]<=dist && dist<clength[i+1])) i++;
- 
-		// get points (P-1,P,P+1,P+2) in the original snake
-		Point prev  = *(snake[(i+snake.size()-1)%snake.size()]);
-		Point cur   = *(snake[i]);
-		Point next  = *(snake[(i+1)%snake.size()]);
-		Point next2  = *(snake[(i+2)%snake.size()]);
- 
-		// do cubic spline interpolation
-		double t =  (dist-clength[i])/(clength[i+1]-clength[i]);
-		double t2 = t*t, t3=t2*t;
-		double c0 =  1*t3;
-		double c1 = -3*t3 +3*t2 +3*t + 1;
-		double c2 =  3*t3 -6*t2 + 4;
-		double c3 = -1*t3 +3*t2 -3*t + 1;
-		double x = prev.x*c3 + cur.x*c2 + next.x* c1 + next2.x*c0;
-		double y = prev.y*c3 + cur.y*c2 + next.y* c1 + next2.y*c0;
-		Point* newpoint = new Point();
-		newpoint->x = (int)(0.5+x/6);
-		newpoint->y = (int)(0.5+y/6);
- 
-		// add computed point to the new snake
-		newsnake.push_back(newpoint);
-	}
-	
-	/*cout << "Snake : " << endl;
-	for (int i = 0; i < snake.size(); ++i)
-		cout << "Point\t" << i << "\tX :\t" << snake[i]->x << "\tY :\t" << snake[i]->y << endl;
-
-	cout << "\nNewSnake : " << endl;
-	IplImage *img=cvCreateImage( cvSize(300,300), 8, 3);
-	for (int i = 0; i < newsnake.size(); ++i)
-	{
-		cout << "Point\t" << i << "\tX :\t" << newsnake[i]->x << "\tY :\t" << newsnake[i]->y << endl;
-		cvCircle(img,cvPoint(newsnake[i]->x,newsnake[i]->y),1,CV_RGB(0,255,0),1);
-	}
-	
-	cvNamedWindow("Interpolation",CV_WINDOW_AUTOSIZE);
-	cvShowImage("Interpolation",img);
-	cvWaitKey(0);
-	*/
-}
-
-
 CPoterieCourbe::CPoterieCourbe (vector <Point *> *pts)
 {
 	InterpolationBSpline(pts);
-	//rebuild(pts);
 }

@@ -75,7 +75,7 @@ void calbsp();
        table_fonctions     b;
        int                 *i;
  */
-void calc2x();
+void calc2x(coor_pts_controle_c xcontr, coor_pts_controle_c ycontr, float t, float *xcal, float *ycal, vecteur_noeuds vknot, int imax, int k,table_fonctions b,int *i);
 
 /*
 	matrice a;
