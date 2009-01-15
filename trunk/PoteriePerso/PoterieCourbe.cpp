@@ -107,17 +107,24 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	int m = 20;
 
 	//Coordonnées des points d'entrée
-	coor_pts	x = (coor_pts) malloc (sizeof(float)*(pts->size()));
-	coor_pts	y = (coor_pts) malloc (sizeof(float)*(pts->size()));
+	coor_pts	x = (coor_pts) malloc (sizeof(float)*n);
+	coor_pts	y = (coor_pts) malloc (sizeof(float)*n);
 
 	for (unsigned int i = 0; i < n; ++i)
 	{
 		x[i] = (*pts)[i]->x;
 		y[i] = (*pts)[i]->y;
+
+		cout << x[i] << "\t" << y[i] << endl;
 	}
 
+	//Coordonnées des points de controle
+	coor_pts_controle_c	xcontr = (coor_pts_controle_c) malloc (sizeof(float)*m);
+	coor_pts_controle_c	ycontr = (coor_pts_controle_c) malloc (sizeof(float)*m);
 
-//coor_pts_controle_c	xcontr,ycontr;	/* coordonnees des points de controle */
+	//vecteur des parametres
+	vecteur_parametres	vzeta  = (vecteur_parametres) malloc (sizeof(float)*n);
+
 //vecteur_parametres	vzeta;		/* vecteur des parametres             */
 //vecteur_noeuds 		vknot;		/* vecteurs de noeuds                 */
 //int 			imax;		/* indice du dernier noeud de vknot   */
@@ -137,8 +144,11 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 //table_fonctions		b;
 //char                    *chaine1,  
  //                       *chaine2;       /* chaines de caracteres              */
-
-
+//   vknot=MemVecteurFloat(M+K);
+  // vzeta=MemVecteurFloat(N);
+  // bnik=MemVecteurFloat((N+5)*(N+2));
+  // b=MemVecteurFloat(K);
+  // jf=MemVecteurInt(M);
 }
 
 double distance2D(Point A, Point B) {
@@ -222,6 +232,7 @@ void CPoterieCourbe::rebuild(vector <Point *> *pts)
 
 CPoterieCourbe::CPoterieCourbe (vector <Point *> *pts)
 {
+	cout << "HAHAH" << endl;
 	InterpolationBSpline(pts);
 	//rebuild(pts);
 }
