@@ -223,12 +223,12 @@ std::vector<Point *>* CPoterieCourbe::getPointsControle()
 	return pointsControle;
 }
 
-float* getVecteurNoeuds()
+float* CPoterieCourbe::getVecteurNoeuds()
 {
 	return vecteurNoeuds;
 }
 
-std::vector<Point *>* getBspline()
+std::vector<Point *>* CPoterieCourbe::getBspline()
 {
 	return bspline;
 }
