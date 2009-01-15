@@ -209,12 +209,28 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	FreeVecteurFloat(&b);
 	FreeVecteurInt(&jf);
 }
-
+/*
 double distance2D(Point A, Point B) {
 	int ux = A.x-B.x;
 	int uy = A.y-B.y;
 	double un = ux*ux+uy*uy;
 	return sqrt(un);
+}
+*/
+
+std::vector<Point *>* CPoterieCourbe::getPointsControle()
+{
+	return pointsControle;
+}
+
+float* getVecteurNoeuds()
+{
+	return vecteurNoeuds;
+}
+
+std::vector<Point *>* getBspline()
+{
+	return bspline;
 }
 
 CPoterieCourbe::CPoterieCourbe (vector <Point *> *pts)
