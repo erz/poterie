@@ -15,5 +15,7 @@ extern FILE *fichierSortie;
 
 //Données dépendantes de la forme de la poterie
 extern int formePoterie;
-extern double epaisseurBase;
-// ... A completer
+extern float epaisseurBase;
+extern float epaisseurBasse;
+extern float epaisseurMilieu;
+extern float epaisseurHaute;

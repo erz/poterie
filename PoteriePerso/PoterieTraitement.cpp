@@ -27,8 +27,10 @@ double echelle = 0.076692;
 FILE *fichierSortie = new FILE;
 //Données dépendantes de la forme de la poterie
 int formePoterie = 1;
-double epaisseurBase = 0;
-// ... A completer
+float epaisseurBase = 0;
+float epaisseurBasse = 0;
+float epaisseurMilieu = 0;
+float epaisseurHaute = 0;
 
 void CPoteriePersoDlg::refresh ()
 {
@@ -675,20 +677,30 @@ void mouseHandler(int event, int x, int y, int flags, void* param)
 void remplirValeursSelonForme()
 {
 	//Convention:
-	//1 = vase
-	//2 = ...
+	//1 = bol
+	//2 = cylindre
+	//3 = vase
 	
 	switch (formePoterie)
 	{
 		case 1 :
-			//epaisseurBas = xxx
-			// ...
+			epaisseurBase = 0.98;
+			epaisseurBasse = 0.18;
+			epaisseurMilieu = 0.68;
+			epaisseurHaute = 0.5;
 			break;
 		case 2 :
-			//epaisseurBas = xxx
-			// ...
+			epaisseurBase = 0.753;
+			epaisseurBasse = 0.11;
+			epaisseurMilieu = 0.7;
+			epaisseurHaute = 0.46;
 			break;
-		// ...
+		case 3 :
+			epaisseurBase = 0.8;
+			epaisseurBasse = 1.55;
+			epaisseurMilieu = 0.8;
+			epaisseurHaute = 0.5;
+			break;
 		default :
 			cout << "Mauvais choix de forme" << endl;
 	}
