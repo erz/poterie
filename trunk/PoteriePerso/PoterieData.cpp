@@ -23,10 +23,10 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		maxDiamHauteur = 0;
 
 		//epaisseurs;
-		eHaute=1.3/echelle;
-		eMoyenne=1.5/echelle;
-		eBasse=1.6/echelle;
-		eBase=2.0/echelle;
+		eHaute=epaisseurHaute;
+		eMoyenne=epaisseurMilieu;
+		eBasse=epaisseurBasse;
+		eBase=epaisseurBase;
 		pts = *(im->getContour());
 	
 
