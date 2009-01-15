@@ -31,11 +31,10 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 	
 
 		sort(pts.begin(),pts.end(),TriAscendant());
-		cout<<"***************"<<endl;
 		for (unsigned int i=0; i < pts.size(); ++i)
 		{
 			
-			cout << "X\t" << pts[i]->x << "\tY\t" << pts[i]->y << endl;
+			//cout << "X\t" << pts[i]->x << "\tY\t" << pts[i]->y << endl;
 			//Il faut faire attention : l'axe des Y est inversé !
 			//Avant d'avoir les bons résultats, on se sert des variables pour y stocker les résultats intermédiaires.
 			//ouverture : on y met la coordonnée x du point le plus haut.
@@ -89,7 +88,7 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 
 void CPoterieData::CentreDeMasse(CPoterieImage * im)
 {
-	cout<<"calcul centre de masse"<<endl;
+	//cout<<"calcul centre de masse"<<endl;
 	int indiceMilieu = pts.size()/2-1;
 	float deltaPartieSup = abs(eHaute-eMoyenne)/indiceMilieu;
 	float deltaPartieInf = abs(eMoyenne-eBasse)/indiceMilieu;
@@ -120,7 +119,7 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 		i++;
 	}
 	
-	cout<<"Apres translation"<<endl;
+	//cout<<"Apres translation"<<endl;
 	float volumeInterieur=0;
 	for (unsigned int i=0; i < ptsProfilInterne.size()-1; i++)
 		{
