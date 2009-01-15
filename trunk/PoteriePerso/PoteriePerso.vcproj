@@ -68,7 +68,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="cv.lib cvaux.lib highgui.lib cxcore.lib"
+				AdditionalDependencies="cv.lib cvaux.lib highgui.lib cxcore.lib opengl32.lib glu32.lib glut32.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -150,7 +150,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="cv.lib cvaux.lib highgui.lib cxcore.lib"
+				AdditionalDependencies="cv.lib cvaux.lib highgui.lib cxcore.lib opengl32.lib glu32.lib glut32.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
