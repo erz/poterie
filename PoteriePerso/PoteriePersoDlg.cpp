@@ -230,7 +230,6 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 			   				
 				//Affichage de l'ihm
 			   	boutonEtalonner.ShowWindow(SW_HIDE);
-				texteBienvenue.ShowWindow(SW_HIDE);
 				groupeBoutonsType.ShowWindow(SW_HIDE);
 				radio1.ShowWindow(SW_HIDE);
 				radio2.ShowWindow(SW_HIDE);
@@ -241,7 +240,7 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 				boutonPrecedent.ShowWindow(SW_SHOW);
 				boutonSuivant.ShowWindow(SW_SHOW);
 				texteListe.ShowWindow(SW_SHOW);
-				m_picture.RedrawWindow();
+				texteBienvenue.SetWindowTextW(CString("...TRAITEMENT EN COURS...\nveuillez patienter"));
 
 				// At this point pszBuffer contains the selected path */. 
 				::SetCurrentDirectory(LPWSTR(pszBuffer));
@@ -273,10 +272,15 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 				//Remplissage des valeurs en fonction de la forme
 				remplirValeursSelonForme();
 
-				//Rafraichissement des données
+				//Traitement des données
+				traitementTotal();
+
+				//Petites modifs d'IHM
+				texteBienvenue.ShowWindow(SW_HIDE);
+				m_picture.RedrawWindow();
+
+				//Rafraichissement
 				refresh();
-
-
 			} 
 			// Free the PIDL allocated by SHBrowseForFolder. 
 			pMalloc->Free(pidl); 

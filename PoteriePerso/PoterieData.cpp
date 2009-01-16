@@ -29,8 +29,6 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		eBase=epaisseurBase/echelle;
 		pts = *(im->getContour());
 	
-
-		sort(pts.begin(),pts.end(),TriAscendant());
 		for (unsigned int i=0; i < pts.size(); ++i)
 		{
 			
