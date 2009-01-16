@@ -201,7 +201,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Modelisation3D.cpp"
+				RelativePath=".\OpenGLControl.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\OpenGLDevice.cpp"
 				>
 			</File>
 			<File
@@ -267,7 +271,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Modelisation3D.h"
+				RelativePath=".\OpenGLControl.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OpenGLDevice.h"
 				>
 			</File>
 			<File
