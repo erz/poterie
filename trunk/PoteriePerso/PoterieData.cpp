@@ -92,7 +92,7 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 	int indiceMilieu = pts.size()/2-1;
 	float deltaPartieSup = abs(eHaute-eMoyenne)/indiceMilieu;
 	float deltaPartieInf = abs(eMoyenne-eBasse)/indiceMilieu;
-	cout << "ggk" << deltaPartieSup << " " << deltaPartieInf << endl;
+	//cout << "ggk" << deltaPartieSup << " " << deltaPartieInf << endl;
 	int hauteurInterieure= pts[pts.size()-1]->y + eBase;
 	unsigned int i=0;
 	int j=1;
@@ -104,14 +104,14 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 		if(i<indiceMilieu)
 		{
 			
-			tmp->x=pts[i]->x+deltaPartieSup*j;
+			tmp->x=pts[i]->x+eHaute+deltaPartieSup*j;
 			tmp->y=pts[i]->y;
 			ptsProfilInterne.push_back(tmp);
 			++j;
 		}
 		else
 		{
-			tmp->x=pts[i]->x+deltaPartieInf*k;
+			tmp->x=pts[i]->x+eMoyenne+deltaPartieInf*k;
 			tmp->y=pts[i]->y;
 			ptsProfilInterne.push_back(tmp);
 			++k;
