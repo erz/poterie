@@ -92,7 +92,6 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 	int indiceMilieu = pts.size()/2-1;
 	float deltaPartieSup = abs(eHaute-eMoyenne)/indiceMilieu;
 	float deltaPartieInf = abs(eMoyenne-eBasse)/indiceMilieu;
-	//cout << "ggk" << deltaPartieSup << " " << deltaPartieInf << endl;
 	int hauteurInterieure= pts[pts.size()-1]->y + eBase;
 	unsigned int i=0;
 	int j=1;

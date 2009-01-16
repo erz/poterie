@@ -213,6 +213,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PoterieModelisationDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\PoteriePerso.cpp"
 				>
 			</File>
@@ -276,6 +280,10 @@
 			</File>
 			<File
 				RelativePath=".\PoterieData.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PoterieModelisationDlg.h"
 				>
 			</File>
 			<File

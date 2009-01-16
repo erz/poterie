@@ -4,5 +4,9 @@
 #include <GL/glu.h>
 #include <GL/glut.h>
 
-GLfloat ctlpoints[4][4][3];
-GLUnurbsObj *theNurb;
+//Classe de la fenetre OpenGL
+class COpenGLControl : public CWnd
+{
+	public:
+		COpenGLControl();
+};

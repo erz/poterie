@@ -7,53 +7,17 @@
 #include <highgui.h>
 #include <math.h>
 
+#include <algorithm>
+
 using namespace std;
-/*
-int CPoterieCourbe::B0(int i,int x)
-{
-	if(x<t[i]&& x>t[i+1]) return 0;
-	else return 1;
 
-}
-
-float CPoterieCourbe::B1(int i,int x)
-{
-	return (x-t[i])/(float)(t[i+1]-t[i])*B0(i,x)+(t[i+2]-x)/(float)(t[i+2]-t[i+1])*B0(i+1,x);
-}
-
-float CPoterieCourbe::B2(int i,int x)
-{
-	return (x-t[i])/(t[i+2]-t[i])*B1(i,x)+(t[i+3]-x)/(t[i+3]-t[i+1])*B1(i+1,x);
-}
-
-
-void CPoterieCourbe::calculcoeff(int n,vector<Point *> points)
-{
-	float gamma[200];
-	float delta[200];
-	float q,u,v;
-	gamma[0]=0;
-	delta[0]=1;
-	
-
-	for(int i=0;i<n;i++)
-	{	
-		q=(float)(t[i]-t[i+1])/(float)(t[i]-t[i-1]);
-		gamma[i]=gamma[i-1]*q+points[i]->y*(1-q);
-		delta[i]=delta[i-1]*q;
-		u=u+delta[i]*gamma[i];
-		v=v+sqrt(delta[i]);
-	}
-
-	A[0]=-u/v;
-	for(int i=0;i<n;i++)
-	{
-		A[i]=gamma[i]+delta[i]*A[0];
-	}
-
-}
-
-*/
+struct TriAscendant
+	{		
+		inline bool operator() (Point * a, Point * b) const
+		{
+				return a->y < b->y;
+		}
+	};
 
 void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 {
@@ -61,24 +25,36 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	//Methode MD
 	///////////////////////////////
 
-	
+	//Valeur maximales
+	int N = 210;
+	int M = 210;
+	int K = 4;
+
 	//Degré
 	int k = 3;
 
 	//Nombre de points
-	int n = (int)(pts->size());
+	int n = (int)(pts->size())-1;
 
 	//Nombre de points de controle
-	int m = 20;
+	static int m = 0;
 
-	if (m>n)
-		m = n;
+	if (m == 0 )
+	{ 
+		if ( n >= 19)
+			m = 19;
+		else
+			m = n;
+	}
 
 	//Coordonnées des points d'entrée
-	coor_pts	x = MemVecteurFloat(n);
-	coor_pts	y = MemVecteurFloat(n);
+	coor_pts	x = MemVecteurFloat(N);
+	coor_pts	y = MemVecteurFloat(N);
 
-	for (int i = 0; i < n; ++i)
+	sort((*pts).begin(),(*pts).end(),TriAscendant());
+
+	//Remplissage des points d'entree
+	for (int i = 0; i <= n; ++i)
 	{
 		x[i] = (float)(*pts)[i]->x;
 		y[i] = (float)(*pts)[i]->y;
@@ -87,12 +63,12 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	}
 
 	//Coordonnées des points de controle
-	coor_pts_controle_c	xcontr = MemVecteurFloat(m);
-	coor_pts_controle_c	ycontr = MemVecteurFloat(m);
+	coor_pts_controle_c	xcontr = MemVecteurFloat(M);
+	coor_pts_controle_c	ycontr = MemVecteurFloat(M);
 
 	//vecteur des parametres
-	vecteur_parametres	vzeta  = MemVecteurFloat(n);
-	vecteur_noeuds		vknot  = MemVecteurFloat(m+k);
+	vecteur_parametres	vzeta  = MemVecteurFloat(N);
+	vecteur_noeuds		vknot  = MemVecteurFloat(M+K);
 	
 	//indice du dernier noeud de vknot
 	int	imax;		
@@ -116,10 +92,10 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	float eps = (float)1e-04;
 
 	//matrice du systeme lineaire
-	matrice bnik = (matrice) malloc (sizeof(float)*((n+5)*(n+2)));
+	matrice bnik = MemVecteurFloat((N+5)*(N+2));
 
-	table_travail_int	jf = MemVecteurInt(m);
-	table_fonctions		b  = MemVecteurFloat(k);
+	table_travail_int	jf = MemVecteurInt(M);
+	table_fonctions		b  = MemVecteurFloat(K);
 
 	//parameterisation
 	parameterization(x, y, n, m, k, vzeta, xcontr, ycontr, vknot, &imax, &ir, &condi, &emoy, &esup, choix_para, choix_noeuds);
@@ -128,18 +104,23 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	knots(n,m,k,vzeta,&imax,vknot,choix_noeuds);
 
 	//Approximation de la BSpline
-	li2coc(x,y,n,m,k,vzeta,bnik,n+1,b,jf,xcontr,ycontr,vknot,&imax,&ir, &condi,&emoy,&esup);
+	li2coc(x,y,n,m,k,vzeta,bnik,N+1,b,jf,xcontr,ycontr,vknot,&imax,&ir, &condi,&emoy,&esup);
+
+	//Point d'entree
+	cout << "Points d'entrée" << endl;
+	for (int i = 0; i <= n; ++i)
+		cout << i << ":" << x[i] << "\t" << y[i] << endl;
 
 	//Points de controle
 	pointsControle = new std::vector<Point *>;
 	cout << "Points de controle" << endl;
-	for (int i = 0; i < m; ++i)
+	for (int i = 0; i <= m; ++i)
 	{
 		Point *pt = new Point;
 		pt->x = (int)xcontr[i];
 		pt->y = (int)ycontr[i];
 		pointsControle->push_back(pt);
-		cout << pt->x << "\t" << pt->y << endl;
+		cout << i << ":" << pt->x << "\t" << pt->y << endl;
 	}
 
 	//Vecteur de noeuds
@@ -155,10 +136,10 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	bspline = new std::vector<Point *>;
 
 	float t, pas, l, xcal, ycal;
-    pas = (vknot[imax]-vknot[0])/(n-1);
+    pas = (vknot[imax]-vknot[0])/(N-1);
 	t=vknot[0];
 	cout << "BSpline : " << endl;
-	for(l=0;l<n-1;l=l+1)
+	for(l=0;l<N-1;l=l+1)
 	{
 		calc2x(xcontr,ycontr,t,&xcal,&ycal,vknot,imax,k,b,&ir);
 		t=t+pas;
@@ -166,7 +147,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 		pt->x = (int)xcal;
 		pt->y = (int)ycal;
 		bspline->push_back(pt);
-		cout << pt->x << "\t" << pt->y << endl;
+		cout << l << ": " << pt->x << "\t" << pt->y << endl;
 	}
 
     t=vknot[imax];
@@ -178,7 +159,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	bspline->push_back(pt);
 
 	//Affichage de la BSpline
-	/*IplImage* cnt_img = cvCreateImage( cvSize(300, 300), 8, 3 );
+	IplImage* cnt_img = cvCreateImage( cvSize(300, 300), 8, 3 );
     cvZero( cnt_img );
 
 	cvNamedWindow("BSpline", 0);
@@ -196,7 +177,6 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 
 	cvShowImage("BSpline", cnt_img);
 	cvWaitKey();
-*/
 	
 	//Liberation mémoire
 	FreeVecteurFloat(&x);
@@ -209,14 +189,6 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	FreeVecteurFloat(&b);
 	FreeVecteurInt(&jf);
 }
-/*
-double distance2D(Point A, Point B) {
-	int ux = A.x-B.x;
-	int uy = A.y-B.y;
-	double un = ux*ux+uy*uy;
-	return sqrt(un);
-}
-*/
 
 std::vector<Point *>* CPoterieCourbe::getPointsControle()
 {
