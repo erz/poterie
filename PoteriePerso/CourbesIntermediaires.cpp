@@ -47,8 +47,8 @@ double interpolationCubique(double y0,double y1,double y2,double y3,double mu)
      a1 = y0 - y1 - a0;
      a2 = y2 - y0;
      a3 = y1;
-	cout<<"**********"<<endl;
-	cout<<a0*mu*mu2+a1*mu2+a2*mu+a3<<endl;
+	//cout<<"**********"<<endl;
+	//cout<<a0*mu*mu2+a1*mu2+a2*mu+a3<<endl;
      return (a0*mu*mu2+a1*mu2+a2*mu+a3);
   }
 
