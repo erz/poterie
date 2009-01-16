@@ -7,7 +7,7 @@
 #include "PoterieCourbe.h"
 #include "PoterieData.h"
 #include "stdafx.h"
-
+#include "CourbesIntermediaires.h"
 #include <CString>
 #include <afxstr.h>
 #include <atlimage.h>
@@ -24,6 +24,7 @@ class CPoterieSequence
 	CPoterieCourbe **tabCourbes;
 	CPoterieData **tabData;
 
+	CCourbesIntermediaires* crbInter;
 	int idPicCourante;
 
 	public :
@@ -32,6 +33,7 @@ class CPoterieSequence
 	{
 		nbImages = 0;
 		idPicCourante = 0;
+		crbInter = NULL;
 	}
 
 	/*
@@ -131,6 +133,22 @@ class CPoterieSequence
 		tabCourbes[i] = cb;
 	}
 	
+	/*
+		Enregistre les de courbes intermediaires
+	*/
+	void setCourbesIntermediaires(CCourbesIntermediaires* inter)
+	{
+		crbInter = inter;
+	}
+
+	/*
+		Renvoie les courbes intermediaire
+	*/
+	CCourbesIntermediaires* getCourbesIntermediaires()
+	{
+		return crbInter;
+	}
+
 	/*
 		Retourne le nom de l'image à l'indice i
 	*/
