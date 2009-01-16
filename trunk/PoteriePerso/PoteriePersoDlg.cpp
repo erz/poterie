@@ -7,6 +7,7 @@
 #include "PoterieSequence.h"
 #include "PoterieTraitement.h"
 #include "VariablesGlobales.h"
+#include "PoterieModelisationDlg.h"
 #include <string>
 #include <iostream>
 #include <CString>
@@ -76,6 +77,7 @@ void CPoteriePersoDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_RADIO1, radio1);
 	DDX_Control(pDX, IDC_RADIO2, radio2);
 	DDX_Control(pDX, IDC_RADIO3, radio3);
+	DDX_Control(pDX, IDMODELISATION, boutonModelisation);
 }
 
 BEGIN_MESSAGE_MAP(CPoteriePersoDlg, CDialog)
@@ -93,6 +95,7 @@ BEGIN_MESSAGE_MAP(CPoteriePersoDlg, CDialog)
 	ON_BN_CLICKED(IDC_RADIO2, &CPoteriePersoDlg::OnBnClickedRadio2)
 	ON_BN_CLICKED(IDC_RADIO1, &CPoteriePersoDlg::OnBnClickedRadio1)
 	ON_BN_CLICKED(IDC_RADIO3, &CPoteriePersoDlg::OnBnClickedRadio3)
+	ON_BN_CLICKED(IDMODELISATION, &CPoteriePersoDlg::OnBnClickedModelisation)
 END_MESSAGE_MAP()
 
 
@@ -233,6 +236,7 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 				radio2.ShowWindow(SW_HIDE);
 				radio3.ShowWindow(SW_HIDE);
 				listeVars.ShowWindow(SW_SHOW);
+				boutonModelisation.ShowWindow(SW_SHOW);
 				boutonSauver.ShowWindow(SW_SHOW);
 				boutonPrecedent.ShowWindow(SW_SHOW);
 				boutonSuivant.ShowWindow(SW_SHOW);
@@ -337,4 +341,11 @@ void CPoteriePersoDlg::OnBnClickedRadio2()
 void CPoteriePersoDlg::OnBnClickedRadio3()
 {
 	formePoterie = 3;
+}
+
+void CPoteriePersoDlg::OnBnClickedModelisation()
+{
+	//Creation de la fenete modelisation
+	CPoterieModelisationDlg dlg;
+	dlg.DoModal();
 }

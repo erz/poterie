@@ -63,4 +63,6 @@ public:
 	CButton radio1;
 	CButton radio2;
 	CButton radio3;
+	afx_msg void OnBnClickedModelisation();
+	CButton boutonModelisation;
 };
