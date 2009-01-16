@@ -14,9 +14,10 @@ void calculerCourbesIntermediaires()
 	if(sequenceBalaye==true)
 	{
 		vector<vector<Point*>> listeCourbes; 
-		//cout<<"!!!!!!!!!!"<<endl;
+		cout<<"Courbes Intermediaires:"<<endl;
 		for(int i=0;i<19;i++)
 		{
+
 			vector<Point*> courbeIntermediaire;
 			for(int j=0;j<seq->getNbImages()-4;j++)
 			{
@@ -26,9 +27,11 @@ void calculerCourbesIntermediaires()
 				vector<Point*> tmp2=*(seq->getCourbe(j+2)->getPointsControle());
 				vector<Point*> tmp3=*(seq->getCourbe(j+3)->getPointsControle());
 
+				//Nv->x=(int)tmp0[i]->x+300*j+150;
+				Nv->y=(int)interpolationCubique(tmp0[i]->y,tmp1[i]->y,tmp2[i]->y,tmp3[i]->y,0.5);
 				Nv->x=(tmp0[i]->x+tmp1[i]->x)/2;
-				Nv->y=(float)interpolationCubique(tmp0[i]->x,tmp1[i]->x,tmp2[i]->x,tmp3[i]->x,Nv->x);
 				courbeIntermediaire.push_back(Nv);
+				cout<<"x:\t"<<Nv->x<<"  y\t"<<Nv->y<<endl;
 			}
 			listeCourbes.push_back(courbeIntermediaire);
 		}
@@ -44,7 +47,8 @@ double interpolationCubique(double y0,double y1,double y2,double y3,double mu)
      a1 = y0 - y1 - a0;
      a2 = y2 - y0;
      a3 = y1;
-  
+	cout<<"**********"<<endl;
+	cout<<a0*mu*mu2+a1*mu2+a2*mu+a3<<endl;
      return (a0*mu*mu2+a1*mu2+a2*mu+a3);
   }
 
