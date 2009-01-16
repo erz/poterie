@@ -69,7 +69,8 @@ void traitementTotal()
 					seq->setData(i, newData);
 				}
 			}
-			calculerCourbesIntermediaires();
+//			calculerCourbesIntermediaires();
+			seq->setCourbesIntermediaires(new CCourbesIntermediaires());
 		}
 	}
 }

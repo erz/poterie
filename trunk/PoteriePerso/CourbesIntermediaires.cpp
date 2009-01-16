@@ -1,13 +1,18 @@
 #include "stdafx.h"
 #include "CourbesIntermediaires.h"
+#include "VariablesGlobales.h"
 
+CCourbesIntermediaires::CCourbesIntermediaires()
+{
+	listeCourbes = new vector<vector<Point*>>;
+	calculerCourbesIntermediaires();
+}
 
-void calculerCourbesIntermediaires()
+void CCourbesIntermediaires::calculerCourbesIntermediaires()
 {
 	if(seq!=NULL && seq->getNbImages() > 0)
 	{
-		vector<vector<Point*>> listeCourbes; 
-		cout<<"Courbes Intermediaires:"<<endl;
+		//cout<<"Courbes Intermediaires:"<<endl;
 		for(int i=0;i<19;i++)
 		{
 
@@ -24,15 +29,15 @@ void calculerCourbesIntermediaires()
 				Nv->y=(int)interpolationCubique(tmp0[i]->y,tmp1[i]->y,tmp2[i]->y,tmp3[i]->y,0.5);
 				Nv->x=(tmp0[i]->x+tmp1[i]->x)/2;
 				courbeIntermediaire.push_back(Nv);
-				cout<<"x:\t"<<Nv->x<<"  y\t"<<Nv->y<<endl;
+				//cout<<"x:\t"<<Nv->x<<"  y\t"<<Nv->y<<endl;
 			}
-			listeCourbes.push_back(courbeIntermediaire);
+			listeCourbes->push_back(courbeIntermediaire);
 		}
 	}
 }
 
-double interpolationCubique(double y0,double y1,double y2,double y3,double mu)
-  {
+double CCourbesIntermediaires::interpolationCubique(double y0,double y1,double y2,double y3,double mu)
+{
      double a0,a1,a2,a3,mu2;
   
      mu2 = mu*mu;
@@ -43,5 +48,9 @@ double interpolationCubique(double y0,double y1,double y2,double y3,double mu)
 	//cout<<"**********"<<endl;
 	//cout<<a0*mu*mu2+a1*mu2+a2*mu+a3<<endl;
      return (a0*mu*mu2+a1*mu2+a2*mu+a3);
-  }
+}
 
+vector<vector<Point*>>* CCourbesIntermediaires::getListeCourbes()
+{
+	return listeCourbes;
+}
