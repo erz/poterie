@@ -13,7 +13,12 @@ IMPLEMENT_DYNAMIC(CPoterieModelisationDlg, CDialog)
 CPoterieModelisationDlg::CPoterieModelisationDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CPoterieModelisationDlg::IDD, pParent)
 {
-
+/*
+	CRect rect;
+	GetDlgItem(IDMODELISATIONWINDOW)->GetWindowRect(rect);
+	ScreenToClient(rect);
+	openGLControl.Create(rect,this);
+*/
 }
 
 CPoterieModelisationDlg::~CPoterieModelisationDlg()
@@ -25,6 +30,23 @@ void CPoterieModelisationDlg::DoDataExchange(CDataExchange* pDX)
 	CDialog::DoDataExchange(pDX);
 }
 
+BOOL CPoterieModelisationDlg::OnInitDialog()
+{
+	CDialog::OnInitDialog();
+
+	openGLControl = new COpenGLControl;
+
+	CRect rect;
+
+	GetDlgItem(IDMODELISATIONWINDOW)->GetWindowRect(rect);
+
+	ScreenToClient(rect);
+	//GetWindowRect(thisRect);
+
+
+	openGLControl->Create(rect,this);
+	return true;
+}
 
 BEGIN_MESSAGE_MAP(CPoterieModelisationDlg, CDialog)
 	ON_BN_CLICKED(IDBOUTONMODELISATION, &CPoterieModelisationDlg::OnBnClickedBoutonmodelisation)
