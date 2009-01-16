@@ -7,17 +7,8 @@
 #include <highgui.h>
 #include <math.h>
 
-#include <algorithm>
 
 using namespace std;
-
-struct TriAscendant
-	{		
-		inline bool operator() (Point * a, Point * b) const
-		{
-				return a->y < b->y;
-		}
-	};
 
 void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 {
@@ -50,8 +41,6 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	//Coordonnées des points d'entrée
 	coor_pts	x = MemVecteurFloat(N);
 	coor_pts	y = MemVecteurFloat(N);
-
-	sort((*pts).begin(),(*pts).end(),TriAscendant());
 
 	//Remplissage des points d'entree
 	for (int i = 0; i <= n; ++i)
@@ -107,30 +96,30 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	li2coc(x,y,n,m,k,vzeta,bnik,N+1,b,jf,xcontr,ycontr,vknot,&imax,&ir, &condi,&emoy,&esup);
 
 	//Point d'entree
-	cout << "Points d'entrée" << endl;
+	//cout << "Points d'entrée" << endl;
 	for (int i = 0; i <= n; ++i)
-		cout << i << ":" << x[i] << "\t" << y[i] << endl;
+		//cout << i << ":" << x[i] << "\t" << y[i] << endl;
 
 	//Points de controle
 	pointsControle = new std::vector<Point *>;
-	cout << "Points de controle" << endl;
+	//cout << "Points de controle" << endl;
 	for (int i = 0; i <= m; ++i)
 	{
 		Point *pt = new Point;
 		pt->x = (int)xcontr[i];
 		pt->y = (int)ycontr[i];
 		pointsControle->push_back(pt);
-		cout << i << ":" << pt->x << "\t" << pt->y << endl;
+		//cout << i << ":" << pt->x << "\t" << pt->y << endl;
 	}
 
 	//Vecteur de noeuds
 	vecteurNoeuds = vknot;
-	cout << "Vecteur de noeuds" << endl;
+	//cout << "Vecteur de noeuds" << endl;
 	for (int i = 0; i <= imax; ++i)
 	{
-		cout << vecteurNoeuds[i] << " - ";
+		//cout << vecteurNoeuds[i] << " - ";
 	}
-	cout << endl;
+	//cout << endl;
 
 	//Points sur la BSpline
 	bspline = new std::vector<Point *>;
@@ -138,7 +127,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	float t, pas, l, xcal, ycal;
     pas = (vknot[imax]-vknot[0])/(N-1);
 	t=vknot[0];
-	cout << "BSpline : " << endl;
+	//cout << "BSpline : " << endl;
 	for(l=0;l<N-1;l=l+1)
 	{
 		calc2x(xcontr,ycontr,t,&xcal,&ycal,vknot,imax,k,b,&ir);
@@ -147,7 +136,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 		pt->x = (int)xcal;
 		pt->y = (int)ycal;
 		bspline->push_back(pt);
-		cout << l << ": " << pt->x << "\t" << pt->y << endl;
+		cout << pt->x << "\t" << pt->y << endl;
 	}
 
     t=vknot[imax];

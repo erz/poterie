@@ -17,6 +17,7 @@
 #include <CString>
 #include <afxstr.h>
 #include <atlimage.h>
+#include <algorithm>
 
 //Variables globales
 //Sequence d'image
@@ -31,6 +32,47 @@ float epaisseurBase = 0;
 float epaisseurBasse = 0;
 float epaisseurMilieu = 0;
 float epaisseurHaute = 0;
+
+void traitementTotal()
+{
+	if (seq != NULL)
+	{
+		if (seq->getNbImages() > 0)
+		{
+			for (int i = 0 ; i < seq->getNbImages(); ++i)
+			{
+			
+				//Création Structure image OPENCV
+				//Si le CImage n'existe pas, on le crée
+				if (seq->getImage(i) == NULL)
+				{
+					CString TMPREP = seq->getRepertoireCourant()+CString("\\")+seq->getNom(i); 
+					CPoterieImage *newImage = new CPoterieImage(TMPREP);
+					seq->setImage(i, newImage);
+				}
+
+				if (seq->getImage(i)->getContour() == NULL)
+					seq->getImage(i)->trouver_contour();
+				
+				
+				//Si le CPoterieCourbe n'existe pas, on le crée
+				if (seq->getCourbe(i) == NULL)
+				{
+					CPoterieCourbe *newCourbe = new CPoterieCourbe(seq->getImage(i)->getContour());
+					seq->setCourbe(i, newCourbe);
+				}
+
+				//Si le CPoterieData n'existe pas, on le crée
+				if (seq->getData(i) == NULL)
+				{
+					CPoterieData *newData = new CPoterieData(seq->getImage(i));
+					seq->setData(i, newData);
+				}
+			}
+			calculerCourbesIntermediaires();
+		}
+	}
+}
 
 void CPoteriePersoDlg::refresh ()
 {
@@ -137,10 +179,10 @@ void CPoteriePersoDlg::refresh ()
 			//Fermeture du fichier
 			fermetureFichier(fichierSortie);
 			//fclose(fichierSortie);
-			calculerCourbesIntermediaires();
-			//L'affichage d'image est bloquant ! alors, ne le faire qu'à la fin !
-			seq->getImage(seq->getIdCour())->afficher_image();
+			//calculerCourbesIntermediaires();
 
+			//L'affichage d'image est bloquant ! alors, ne le faire qu'à la fin !
+			//seq->getImage(seq->getIdCour())->afficher_image();
 		}
 	}
 }
@@ -539,6 +581,9 @@ void CPoterieImage::trouver_contour()
 			ContourPoterie->push_back((*TempContourPoterie)[i]);
 	}
 	
+	//Tri croissant sur y
+	sort((*ContourPoterie).begin(),(*ContourPoterie).end(),TriAscendant());
+
 	//cout << "Apres Nettoyage : " << endl;
 	for (unsigned int i = 0; i+1 < ContourPoterie->size(); i+=2)
 	{

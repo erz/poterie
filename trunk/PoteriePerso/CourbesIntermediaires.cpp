@@ -2,16 +2,9 @@
 #include "CourbesIntermediaires.h"
 
 
-
 void calculerCourbesIntermediaires()
 {
-	bool sequenceBalaye=false;
-	if(seq->getIdCour()==seq->getNbImages()-1)
-	{
-		sequenceBalaye=true;
-	}
-
-	if(sequenceBalaye==true)
+	if(seq!=NULL && seq->getNbImages() > 0)
 	{
 		vector<vector<Point*>> listeCourbes; 
 		cout<<"Courbes Intermediaires:"<<endl;

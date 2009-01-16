@@ -39,11 +39,11 @@ class CPoterieData
 		std::vector<Point *> pts;
 		std::vector<Point *> ptsProfilInterne;
 };
-
+/*
 struct TriAscendant
 	{		
 		inline bool operator() (Point * a, Point * b) const
 		{
 				return a->y < b->y;
 		}
-	};
+	};*/

@@ -19,6 +19,8 @@
 	Fonction de rafraichissement des données à l'écran
 */
 void refresh ();
+//Traitement de toutes les images
+void traitementTotal();
 
 /*
 	Fonction d'enregistrement des données
@@ -60,4 +62,12 @@ private:
 	CvSeq* contours;
 	CvSize sz ;	
 	std::vector<Point *> *ContourPoterie;
+};
+
+struct TriAscendant
+{		
+	inline bool operator() (Point * a, Point * b) const
+	{
+			return a->y < b->y;
+	}
 };
