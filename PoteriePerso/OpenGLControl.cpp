@@ -61,7 +61,7 @@ void COpenGLControl::DrawGLScene()
 	glLoadIdentity();
 
 	//***************************
-	// DRAWING CODE
+	// ON DESSINE ICI
 	//***************************
 
 //	glTranslatef(0.0f,0.0f,-5.0f);
@@ -84,6 +84,9 @@ void COpenGLControl::DrawGLScene()
 		glVertex3f(-1.1f,1.1f,0.0f);
 	glEnd();*/
 
+	///////////////////////////
+	//FIN DU DESSIN
+	///////////////////////////
 	SwapBuffers(dc->m_hDC);
 }
 
