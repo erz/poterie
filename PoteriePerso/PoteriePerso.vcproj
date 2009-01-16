@@ -193,6 +193,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\CourbesIntermediaires.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\InterpolationSpline.cpp"
 				>
 			</File>
@@ -248,6 +252,10 @@
 			>
 			<File
 				RelativePath=".\Console.h"
+				>
+			</File>
+			<File
+				RelativePath=".\CourbesIntermediaires.h"
 				>
 			</File>
 			<File

@@ -12,7 +12,7 @@
 #include "PoterieSequence.h"
 #include "PoterieTraitement.h"
 #include "VariablesGlobales.h"
-
+#include "CourbesIntermediaires.h"
 #include <iostream>
 #include <CString>
 #include <afxstr.h>
@@ -137,7 +137,7 @@ void CPoteriePersoDlg::refresh ()
 			//Fermeture du fichier
 			fermetureFichier(fichierSortie);
 			//fclose(fichierSortie);
-			
+			calculerCourbesIntermediaires();
 			//L'affichage d'image est bloquant ! alors, ne le faire qu'à la fin !
 			seq->getImage(seq->getIdCour())->afficher_image();
 
