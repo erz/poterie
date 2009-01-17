@@ -60,22 +60,60 @@ void COpenGLControl::DrawGLScene()
 
 
 	glLoadIdentity();
-
+	
+	glRotatef(70.0, 1,0,0);
+	//glRotatef(30.0, 0,0,1);
+	glRotatef(50.0, 0,1,0);
 	//***************************
 	// ON DESSINE ICI
-	//***************************
-	/*
-	int i, j;
-    for (i = 0; i < 19; i++) 
-	{
-        for (j = 0; j < 8; j++) 
-		{
+	//***************************	
+	GLfloat mat_diffuse[] = { 0.7, 0.7, 0.7, 1.0 };
+    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat mat_shininess[] = { 100.0 };
+	
+	//glClearColor (0.0, 0.0, 0.0, 1.0);
+    //glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
+    //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+    //glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+
+
+	//glEnable(GL_LIGHTING);
+    //glEnable(GL_LIGHT0);
+    //glDepthFunc(GL_LEQUAL);
+    //glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_AUTO_NORMAL);
+    //glEnable(GL_NORMALIZE);
+
+	glPushMatrix();
+    glBegin(GL_LINES);
+    glColor3ub(0,0,255);
+    glVertex3i(0,0,0);
+    glVertex3i(1,0,0);
+    glColor3ub(0,255,0);
+    glVertex3i(0,0,0);
+    glVertex3i(0,1,0);
+	glColor3ub(255,0,0);
+    glVertex3i(0,0,0);
+    glVertex3i(0,0,1);
+    glEnd();
+    glPopMatrix();
+
+	int u,v;
+	 for (u = 0; u < 4; u++) {
+		 cout<<"Courbe "<<u<<endl;
+        for (v = 0; v < 4; v++) {
+			cout<<"Pt controle "<<v<<endl;
 			vector<Point*> tmp=*(seq->getCourbe(1)->getPointsControle());
-			if(j!=0) ctlpoints[i][j][0] = (int)tmp[i]->x*cos((2.0*PI)/j);
-            ctlpoints[i][j][1] = tmp[i]->y;
-            if(j!=0) ctlpoints[i][j][2] = (int)-tmp[i]->x*sin((2.0*PI)/j);
+            ctlpoints[u][v][0] =(int)((298-tmp[u]->x)*cos((2.0*PI*v)/4));
+            ctlpoints[u][v][1] = (int)tmp[u]->y-tmp[0]->y;
+            
+			  if ( (u == 1 || u == 2) && (v == 1 || v == 2))
+					ctlpoints[u][v][2] = 5.0;//(int)(-(298-tmp[u]->x)*sin((2.0*PI*v)/4));
+			  else
+					ctlpoints[u][v][2] = -5.0;
+			cout<<"X:"<<ctlpoints[v][u][0]<<"\tY:"<<ctlpoints[v][u][1]<<"\tZ:"<<ctlpoints[v][u][2]<<endl;
         }
-    }
+    } 
 
 
 	theNurb = gluNewNurbsRenderer();
@@ -83,29 +121,30 @@ void COpenGLControl::DrawGLScene()
     gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
 
 	seq->getCourbe(1)->getVecteurNoeuds();
-	GLfloat Uknots[18] = {0.0, 0.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,14.0};
+	GLfloat Uknots[8] = {0.0, 0.0, 0.0, 1.0,2.0, 3.0,3.0,3.0};
 	GLfloat knots[8] = {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0};
 	
 	glPushMatrix();
-    glRotatef(330.0, 1.,0.,0.);
-    glScalef (0.5, 0.5, 0.5);
+    //glRotatef(45.0, 0.0,1.0,0.0);
+    glScalef (0.01, 0.01, 0.01);
 
 	  gluBeginSurface(theNurb);
-        gluNurbsSurface(theNurb, 
-            18, Uknots,
+          gluNurbsSurface(theNurb, 
             8, knots,
-            19 * 3,
+            8, knots,
+            4 * 3,
             3,
             &ctlpoints[0][0][0], 
-            19, 7,
+            4, 4,
             GL_MAP2_VERTEX_3);
         gluEndSurface(theNurb);
+
 	
     glPopMatrix();
-	*/
+	/*
 	cout<<"On affiche le triangle"<<endl;
 	glRotatef(rotation,0.0f,1.0f,0.0f);
-
+	glScalef (0.05, 0.05, 0.05);
         glBegin(GL_TRIANGLES);
                 glColor3f(1.0f,0.0f,0.0f);
                 glVertex3f(1.0f,-1.0f,0.0f);
@@ -114,6 +153,8 @@ void COpenGLControl::DrawGLScene()
                 glColor3f(0.0f,0.0f,1.0f);
                 glVertex3f(0.0f,1.0f,0.0f);
         glEnd();
+*/
+
 
     glFlush();
 
