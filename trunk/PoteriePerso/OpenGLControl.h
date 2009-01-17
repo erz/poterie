@@ -22,7 +22,7 @@ public:
 
 // Attribute
 public:
-	GLfloat ctlpoints[8][4][3];
+	GLfloat ctlpoints[19][4][3];
 	GLUnurbsObj *theNurb;
 	
 
