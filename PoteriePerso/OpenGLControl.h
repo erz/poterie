@@ -22,6 +22,9 @@ public:
 
 // Attribute
 public:
+	GLfloat ctlpoints[19][8][3];
+	GLUnurbsObj *theNurb;
+	
 
 // Operationen
 public:
@@ -47,6 +50,8 @@ protected:
 	OpenGLDevice openGLDevice;
 	CClientDC* dc;
 	float rotation;
+	int Height;
+	int Width;
 
 	//{{AFX_MSG(COpenGLControl)
 	afx_msg void OnPaint();
