@@ -4,7 +4,8 @@
 #include "stdafx.h"
 //#include "OpenGLDialog.h"
 #include "OpenGLControl.h"
-
+#include "VariablesGlobales.h"
+#define PI 3.14
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -63,26 +64,61 @@ void COpenGLControl::DrawGLScene()
 	//***************************
 	// ON DESSINE ICI
 	//***************************
+	/*
+	int i, j;
+    for (i = 0; i < 19; i++) 
+	{
+        for (j = 0; j < 8; j++) 
+		{
+			vector<Point*> tmp=*(seq->getCourbe(1)->getPointsControle());
+			if(j!=0) ctlpoints[i][j][0] = (int)tmp[i]->x*cos((2.0*PI)/j);
+            ctlpoints[i][j][1] = tmp[i]->y;
+            if(j!=0) ctlpoints[i][j][2] = (int)-tmp[i]->x*sin((2.0*PI)/j);
+        }
+    }
 
-//	glTranslatef(0.0f,0.0f,-5.0f);
+
+	theNurb = gluNewNurbsRenderer();
+    gluNurbsProperty(theNurb, GLU_SAMPLING_TOLERANCE, 25.0);
+    gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
+
+	seq->getCourbe(1)->getVecteurNoeuds();
+	GLfloat Uknots[18] = {0.0, 0.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,14.0};
+	GLfloat knots[8] = {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0};
+	
+	glPushMatrix();
+    glRotatef(330.0, 1.,0.,0.);
+    glScalef (0.5, 0.5, 0.5);
+
+	  gluBeginSurface(theNurb);
+        gluNurbsSurface(theNurb, 
+            18, Uknots,
+            8, knots,
+            19 * 3,
+            3,
+            &ctlpoints[0][0][0], 
+            19, 7,
+            GL_MAP2_VERTEX_3);
+        gluEndSurface(theNurb);
+	
+    glPopMatrix();
+	*/
+	cout<<"On affiche le triangle"<<endl;
 	glRotatef(rotation,0.0f,1.0f,0.0f);
 
-	glBegin(GL_TRIANGLES);
-		glColor3f(1.0f,0.0f,0.0f);
-		glVertex3f(1.0f,-1.0f,0.0f);
-		glColor3f(0.0f,1.0f,0.0f);
-		glVertex3f(-1.0f,-1.0f,0.0f);
-		glColor3f(0.0f,0.0f,1.0f);
-		glVertex3f(0.0f,1.0f,0.0f);
-	glEnd();
+        glBegin(GL_TRIANGLES);
+                glColor3f(1.0f,0.0f,0.0f);
+                glVertex3f(1.0f,-1.0f,0.0f);
+                glColor3f(0.0f,1.0f,0.0f);
+                glVertex3f(-1.0f,-1.0f,0.0f);
+                glColor3f(0.0f,0.0f,1.0f);
+                glVertex3f(0.0f,1.0f,0.0f);
+        glEnd();
 
-/*	glBegin(GL_QUADS);
-		glColor3f(1.0f,0.0f,0.0f);
-		glVertex3f(-1.1f,-1.1,0.0f);
-		glVertex3f(1.1f,-1.1f,0.0f);
-		glVertex3f(1.1f,1.1f,0.0f);
-		glVertex3f(-1.1f,1.1f,0.0f);
-	glEnd();*/
+    glFlush();
+
+
+	
 
 	///////////////////////////
 	//FIN DU DESSIN
@@ -94,6 +130,9 @@ void COpenGLControl::DrawGLScene()
 
 void COpenGLControl::Create(CRect rect, CWnd *parent)
 {
+
+	Height=rect.Height();
+	Width=rect.Width();
 	CString className = AfxRegisterWndClass(
 		CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
 		NULL,
@@ -142,10 +181,10 @@ void COpenGLControl::OnSize(UINT nType, int cx, int cy)
 	glMatrixMode(GL_PROJECTION);						
 	glLoadIdentity();						
 
-	
+	//gluOrtho2D(0.0, 500.0 * 200, 0.0, 500);
 	glOrtho(-1.0f,1.0f,-1.0f,1.0f,1.0f,-1.0f);
-//	gluPerspective(45.0f,cx/cy,0.1f,100.0f);
-
+	//gluPerspective(45.0f,cx/cy,0.1f,100.0f);
+	
 	glMatrixMode(GL_MODELVIEW);						
 	glLoadIdentity();
 }
