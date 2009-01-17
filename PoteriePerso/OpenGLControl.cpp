@@ -61,9 +61,9 @@ void COpenGLControl::DrawGLScene()
 
 	glLoadIdentity();
 	
-	glRotatef(70.0, 1,0,0);
+	glRotatef(30.0, 1,0,0);
 	//glRotatef(30.0, 0,0,1);
-	glRotatef(50.0, 0,1,0);
+	//glRotatef(50.0, 0,1,0);
 	//***************************
 	// ON DESSINE ICI
 	//***************************	
@@ -99,10 +99,12 @@ void COpenGLControl::DrawGLScene()
     glPopMatrix();
 
 	int u,v;
-	 for (u = 0; u < 4; u++) {
-		 cout<<"Courbe "<<u<<endl;
-        for (v = 0; v < 4; v++) {
-			cout<<"Pt controle "<<v<<endl;
+	 for (u = 0; u < 19; u++) 
+	 {
+		 //cout<<"Courbe "<<u<<endl;
+        for (v = 0; v < 4; v++) 
+		{
+			//cout<<"Pt controle "<<v<<endl;
 			vector<Point*> tmp=*(seq->getCourbe(1)->getPointsControle());
             ctlpoints[u][v][0] =(int)((298-tmp[u]->x)*cos((2.0*PI*v)/4));
             ctlpoints[u][v][1] = (int)tmp[u]->y-tmp[0]->y;
@@ -119,20 +121,20 @@ void COpenGLControl::DrawGLScene()
 	theNurb = gluNewNurbsRenderer();
     gluNurbsProperty(theNurb, GLU_SAMPLING_TOLERANCE, 25.0);
     gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
-
+	
 	seq->getCourbe(1)->getVecteurNoeuds();
-	GLfloat Uknots[8] = {0.0, 0.0, 0.0, 1.0,2.0, 3.0,3.0,3.0};
+	GLfloat Uknots[18] = {0.0, 0.0, 0.0, 1.0,2.0, 3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,10.0,10.0};
 	GLfloat knots[8] = {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0};
 	
 	glPushMatrix();
     //glRotatef(45.0, 0.0,1.0,0.0);
-    glScalef (0.01, 0.01, 0.01);
+    glScalef (0.005, 0.005, 0.005);
 
 	  gluBeginSurface(theNurb);
           gluNurbsSurface(theNurb, 
+            15, Uknots,
             8, knots,
-            8, knots,
-            4 * 3,
+            19 * 3,
             3,
             &ctlpoints[0][0][0], 
             4, 4,
