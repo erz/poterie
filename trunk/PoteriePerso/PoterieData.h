@@ -17,11 +17,11 @@ class CPoterieData
 		CPoterieData(CPoterieImage*);
 		void RefreshListe(CListBox*);
 		void CentreDeMasse(CPoterieImage * im);
-	
+		int ouverture;
 	private:
 		int base;
 		int hauteur; 
-		int ouverture;
+		
 		int maxDiam;
 		int maxDiamHauteur;
 		float volume;

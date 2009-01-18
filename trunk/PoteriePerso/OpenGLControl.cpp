@@ -48,7 +48,7 @@ void COpenGLControl::InitGL()
 	glShadeModel(GL_SMOOTH);
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearDepth(1.0f);							
-	//glEnable(GL_DEPTH_TEST);					
+	glEnable(GL_DEPTH_TEST);					
 	glDepthFunc(GL_LEQUAL);	
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 }
@@ -58,7 +58,9 @@ void COpenGLControl::DrawGLScene()
 	glClear(GL_COLOR_BUFFER_BIT
 		 |  GL_DEPTH_BUFFER_BIT);
 
-
+	glEnable( GL_POLYGON_SMOOTH );
+	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+	glEnable( GL_BLEND );
 	glLoadIdentity();
 	
 	//glRotatef(30.0, 1,0,0);
@@ -88,19 +90,31 @@ void COpenGLControl::DrawGLScene()
     glPopMatrix();
 	*/
 	//glClearColor (0.0, 0.0, 0.0, 1.0);
-
-	vector<Point*> tmp=*(seq->getCourbe(0)->getPointsControle());
-	float sil[19][2];
+	int NumeroImage=1;
+	vector<Point*> tmp=*(seq->getCourbe(NumeroImage)->getPointsControle());
+	float sil[23][2];
 	for(int u=0;u<19;u++)
 	{
-			sil[u][0]=(int)(298-tmp[18-u]->x);
-			sil[u][1]=(int)tmp[18-u]->y-tmp[0]->y;
+			if(u==0)
+			{
+				sil[0][0]=(int)(298-tmp[18-u]->x);
+				sil[0][1]=(int)tmp[18-u]->y-tmp[0]->y;
+				sil[1][0]=(int)(298-tmp[18-u]->x);
+				sil[1][1]=(int)tmp[18-u]->y-tmp[0]->y;
+				sil[2][0]=(int)(298-tmp[18-u]->x);
+				sil[2][1]=(int)tmp[18-u]->y-tmp[0]->y;
+				sil[3][0]=(int)(298-tmp[18-u]->x)+seq->getData(NumeroImage)->ouverture;
+				sil[3][1]=(int)tmp[18-u]->y-tmp[0]->y;
+			}
+			sil[u+4][0]=(int)(298-tmp[18-u]->x);
+			sil[u+4][1]=(int)tmp[18-u]->y-tmp[0]->y;
+			
 	}
 	GLfloat vknots[12] = {0.0, 0.0, 0.0,0.25,0.25,0.5,0.5,0.75,0.75, 1.0,1.0, 1.0};
 	float uknots[30];
 	int numuknots;
 	int order=3;
-	int numsilpts=19;
+	int numsilpts=23;
 	//Matrice permettant de générer les pts de controle (rotation)
     float B[][3]= {   { 1.0, 0.0, 1.0},{ 0.707, 0.707, 0.707}
                  ,{ 0.0, 1.0, 1.0},{-0.707, 0.707, 0.707}
