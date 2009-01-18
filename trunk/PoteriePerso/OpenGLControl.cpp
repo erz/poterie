@@ -61,29 +61,18 @@ void COpenGLControl::DrawGLScene()
 
 	glLoadIdentity();
 	
-	glRotatef(30.0, 1,0,0);
+	//glRotatef(30.0, 1,0,0);
 	//glRotatef(30.0, 0,0,1);
-	//glRotatef(50.0, 0,1,0);
+	glRotatef(180.0, 0,1,0);
 	//***************************
 	// ON DESSINE ICI
 	//***************************	
-	GLfloat mat_diffuse[] = { 0.7, 0.7, 0.7, 1.0 };
-    GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
-    GLfloat mat_shininess[] = { 100.0 };
+	
 	
 	//glClearColor (0.0, 0.0, 0.0, 1.0);
-    //glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-    //glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-    //glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+   
 
-
-	//glEnable(GL_LIGHTING);
-    //glEnable(GL_LIGHT0);
-    //glDepthFunc(GL_LEQUAL);
-    //glEnable(GL_DEPTH_TEST);
-    //glEnable(GL_AUTO_NORMAL);
-    //glEnable(GL_NORMALIZE);
-
+	/*
 	glPushMatrix();
     glBegin(GL_LINES);
     glColor3ub(0,0,255);
@@ -97,65 +86,87 @@ void COpenGLControl::DrawGLScene()
     glVertex3i(0,0,1);
     glEnd();
     glPopMatrix();
+	*/
+	//glClearColor (0.0, 0.0, 0.0, 1.0);
 
-	int u,v;
-	 for (u = 0; u < 19; u++) 
-	 {
-		 //cout<<"Courbe "<<u<<endl;
-        for (v = 0; v < 4; v++) 
+	vector<Point*> tmp=*(seq->getCourbe(0)->getPointsControle());
+	float sil[19][2];
+	for(int u=0;u<19;u++)
+	{
+			sil[u][0]=(int)(298-tmp[18-u]->x);
+			sil[u][1]=(int)tmp[18-u]->y-tmp[0]->y;
+	}
+	GLfloat vknots[12] = {0.0, 0.0, 0.0,0.25,0.25,0.5,0.5,0.75,0.75, 1.0,1.0, 1.0};
+	float uknots[30];
+	int numuknots;
+	int order=3;
+	int numsilpts=19;
+	//Matrice permettant de générer les pts de controle (rotation)
+    float B[][3]= {   { 1.0, 0.0, 1.0},{ 0.707, 0.707, 0.707}
+                 ,{ 0.0, 1.0, 1.0},{-0.707, 0.707, 0.707}
+				 ,{-1.0, 0.0, 1.0},{-0.707,-0.707, 0.707}
+				 ,{ 0.0,-1.0, 1.0},{ 0.707,-0.707, 0.707}
+				 ,{ 1.0, 0.0, 1.0}};
+
+    GLfloat ctlpoints[9][80][4];   
+	int i,j,s;
+	int last_index=numsilpts-1;
+	   
+    glEnable(GL_AUTO_NORMAL);
+    glEnable(GL_NORMALIZE);
+
+	/***************On remplit les vecteurs de noeuds*********************/
+       numuknots=numsilpts+2+order;
+	   for (i=0;i<numuknots;i++)
+		     uknots[i]=i;
+	
+	/*************On remplit les pts de controles*************************/
+	
+    for (j=0;j<=last_index;j++)
+	    for (i=0;i<9;i++) 
 		{
-			//cout<<"Pt controle "<<v<<endl;
-			vector<Point*> tmp=*(seq->getCourbe(1)->getPointsControle());
-            ctlpoints[u][v][0] =(int)((298-tmp[u]->x));//*cos((2.0*PI*v)/4));
-            ctlpoints[u][v][1] = (int)tmp[u]->y-tmp[0]->y;
-            
-			  if ( (u == 1 || u == 2) && (v == 1 || v == 2))
-					ctlpoints[u][v][2] = 5.0;//(int)(-(298-tmp[u]->x)*sin((2.0*PI*v)/4));
-			  else
-					ctlpoints[u][v][2] = -5.0;
-			cout<<"X:"<<ctlpoints[v][u][0]<<"\tY:"<<ctlpoints[v][u][1]<<"\tZ:"<<ctlpoints[v][u][2]<<endl;
-        }
-    } 
-
+            ctlpoints[i][j][1] =sil[j][1]*B[8-i][2];
+            ctlpoints[i][j][0] =sil[j][0]*B[8-i][0];
+            ctlpoints[i][j][2] =sil[j][0]*B[8-i][1];
+            ctlpoints[i][j][3] =B[8-i][2];
+		}
+	    
+	 	
+   for (i=0;i<9;i++)
+   {
+		ctlpoints[i][last_index+1][1] =ctlpoints[i][0][1];
+        ctlpoints[i][last_index+1][0] =ctlpoints[i][0][0];
+        ctlpoints[i][last_index+1][2] =ctlpoints[i][0][2];
+        ctlpoints[i][last_index+1][3] =ctlpoints[i][0][3];
+   }
+   for (i=0;i<9;i++) 
+   {
+        ctlpoints[i][last_index+2][1] =ctlpoints[i][1][1];
+        ctlpoints[i][last_index+2][0] =ctlpoints[i][1][0];
+        ctlpoints[i][last_index+2][2] =ctlpoints[i][1][2];
+        ctlpoints[i][last_index+2][3] =ctlpoints[i][1][3];
+  }
 
 	theNurb = gluNewNurbsRenderer();
-    gluNurbsProperty(theNurb, GLU_SAMPLING_TOLERANCE, 25.0);
-    gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
+	gluNurbsProperty(theNurb,GLU_SAMPLING_METHOD, GLU_DOMAIN_DISTANCE);
+	gluNurbsProperty(theNurb,GLU_U_STEP,10);
+	gluNurbsProperty(theNurb,GLU_V_STEP,10);
+	gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
+    gluNurbsProperty(theNurb, GLU_CULLING, GLU_TRUE);
 	
-	seq->getCourbe(1)->getVecteurNoeuds();
-	GLfloat Uknots[18] = {0.0, 0.0, 0.0, 1.0,2.0, 3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,13.0,13.0};
-	GLfloat knots[8] = {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0};
-	
-	glPushMatrix();
-    //glRotatef(45.0, 0.0,1.0,0.0);
-    glScalef (0.005, 0.005, 0.005);
-
-	  gluBeginSurface(theNurb);
-          gluNurbsSurface(theNurb, 
-            8, knots,
-            8, knots,
-            19 * 3,
-            3,
-            &ctlpoints[0][0][0], 
-            4, 4,
-            GL_MAP2_VERTEX_3);
+	glScalef (0.005, 0.005, 0.005);
+	 gluNurbsSurface(theNurb, 
+            12, vknots,      
+            numuknots, uknots,  
+            80 * 4,      
+            4,           
+            &ctlpoints[0][0][0],  
+            3,order,                
+            GL_MAP2_VERTEX_4);
+		 
         gluEndSurface(theNurb);
-
-	
+	   
     glPopMatrix();
-	/*
-	cout<<"On affiche le triangle"<<endl;
-	glRotatef(rotation,0.0f,1.0f,0.0f);
-	glScalef (0.05, 0.05, 0.05);
-        glBegin(GL_TRIANGLES);
-                glColor3f(1.0f,0.0f,0.0f);
-                glVertex3f(1.0f,-1.0f,0.0f);
-                glColor3f(0.0f,1.0f,0.0f);
-                glVertex3f(-1.0f,-1.0f,0.0f);
-                glColor3f(0.0f,0.0f,1.0f);
-                glVertex3f(0.0f,1.0f,0.0f);
-        glEnd();
-*/
 
 
     glFlush();
