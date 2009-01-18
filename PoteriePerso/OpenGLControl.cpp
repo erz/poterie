@@ -63,7 +63,7 @@ void COpenGLControl::DrawGLScene()
 	
 	//glRotatef(30.0, 1,0,0);
 	//glRotatef(30.0, 0,0,1);
-	glRotatef(180.0, 0,1,0);
+	
 	//***************************
 	// ON DESSINE ICI
 	//***************************	
@@ -154,8 +154,9 @@ void COpenGLControl::DrawGLScene()
 	gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
     gluNurbsProperty(theNurb, GLU_CULLING, GLU_TRUE);
 	
+	glRotatef(180.0, 1.0,0,0);
 	glScalef (0.005, 0.005, 0.005);
-	 gluNurbsSurface(theNurb, 
+	gluNurbsSurface(theNurb, 
             12, vknots,      
             numuknots, uknots,  
             80 * 4,      
