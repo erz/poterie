@@ -106,7 +106,7 @@ void COpenGLControl::DrawGLScene()
 		{
 			//cout<<"Pt controle "<<v<<endl;
 			vector<Point*> tmp=*(seq->getCourbe(1)->getPointsControle());
-            ctlpoints[u][v][0] =(int)((298-tmp[u]->x)*cos((2.0*PI*v)/4));
+            ctlpoints[u][v][0] =(int)((298-tmp[u]->x));//*cos((2.0*PI*v)/4));
             ctlpoints[u][v][1] = (int)tmp[u]->y-tmp[0]->y;
             
 			  if ( (u == 1 || u == 2) && (v == 1 || v == 2))
@@ -123,7 +123,7 @@ void COpenGLControl::DrawGLScene()
     gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
 	
 	seq->getCourbe(1)->getVecteurNoeuds();
-	GLfloat Uknots[18] = {0.0, 0.0, 0.0, 1.0,2.0, 3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,10.0,10.0};
+	GLfloat Uknots[18] = {0.0, 0.0, 0.0, 1.0,2.0, 3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,13.0,13.0};
 	GLfloat knots[8] = {0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 1.0};
 	
 	glPushMatrix();
@@ -132,7 +132,7 @@ void COpenGLControl::DrawGLScene()
 
 	  gluBeginSurface(theNurb);
           gluNurbsSurface(theNurb, 
-            15, Uknots,
+            8, knots,
             8, knots,
             19 * 3,
             3,
