@@ -21,7 +21,7 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		ouverture = 0; 
 		maxDiam = ctrWidth;
 		maxDiamHauteur = 0;
-
+		
 		//epaisseurs;
 		eHaute=(pourcentageHaut*epaisseurMoyenne)/echelle;
 		eMoyenne=(pourcentageMilieu*epaisseurMoyenne)/echelle;
@@ -67,13 +67,13 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 			float base2=(ctrWidth-pts[i+1]->x)*echelle;
 			float generatrice=sqrt(pow((float)(pts[i]->x-pts[i+1]->x)*echelle,2)+pow((float)(pts[i]->y-pts[i+1]->y)*echelle,2) );
 			float hauteurSection=abs((pts[i]->y-pts[i+1]->y))*echelle;
-
+			
 			//volume+=(PI*(hauteurSection)*(base1*base1+base1*base2+base2*base2))/3.0;
 			volume+=((PI*pow(base2,2)*hauteurSection)/3.0)*(1+(base1/base2)+(pow(base1,2)/pow(base2,2)));
 			surface+=PI*(base1+base2)*generatrice;
 
 		}
-
+		volume-=volumeMatiere;
 		CentreDeMasse(im);
 		//On a toutes les variables : on les traite pour avoir les bons résultats.
 		ouverture = (ctrWidth-ouverture)*2;
