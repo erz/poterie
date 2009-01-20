@@ -119,7 +119,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	{
 		//cout << vecteurNoeuds[i] << " - ";
 	}
-	//cout << endl;
+	cout << endl;
 
 	//Points sur la BSpline
 	bspline = new std::vector<Point *>;
@@ -147,7 +147,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	pt->y = (int)ycal;
 	bspline->push_back(pt);
 
-	/*/Affichage de la BSpline
+	//Affichage de la BSpline
 	IplImage* cnt_img = cvCreateImage( cvSize(300, 300), 8, 3 );
     cvZero( cnt_img );
 
@@ -165,7 +165,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	}
 
 	cvShowImage("BSpline", cnt_img);
-	cvWaitKey();*/
+	cvWaitKey();
 	
 	//Liberation mémoire
 	FreeVecteurFloat(&x);

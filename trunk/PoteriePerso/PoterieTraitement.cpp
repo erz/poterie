@@ -27,7 +27,7 @@ double echelle = 0.076692;
 //Fichier d'enregistrement
 FILE *fichierSortie = new FILE;
 //Données dépendantes de la forme de la poterie
-float volumeMatiere = 750;
+float volumeMatiere = 4387.5;
 float epaisseurMoyenne = 0.009;
 float pourcentageBas = 197.8;
 float pourcentageMilieu = 97.8;
@@ -183,7 +183,7 @@ void CPoteriePersoDlg::refresh ()
 			//calculerCourbesIntermediaires();
 
 			//L'affichage d'image est bloquant ! alors, ne le faire qu'à la fin !
-			//seq->getImage(seq->getIdCour())->afficher_image();
+			seq->getImage(seq->getIdCour())->afficher_image();
 		}
 	}
 }
@@ -569,7 +569,6 @@ void CPoterieImage::trouver_contour()
 		bool existePoint = false;
 		for (unsigned int j=0; j < ContourPoterie->size(); ++j)
 		{
-			//if ((*ContourPoterie)[j]->x == (*TempContourPoterie)[i]->x && (*ContourPoterie)[j]->y == (*TempContourPoterie)[i]->y)
 			if (abs((*ContourPoterie)[j]->y -(*TempContourPoterie)[i]->y)<=1)
 			{
 				existePoint = true;
