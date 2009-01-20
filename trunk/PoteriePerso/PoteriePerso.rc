@@ -98,12 +98,15 @@ BEGIN
     LTEXT           "Variables géométriques",IDTEXT,251,66,85,8,NOT WS_VISIBLE
     CONTROL         "",IDPIC,"Static",SS_BITMAP,33,54,172,117
     PUSHBUTTON      "Etalonner",IDETALONNER,191,20,50,16
-    CTEXT           "Bienvenue ! Ouvrez un dossier d'une séquence d'images pour commencer.\nN'oubliez pas d'étalonner si besoin est, ainsi que de choisir le bon type de poterie !",IDTEXTEBIENVENUE,97,116,265,19
-    CONTROL         "Bol",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP,151,220,25,10
-    CONTROL         "Cylindre",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,201,220,42,10
-    CONTROL         "Vase",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,257,220,31,10
-    GROUPBOX        "Type de poterie",IDC_GROUPTYPE,133,208,170,36
+    CTEXT           "Bienvenue ! Ouvrez un dossier d'une séquence d'images pour commencer.\nN'oubliez pas d'étalonner si besoin est, ainsi que de renseigner les variables ci-dessous !",IDTEXTEBIENVENUE,84,116,265,29
     PUSHBUTTON      "Modelisation",IDMODELISATION,338,223,62,21,NOT WS_VISIBLE
+    GROUPBOX        "Variables d'épaisseur",IDGROUPEPAISSEUR,19,192,380,54
+    EDITTEXT        IDEP_VOLUME,36,220,41,12,ES_AUTOHSCROLL
+    LTEXT           "Volume de matière    Epaisseur Moyenne (m)    Epaisseur Basse (%)  Epaisseur Milieu (%)  Epaisseur Haute (%)",IDEP_LEGENDE,29,205,357,14
+    EDITTEXT        IDEP_MOYENNE,109,220,41,12,ES_AUTOHSCROLL
+    EDITTEXT        IDEP_BASSE,188,220,41,12,ES_AUTOHSCROLL
+    EDITTEXT        IDEP_MILIEU,255,220,41,12,ES_AUTOHSCROLL
+    EDITTEXT        IDEP_HAUTE,327,220,41,12,ES_AUTOHSCROLL
 END
 
 IDD_MODELISATION_DIALOG DIALOGEX 0, 0, 322, 183

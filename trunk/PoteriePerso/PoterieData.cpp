@@ -23,12 +23,13 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		maxDiamHauteur = 0;
 
 		//epaisseurs;
-		eHaute=epaisseurHaute/echelle;
-		eMoyenne=epaisseurMilieu/echelle;
-		eBasse=epaisseurBasse/echelle;
-		eBase=epaisseurBase/echelle;
+		eHaute=(pourcentageHaut*epaisseurMoyenne)/echelle;
+		eMoyenne=(pourcentageMilieu*epaisseurMoyenne)/echelle;
+		eBasse=(pourcentageBas*epaisseurMoyenne)/echelle;
+		eBase=(epaisseurMoyenne*100)/echelle;
 		pts = *(im->getContour());
 	
+		cout << eHaute << " " << eMoyenne << " " << eBasse << " " << eBase << endl;
 		for (unsigned int i=0; i < pts.size(); ++i)
 		{
 			
@@ -173,7 +174,7 @@ void CPoterieData::RefreshListe(CListBox *liste)
 	CString Surface;
 	Surface.Format(CString("Surface : %.4lf cm²"), surface);
 	CString Volume;
-	Volume.Format(CString("Volume : %.4lf cm3"), volume);
+	Volume.Format(CString("Volume : %.4lf L"), volume/1000.0);
 	CString Circularite;
 	Circularite.Format(CString("Circularite : %.2lf "), circularite);
 	CString HauteurCDM;
