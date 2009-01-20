@@ -30,9 +30,6 @@ void enregistrerDonnees (CString);
 //Enregistre un point
 void enregistrerPoints(FILE *,Point *);
 
-//Remplis les variables globales dépendantes de la forme en fonction de celle-ci
-void remplirValeursSelonForme(void);
-
 /*
 	Fonction d'étalonnage
 */

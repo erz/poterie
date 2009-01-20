@@ -14,8 +14,8 @@ extern double echelle;
 extern FILE *fichierSortie;
 
 //Données dépendantes de la forme de la poterie
-extern int formePoterie;
-extern float epaisseurBase;
-extern float epaisseurBasse;
-extern float epaisseurMilieu;
-extern float epaisseurHaute;
+extern float volumeMatiere;
+extern float epaisseurMoyenne;
+extern float pourcentageBas;
+extern float pourcentageMilieu;
+extern float pourcentageHaut;

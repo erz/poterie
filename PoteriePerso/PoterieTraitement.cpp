@@ -27,11 +27,11 @@ double echelle = 0.076692;
 //Fichier d'enregistrement
 FILE *fichierSortie = new FILE;
 //Données dépendantes de la forme de la poterie
-int formePoterie = 1;
-float epaisseurBase = 0;
-float epaisseurBasse = 0;
-float epaisseurMilieu = 0;
-float epaisseurHaute = 0;
+float volumeMatiere = 750;
+float epaisseurMoyenne = 0.009;
+float pourcentageBas = 197.8;
+float pourcentageMilieu = 97.8;
+float pourcentageHaut = 78.9;
 
 void traitementTotal()
 {
@@ -717,38 +717,4 @@ void mouseHandler(int event, int x, int y, int flags, void* param)
         break;
     }
 	
-}
-
-//Remplis les variables globales dépendantes de la forme en fonction de celle-ci
-void remplirValeursSelonForme()
-{
-	//Convention:
-	//1 = bol
-	//2 = cylindre
-	//3 = vase
-	
-	switch (formePoterie)
-	{
-		case 1 :
-			epaisseurBase = 0.98;
-			epaisseurBasse = 0.18;
-			epaisseurMilieu = 0.68;
-			epaisseurHaute = 0.5;
-			break;
-		case 2 :
-			epaisseurBase = 0.753;
-			epaisseurBasse = 0.11;
-			epaisseurMilieu = 0.7;
-			epaisseurHaute = 0.46;
-			break;
-		case 3 :
-			epaisseurBase = 0.8;
-			epaisseurBasse = 1.55;
-			epaisseurMilieu = 0.8;
-			epaisseurHaute = 0.5;
-			break;
-		default :
-			cout << "Mauvais choix de forme" << endl;
-	}
-
 }

@@ -73,11 +73,14 @@ void CPoteriePersoDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDPREC, boutonPrecedent);
 	DDX_Control(pDX, IDSUIV, boutonSuivant);
 	DDX_Control(pDX, IDTEXT, texteListe);
-	DDX_Control(pDX, IDC_GROUPTYPE, groupeBoutonsType);
-	DDX_Control(pDX, IDC_RADIO1, radio1);
-	DDX_Control(pDX, IDC_RADIO2, radio2);
-	DDX_Control(pDX, IDC_RADIO3, radio3);
 	DDX_Control(pDX, IDMODELISATION, boutonModelisation);
+	DDX_Control(pDX, IDGROUPEPAISSEUR, groupeEpaisseur);
+	DDX_Control(pDX, IDEP_LEGENDE, ep_legende);
+	DDX_Control(pDX, IDEP_VOLUME, ep_volume);
+	DDX_Control(pDX, IDEP_MOYENNE, ep_moyenne);
+	DDX_Control(pDX, IDEP_BASSE, ep_basse);
+	DDX_Control(pDX, IDEP_MILIEU, ep_milieu);
+	DDX_Control(pDX, IDEP_HAUTE, ep_haute);
 }
 
 BEGIN_MESSAGE_MAP(CPoteriePersoDlg, CDialog)
@@ -92,9 +95,6 @@ BEGIN_MESSAGE_MAP(CPoteriePersoDlg, CDialog)
 	ON_BN_CLICKED(IDSUIV, &CPoteriePersoDlg::OnBnClickedSuiv)
 	ON_BN_CLICKED(IDSAUVER, &CPoteriePersoDlg::OnBnClickedSauver)
 	ON_BN_CLICKED(IDETALONNER, &CPoteriePersoDlg::OnBnClickedEtalonner)
-	ON_BN_CLICKED(IDC_RADIO2, &CPoteriePersoDlg::OnBnClickedRadio2)
-	ON_BN_CLICKED(IDC_RADIO1, &CPoteriePersoDlg::OnBnClickedRadio1)
-	ON_BN_CLICKED(IDC_RADIO3, &CPoteriePersoDlg::OnBnClickedRadio3)
 	ON_BN_CLICKED(IDMODELISATION, &CPoteriePersoDlg::OnBnClickedModelisation)
 END_MESSAGE_MAP()
 
@@ -128,7 +128,19 @@ BOOL CPoteriePersoDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Définir une grande icône
 	SetIcon(m_hIcon, FALSE);		// Définir une petite icône
 
-	// TODO : ajoutez ici une initialisation supplémentaire
+	//Initialisations des variables d'épaisseur
+
+	CString volume, emoy, ebas, emil, ehaut;
+	volume.Format(CString("%.2f"), volumeMatiere);
+	emoy.Format(CString("%.3f"), epaisseurMoyenne);
+	ebas.Format(CString("%.2f"), pourcentageBas);
+	emil.Format(CString("%.2f"), pourcentageMilieu);
+	ehaut.Format(CString("%.2f"), pourcentageHaut);
+	ep_volume.SetWindowTextW(volume);
+	ep_moyenne.SetWindowTextW(emoy);
+	ep_basse.SetWindowTextW(ebas);
+	ep_milieu.SetWindowTextW(emil);
+	ep_haute.SetWindowTextW(ehaut);
 
 	return TRUE;  // retourne TRUE, sauf si vous avez défini le focus sur un contrôle
 }
@@ -230,10 +242,13 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 			   				
 				//Affichage de l'ihm
 			   	boutonEtalonner.ShowWindow(SW_HIDE);
-				groupeBoutonsType.ShowWindow(SW_HIDE);
-				radio1.ShowWindow(SW_HIDE);
-				radio2.ShowWindow(SW_HIDE);
-				radio3.ShowWindow(SW_HIDE);
+				groupeEpaisseur.ShowWindow(SW_HIDE);
+				ep_legende.ShowWindow(SW_HIDE);
+				ep_volume.ShowWindow(SW_HIDE);
+				ep_moyenne.ShowWindow(SW_HIDE);
+				ep_basse.ShowWindow(SW_HIDE);
+				ep_milieu.ShowWindow(SW_HIDE);
+				ep_haute.ShowWindow(SW_HIDE);
 				listeVars.ShowWindow(SW_SHOW);
 				boutonModelisation.ShowWindow(SW_SHOW);
 				boutonSauver.ShowWindow(SW_SHOW);
@@ -269,8 +284,12 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 					seq->addImage(finder.GetFileName());
 				}
 
-				//Remplissage des valeurs en fonction de la forme
-				remplirValeursSelonForme();
+				//Modification si besoin des variables d'epaisseur
+					//volumeMatiere;
+					//epaisseurMoyenne;
+					//pourcentageBas;
+					//pourcentageMilieu;
+					//pourcentageHaut; 
 
 				//Traitement des données
 				traitementTotal();
@@ -330,21 +349,6 @@ void CPoteriePersoDlg::OnBnClickedEtalonner()
 	{
 		etalonnerAvecImage(fOpenDlg.GetPathName());
 	}
-}
-
-void CPoteriePersoDlg::OnBnClickedRadio1()
-{
-	formePoterie = 1;
-}
-
-void CPoteriePersoDlg::OnBnClickedRadio2()
-{
-	formePoterie = 2;	
-}
-
-void CPoteriePersoDlg::OnBnClickedRadio3()
-{
-	formePoterie = 3;
 }
 
 void CPoteriePersoDlg::OnBnClickedModelisation()

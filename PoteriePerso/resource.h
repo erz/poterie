@@ -25,6 +25,14 @@
 #define IDC_GROUPTYPE                   1017
 #define IDBOUTONMODELISATION            1022
 #define IDMODELISATIONWINDOW            1023
+#define IDGROUPEPAISSEUR                1024
+#define IDEP_VOLUME                     1025
+#define IDEP_LEGENDE                    1026
+#define IDEP_MOYENNE                    1027
+#define IDEP_BASSE                      1028
+#define IDEP_MILIEU                     1029
+#define IDEP_BASSE2                     1030
+#define IDEP_HAUTE                      1030
 
 // Next default values for new objects
 // 
@@ -32,7 +40,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1024
+#define _APS_NEXT_CONTROL_VALUE         1028
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
