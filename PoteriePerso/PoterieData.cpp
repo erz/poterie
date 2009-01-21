@@ -8,7 +8,7 @@
 
 #define PI 3.14159265
 
-CPoterieData::CPoterieData(CPoterieImage *im)
+CPoterieData::CPoterieData(CPoterieImage *im,int indice)
 {
 	if(im->getContour() != NULL)
 	{
@@ -27,8 +27,9 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		eMoyenne=(pourcentageMilieu*epaisseurMoyenne)/echelle;
 		eBasse=(pourcentageBas*epaisseurMoyenne)/echelle;
 		eBase=(epaisseurMoyenne*100)/echelle;
-		pts = *(im->getContour());
-	
+		//pts = *(im->getContour());
+		
+		pts=*(seq->getCourbe(indice)->getBspline());
 		for (unsigned int i=0; i < pts.size(); ++i)
 		{
 			
@@ -74,6 +75,7 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		}
 		volume-=volumeMatiere;
 		CentreDeMasse(im);
+
 		//On a toutes les variables : on les traite pour avoir les bons résultats.
 		ouverture = (ctrWidth-ouverture)*2;
 		hauteur = (baseHauteur-hauteur);

@@ -14,7 +14,7 @@
 class CPoterieData
 {
 	public:
-		CPoterieData(CPoterieImage*);
+		CPoterieData(CPoterieImage*,int indice);
 		void RefreshListe(CListBox*);
 		void CentreDeMasse(CPoterieImage * im);
 		
