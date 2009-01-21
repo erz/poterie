@@ -60,7 +60,7 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	vecteur_noeuds		vknot  = MemVecteurFloat(M+K);
 	
 	//indice du dernier noeud de vknot
-	int	imax;		
+	imax = 0;		
 	
 	//choix de parametrisation
 	int choix_para = 1;
@@ -194,7 +194,14 @@ std::vector<Point *>* CPoterieCourbe::getBspline()
 	return bspline;
 }
 
+int CPoterieCourbe::getImax()
+{
+	return imax;
+}
+
+
 CPoterieCourbe::CPoterieCourbe (vector <Point *> *pts)
 {
 	InterpolationBSpline(pts);
 }
+

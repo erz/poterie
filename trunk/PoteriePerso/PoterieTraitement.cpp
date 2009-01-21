@@ -660,8 +660,7 @@ void enregistrerDonnees(CString path)
 			fichierCourbes = ouvertureFichier(fichierCourbes, CString2Char(ficCrb));
 			if (fichierCourbes != NULL)
 			{
-				//Dimension du repere
-				int hauteur = seq->getImage(i)->getHeightCtr();
+				//Largeur du repere
 				int largeur = seq->getImage(i)->getWidthCtr();
 
 				//Insertion des données
@@ -671,14 +670,41 @@ void enregistrerDonnees(CString path)
 				std::vector<Point*> pointsDetect = *(seq->getImage(i)->getContour());
 
 				//points de controle
+				std::vector<Point*> pointsCtr = *(seq->getCourbe(i)->getPointsControle());
+
+				//Vecteur de noeud
+				float* vectN = seq->getCourbe(i)->getVecteurNoeuds();
+				int imax = seq->getCourbe(i)->getImax();
+
+				//BSpline
+				std::vector<Point*> pointsBSpline = *(seq->getCourbe(i)->getBspline());
 		
 				for (unsigned i = 0; i < 500; ++i)
 				{
 					//Insertion des points d'entrées
 					if (i < pointsDetect.size())
-						fprintf(fichierCourbes, "%d;%d\n", changementRepere(pointsDetect[pointsDetect.size()-1-i]->x, true, hauteur, largeur, echelle), changementRepere(pointsDetect[pointsDetect.size()-1-i]->y, false, hauteur, largeur, echelle));
-					
+						fprintf(fichierCourbes, "%f;%f;", changementRepere(pointsDetect[pointsDetect.size()-1-i]->x, true, largeur, echelle, pointsDetect[pointsDetect.size()-1]->y), changementRepere(pointsDetect[pointsDetect.size()-1-i]->y, false, largeur, echelle, pointsDetect[pointsDetect.size()-1]->y));
+					else
+						fprintf(fichierCourbes, ";;");
 					//Points de controle
+					if (i < pointsCtr.size())
+						fprintf(fichierCourbes, "%f;%f;", changementRepere(pointsCtr[pointsCtr.size()-1-i]->x, true, largeur, echelle, pointsCtr[pointsCtr.size()-1]->y), changementRepere(pointsCtr[pointsCtr.size()-1-i]->y, false, largeur, echelle, pointsCtr[pointsCtr.size()-1]->y));
+					else
+						fprintf(fichierCourbes, ";;");
+
+					//Vecteur de noeud
+					if (i < imax)
+						fprintf(fichierCourbes, "%d;", vectN[i]);
+					else
+						fprintf(fichierCourbes, ";");
+					
+					//BSpline
+					if (i < pointsBSpline.size())
+						fprintf(fichierCourbes, "%f;%f;", changementRepere(pointsBSpline[pointsBSpline.size()-1-i]->x, true, largeur, echelle, pointsBSpline[pointsBSpline.size()-1]->y), changementRepere(pointsBSpline[pointsBSpline.size()-1-i]->y, false, largeur, echelle, pointsBSpline[pointsBSpline.size()-1]->y));
+					else
+						fprintf(fichierCourbes, ";;");
+
+					fprintf(fichierCourbes, "\n");
 				}
 			}
 			else

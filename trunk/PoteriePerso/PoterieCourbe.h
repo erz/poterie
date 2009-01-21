@@ -16,10 +16,10 @@ class CPoterieCourbe
 		std::vector<Point *>* getPointsControle();
 		float* getVecteurNoeuds();
 		std::vector<Point *>* getBspline();
+		int getImax();
 
 	private:
-		//int t[100];
-		//float A[200];
+		int imax;
 		std::vector<Point *>* pointsControle;
 		float* vecteurNoeuds;
 		std::vector<Point *>* bspline;
