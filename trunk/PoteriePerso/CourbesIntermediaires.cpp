@@ -12,11 +12,11 @@ void CCourbesIntermediaires::calculerCourbesIntermediaires()
 {
 	if(seq!=NULL && seq->getNbImages() > 0)
 	{	
-		float 	xi[100],
-		        yi[100];
+		//float 	xi[30],
+		 //       yi[30];
 		//cout<<"Courbes Intermediaires:"<<endl;
 		
-		/*
+		
 		for(int i=0;i<19;i++)
 		{
 
@@ -33,16 +33,15 @@ void CCourbesIntermediaires::calculerCourbesIntermediaires()
 				Nv->y=(int)interpolationCubique(tmp0[i]->y,tmp1[i]->y,tmp2[i]->y,tmp3[i]->y,0.5);
 				Nv->x=(int)(tmp0[i]->x+tmp1[i]->x)/2;
 				
-				lagrange()
 				
-				//courbeIntermediaire.push_back(Nv);
+				courbeIntermediaire.push_back(Nv);
 				//cout<<"x:\t"<<Nv->x<<"  y\t"<<Nv->y<<endl;
 			}
 			listeCourbes->push_back(courbeIntermediaire);
 			
 		}
 
-		*/
+		
 		/*
 		for(int i=0;i<19;i++)
 		{
@@ -73,29 +72,30 @@ void CCourbesIntermediaires::calculerCourbesIntermediaires()
 			listeCourbes->push_back(courbeIntermediaire);
 		}
 	}
-		
+		*/
 	cvNamedWindow( "Interpolation", 1 );
 	IplImage* BSpline = cvCreateImage( cvSize(300,300), 8, 1 );
 
-	int numeroCourbe=0;
-	for(int i=0;i<(*listeCourbes)[numeroCourbe].size()-1;i++)
+	int numeroCourbe=6;
+	for(int i=0;i<19-1;i++)
 	{
 		CvPoint pt[2], *rect = pt;
 		int count=2;
 
-		pt[0].x=(*listeCourbes)[numeroCourbe][i]->x;
-		pt[0].y=(*listeCourbes)[numeroCourbe][i]->y;
+		pt[0].x=(*listeCourbes)[i][numeroCourbe]->x;
+		pt[0].y=(*listeCourbes)[i][numeroCourbe]->y;
 
-		pt[1].x=(*listeCourbes)[numeroCourbe][i+1]->x;
-		pt[1].y=(*listeCourbes)[numeroCourbe][i+1]->y;
+		pt[1].x=(*listeCourbes)[i+1][numeroCourbe]->x;
+		pt[1].y=(*listeCourbes)[i+1][numeroCourbe]->y;
 		cvPolyLine( BSpline, &rect, &count, 1, 0, CV_RGB(255,255,255), 1, 0, 0 );
 		cout<<"X:"<<pt[0].x<<"\tY:"<<pt[0].y<<endl;
 
-		*/
+		
 	}
 	
-	//cvShowImage( "Interpolation", BSpline );
+	cvShowImage( "Interpolation", BSpline );
 
+	}
 }
 
 double CCourbesIntermediaires::interpolationCubique(double y0,double y1,double y2,double y3,double mu)
