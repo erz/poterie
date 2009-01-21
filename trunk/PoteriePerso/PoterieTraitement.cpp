@@ -65,7 +65,7 @@ void traitementTotal()
 				//Si le CPoterieData n'existe pas, on le crée
 				if (seq->getData(i) == NULL)
 				{
-					CPoterieData *newData = new CPoterieData(seq->getImage(i));
+					CPoterieData *newData = new CPoterieData(seq->getImage(i),i);
 					seq->setData(i, newData);
 				}
 			}
@@ -161,7 +161,7 @@ void CPoteriePersoDlg::refresh ()
 			//Si le CPoterieData n'existe pas, on le crée
 			if (seq->getData(seq->getIdCour()) == NULL)
 			{
-				CPoterieData *newData = new CPoterieData(seq->getImage(seq->getIdCour()));
+				CPoterieData *newData = new CPoterieData(seq->getImage(seq->getIdCour()),seq->getIdCour());
 				seq->setData(seq->getIdCour(), newData);
 			}
 			seq->getData(seq->getIdCour())->RefreshListe(&listeVars);
