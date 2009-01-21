@@ -87,51 +87,54 @@ void CPoteriePersoDlg::refresh ()
 
 			///////////////////////////
 			// Permet de redimensionner l'image à la taille du receptacle
+			if (m_image != NULL)
+			{
+				CDC m_dcMem; // Compatible Memory DC
+				CBitmap bmpItem; // Bitmap for Check
+				BITMAP bmInfo; // Bitmap information structure
+				CBitmap* pBmpOld; // Pointer to old bitmap
+				CSize m_size; // Size of bitmap
+				RECT rect; // rect of static member
 
-			CDC m_dcMem; // Compatible Memory DC
-			CBitmap bmpItem; // Bitmap for Check
-			BITMAP bmInfo; // Bitmap information structure
-			CBitmap* pBmpOld; // Pointer to old bitmap
-			CSize m_size; // Size of bitmap
-			RECT rect; // rect of static member
+				bmpItem.Attach(m_image);
 
-			bmpItem.Attach(m_image);
+				// Get bitmap information
+				bmpItem.GetObject( sizeof(BITMAP), &bmInfo );
 
-			// Get bitmap information
-			bmpItem.GetObject( sizeof(BITMAP), &bmInfo );
+				m_picture.GetClientRect( &rect );
+				m_size.cx = rect.right;
+				m_size.cy = rect.bottom;
 
-			m_picture.GetClientRect( &rect );
-			m_size.cx = rect.right;
-			m_size.cy = rect.bottom;
+				// Convert to screen coordinates using static as base,
+				// then to DIALOG (instead of static) client coords
+				// using dialog as base
+				m_picture.ClientToScreen( &rect );
+				ScreenToClient( &rect );
 
-			// Convert to screen coordinates using static as base,
-			// then to DIALOG (instead of static) client coords
-			// using dialog as base
-			m_picture.ClientToScreen( &rect );
-			ScreenToClient( &rect );
+				// Get temporary DC for dialog - Will be released in dc destructor
+				CClientDC dc(this);
 
-			// Get temporary DC for dialog - Will be released in dc destructor
-			CClientDC dc(this);
+				// Create compatible memory DC using the dialogs DC
+				m_dcMem.CreateCompatibleDC( &dc );
 
-			// Create compatible memory DC using the dialogs DC
-			m_dcMem.CreateCompatibleDC( &dc );
+				// Select bitmap into DC - get pointer to original bitmap
+				pBmpOld = m_dcMem.SelectObject( &bmpItem );
 
-			// Select bitmap into DC - get pointer to original bitmap
-			pBmpOld = m_dcMem.SelectObject( &bmpItem );
+				//Permet de garder les couleurs
+				dc.SetStretchBltMode(COLORONCOLOR);
 
-			//Permet de garder les couleurs
-			dc.SetStretchBltMode(COLORONCOLOR);
+				// Stretch bitmap into static member's client area.
+				dc.StretchBlt( rect.left, rect.top, m_size.cx, m_size.cy,
+				&m_dcMem, 0, 0, bmInfo.bmWidth-1,
+				bmInfo.bmHeight-1,
+				SRCCOPY );
 
-			// Stretch bitmap into static member's client area.
-			dc.StretchBlt( rect.left, rect.top, m_size.cx, m_size.cy,
-			&m_dcMem, 0, 0, bmInfo.bmWidth-1,
-			bmInfo.bmHeight-1,
-			SRCCOPY );
-
-			// Select back old bitmap and release bitmap resource
-			m_dcMem.SelectObject( pBmpOld );
-			bmpItem.DeleteObject();
-		//////////////////
+				// Select back old bitmap and release bitmap resource
+				m_dcMem.SelectObject( pBmpOld );
+				bmpItem.DeleteObject();
+			
+			}
+			//////////////////
 
 			//Création Structure image OPENCV
 			
@@ -165,25 +168,24 @@ void CPoteriePersoDlg::refresh ()
 			
 			//Enregistrement des points 
 			//Ouverture du fichier
-			char path[100];
-			sprintf_s(path,"C:\\data_source_%d",seq->getIdCour());
+			//char path[100];
+			//sprintf_s(path,"C:\\data_source_%d",seq->getIdCour());
 
-			fichierSortie = ouvertureFichier(fichierSortie,path);
-			//fichierSortie = fopen("C:\\hop.txt", "a");
+			//fichierSortie = ouvertureFichier(fichierSortie,path);
 			//Parcours de tous les points
-			vector <Point*> pts = *(seq->getImage(seq->getIdCour())->getContour());
-			for (unsigned int i=0; i<pts.size();++i)
-			{
-				enregistrerPoints(fichierSortie, pts[i]);
+			//vector <Point*> pts = *(seq->getImage(seq->getIdCour())->getContour());
+			//for (unsigned int i=0; i<pts.size();++i)
+			//{
+			//	enregistrerPoints(fichierSortie, pts[i]);
 				//fprintf(fichierSortie, "%d %d\n", pts[i]->x, pts[i]->y);
-			}
+			//}
 			//Fermeture du fichier
-			fermetureFichier(fichierSortie);
-			//fclose(fichierSortie);
+			//fermetureFichier(fichierSortie);
+			
 			//calculerCourbesIntermediaires();
 
 			//L'affichage d'image est bloquant ! alors, ne le faire qu'à la fin !
-			seq->getImage(seq->getIdCour())->afficher_image();
+			//seq->getImage(seq->getIdCour())->afficher_image();
 		}
 	}
 }
@@ -639,27 +641,20 @@ void CPoterieImage::trouver_contour()
 //Fonction d'enregistrement des données
 void enregistrerDonnees(CString path)
 {
-	CFile fileTest;
-	BOOL bLecture = FALSE;
-
-	if( !fileTest.Open( path, CFile::modeWrite ) )
+	fichierSortie = ouvertureFichier(fichierSortie, CString2Char(path));
+	if (fichierSortie!=NULL)
 	{
-		if( fileTest.Open( path, CFile::modeCreate | CFile::modeWrite ) )
-		{
-			bLecture = TRUE;
+		fprintf(fichierSortie, "N° Image;Ouverture(cm);Hauteur(cm);Diamètre maximal(cm);Hauteur du diamètre max(cm);Base(cm);Surface(cm²);Volume(L);Circularité;Hauteur du CDM(cm)\n");
+		for (int i = 0; i < seq->getNbImages(); ++i)
+		{	
+			fprintf(fichierSortie, "%d;%f;%f;%f;%f;%f;%f;%f;%f;%f\n", i, (seq->getData(i)->ouverture)*echelle,seq->getData(i)->hauteur*echelle,seq->getData(i)->maxDiam*echelle,seq->getData(i)->maxDiamHauteur*echelle,seq->getData(i)->base*echelle,seq->getData(i)->surface,seq->getData(i)->volume/1000.0,seq->getData(i)->circularite,seq->getData(i)->hauteurCDM);																																																																		
 		}
 	}
 	else
 	{
-		bLecture = TRUE;
+		cout<<"Erreur d'écriture"<<endl;	
 	}
-
-	if( bLecture )
-	{
-		fileTest.SeekToEnd();
-		fileTest.Write(path, path.GetLength());
-		fileTest.Close();
-	}
+	fermetureFichier(fichierSortie);
 }
 
 //Fonction d'enregistrement des points

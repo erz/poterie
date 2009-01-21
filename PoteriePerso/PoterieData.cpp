@@ -29,7 +29,6 @@ CPoterieData::CPoterieData(CPoterieImage *im)
 		eBase=(epaisseurMoyenne*100)/echelle;
 		pts = *(im->getContour());
 	
-		cout << eHaute << " " << eMoyenne << " " << eBasse << " " << eBase << endl;
 		for (unsigned int i=0; i < pts.size(); ++i)
 		{
 			
