@@ -73,7 +73,9 @@ CPoterieData::CPoterieData(CPoterieImage *im,int indice)
 			surface+=PI*(base1+base2)*generatrice;
 
 		}
+
 		volume-=volumeMatiere;
+
 		CentreDeMasse(im);
 
 		//On a toutes les variables : on les traite pour avoir les bons résultats.
@@ -123,7 +125,6 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 	for (unsigned int i=0; i < ptsProfilInterne.size()-1; i++)
 		{
 		
-
 			float base1=(im->getWidthCtr()-ptsProfilInterne[i]->x)*echelle;
 			float base2=(im->getWidthCtr()-ptsProfilInterne[i+1]->x)*echelle;
 			float hauteurSection=abs((ptsProfilInterne[i]->y-ptsProfilInterne[i+1]->y))*echelle;
@@ -134,7 +135,7 @@ void CPoterieData::CentreDeMasse(CPoterieImage * im)
 		}
 
 	
-	float volumeMilieu= (volume-volumeInterieur)/2;
+	float volumeMilieu= ((volume+volumeMatiere)-volumeInterieur)/2;
 	
 	i=0;
 	float volumeTmp=0;

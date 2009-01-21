@@ -27,10 +27,10 @@ public:
 	void destroy();
 	void makeCurrent(bool disableOther = true);
 
-	
 	virtual ~OpenGLDevice();
 
 protected:
+
 	bool setDCPixelFormat(HDC& deviceContext,int stencil);
 	
 	HGLRC renderContext;

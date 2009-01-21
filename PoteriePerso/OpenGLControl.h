@@ -39,7 +39,7 @@ public:
 public:
 	void Create(CRect rect,CWnd* parent);
 	virtual ~COpenGLControl();
-
+	
 
 
 
@@ -52,6 +52,9 @@ protected:
 	float rotation;
 	int Height;
 	int Width;
+	
+
+	BOOL OnIdle(LONG lCount);
 
 	//{{AFX_MSG(COpenGLControl)
 	afx_msg void OnPaint();
