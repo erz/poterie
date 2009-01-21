@@ -19,6 +19,8 @@ COpenGLControl::COpenGLControl()
 {
 	dc = NULL;
 	rotation = 0.0f;
+	
+	
 }
 
 COpenGLControl::~COpenGLControl()
@@ -58,12 +60,14 @@ void COpenGLControl::DrawGLScene()
 	glClear(GL_COLOR_BUFFER_BIT
 		 |  GL_DEPTH_BUFFER_BIT);
 
-	glEnable( GL_POLYGON_SMOOTH );
-	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-	glEnable( GL_BLEND );
+	
+	//glEnable( GL_POLYGON_SMOOTH );
+	//glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+	//glEnable( GL_BLEND );
+	//glEnable( GL_LIGHTING );
 	glLoadIdentity();
 	
-	//glRotatef(30.0, 1,0,0);
+	glRotatef(-rotation, 1,0,0);
 	//glRotatef(30.0, 0,0,1);
 	
 	//***************************
@@ -71,50 +75,31 @@ void COpenGLControl::DrawGLScene()
 	//***************************	
 	
 	
-	//glClearColor (0.0, 0.0, 0.0, 1.0);
-   
-
-	/*
-	glPushMatrix();
-    glBegin(GL_LINES);
-    glColor3ub(0,0,255);
-    glVertex3i(0,0,0);
-    glVertex3i(1,0,0);
-    glColor3ub(0,255,0);
-    glVertex3i(0,0,0);
-    glVertex3i(0,1,0);
-	glColor3ub(255,0,0);
-    glVertex3i(0,0,0);
-    glVertex3i(0,0,1);
-    glEnd();
-    glPopMatrix();
-	*/
-	//glClearColor (0.0, 0.0, 0.0, 1.0);
-	int NumeroImage=1;
+	int NumeroImage=9;
 	vector<Point*> tmp=*(seq->getCourbe(NumeroImage)->getPointsControle());
-	float sil[23][2];
+	
+	float sil[19][2];
+
+	int inf=380;
 	for(int u=0;u<19;u++)
 	{
-			if(u==0)
-			{
-				sil[0][0]=(int)(298-tmp[18-u]->x);
-				sil[0][1]=(int)tmp[18-u]->y-tmp[0]->y;
-				sil[1][0]=(int)(298-tmp[18-u]->x);
-				sil[1][1]=(int)tmp[18-u]->y-tmp[0]->y;
-				sil[2][0]=(int)(298-tmp[18-u]->x);
-				sil[2][1]=(int)tmp[18-u]->y-tmp[0]->y;
-				sil[3][0]=(int)(298-tmp[18-u]->x)+seq->getData(NumeroImage)->ouverture;
-				sil[3][1]=(int)tmp[18-u]->y-tmp[0]->y;
-			}
-			sil[u+4][0]=(int)(298-tmp[18-u]->x);
-			sil[u+4][1]=(int)tmp[18-u]->y-tmp[0]->y;
-			
+		if((380-tmp[u]->x)<inf) inf=tmp[u]->x;
 	}
-	GLfloat vknots[12] = {0.0, 0.0, 0.0,0.25,0.25,0.5,0.5,0.75,0.75, 1.0,1.0, 1.0};
+	int recadrage=seq->getData(NumeroImage)->ouverture+(tmp[0]->x-inf);
+	for(int u=0;u<19;u++)
+	{
+		
+			sil[u][0]=(int)(380-tmp[18-u]->x)-inf+recadrage;
+			sil[u][1]=(int)tmp[18-u]->y-tmp[0]->y;
+			cout<<"X:"<<sil[u][0]<<endl;
+			cout<<"Y:"<<sil[u][1]<<endl;cout<<"*********"<<endl;				
+	}
+
+	GLfloat vknots[12] = {0.0, 0.0, 0.0,1.0,1.0,2.0,2.0,3.0,3.0,4.0,4.0,4.0};
 	float uknots[30];
 	int numuknots;
 	int order=3;
-	int numsilpts=23;
+	int numsilpts=19;
 	//Matrice permettant de générer les pts de controle (rotation)
     float B[][3]= {   { 1.0, 0.0, 1.0},{ 0.707, 0.707, 0.707}
                  ,{ 0.0, 1.0, 1.0},{-0.707, 0.707, 0.707}
@@ -131,8 +116,15 @@ void COpenGLControl::DrawGLScene()
 
 	/***************On remplit les vecteurs de noeuds*********************/
        numuknots=numsilpts+2+order;
-	   for (i=0;i<numuknots;i++)
+	   uknots[0]=0;
+	   uknots[1]=0;
+	   uknots[2]=0;
+	   for (i=3;i<numuknots-3;i++)
 		     uknots[i]=i;
+	   uknots[numuknots-3]=i+1;
+	   uknots[numuknots-2]=i+1;
+	   uknots[numuknots-1]=i+1;
+
 	
 	/*************On remplit les pts de controles*************************/
 	
@@ -165,9 +157,9 @@ void COpenGLControl::DrawGLScene()
 	gluNurbsProperty(theNurb,GLU_SAMPLING_METHOD, GLU_DOMAIN_DISTANCE);
 	gluNurbsProperty(theNurb,GLU_U_STEP,10);
 	gluNurbsProperty(theNurb,GLU_V_STEP,10);
+	//gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_OUTLINE_POLYGON);
 	gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
     gluNurbsProperty(theNurb, GLU_CULLING, GLU_TRUE);
-	
 	glRotatef(180.0, 1.0,0,0);
 	glScalef (0.005, 0.005, 0.005);
 	gluNurbsSurface(theNurb, 
@@ -221,7 +213,7 @@ void COpenGLControl::Create(CRect rect, CWnd *parent)
 
 void COpenGLControl::OnPaint() 
 {
-	rotation += 0.01f;
+	rotation += 0.5f;
 
 	if (rotation >= 360.0f)
 	{
@@ -231,6 +223,7 @@ void COpenGLControl::OnPaint()
 	/** OpenGL section **/
 
 	openGLDevice.makeCurrent();
+	
 
 	DrawGLScene();
 }
@@ -256,6 +249,17 @@ void COpenGLControl::OnSize(UINT nType, int cx, int cy)
 	
 	glMatrixMode(GL_MODELVIEW);						
 	glLoadIdentity();
+
+	GLfloat ambientProperties[] = {0.8f, 0.8f, 0.08f, 1.0f};
+    GLfloat positionProperties[] = {2.0f, 2.0f, -2.0f, 0.0f};
+   
+    glLightfv( GL_LIGHT0, GL_AMBIENT, ambientProperties);
+    glLightfv( GL_LIGHT0, GL_POSITION, positionProperties);
+
+    glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHTING);
+
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ambientProperties);
 }
 
 
@@ -265,8 +269,9 @@ int COpenGLControl::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	
 	dc = new CClientDC(this);
-
+	
 	openGLDevice.create(dc->m_hDC);
+
 	InitGL();
 
 	return 0;
@@ -276,3 +281,5 @@ BOOL COpenGLControl::OnEraseBkgnd(CDC* pDC)
 {
 	return TRUE;
 }
+
+

@@ -115,10 +115,13 @@ void CPoterieCourbe::InterpolationBSpline(vector <Point *> *pts)
 	//Vecteur de noeuds
 	vecteurNoeuds = vknot;
 	//cout << "Vecteur de noeuds" << endl;
+	/*
 	for (int i = 0; i <= imax; ++i)
 	{
-		//cout << vecteurNoeuds[i] << " - ";
+		cout << vecteurNoeuds[i] << " - ";
 	}
+	*/
+
 	//cout << endl;
 
 	//Points sur la BSpline
