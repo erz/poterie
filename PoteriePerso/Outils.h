@@ -32,20 +32,17 @@ inline void fermetureFichier(FILE* fichier)
 }
 
 //Changement de repère OpenCV -> Enora
-inline float changementRepere(int coord, bool isX, int heigth, int width, float echelle)
+inline float changementRepere(int coord, bool isX, int width, float echelle, int Ymin)
 {
-	std::cout << coord << " " << isX << " " << heigth << " " << width << " " << echelle << std::endl;
-	
 	//Cas X
 	if (isX)
 	{
-
+		return ((width-coord)*echelle)/100.0;
 	}
 	else
 	{
+		return ((Ymin-coord)*echelle)/100.0;
 	}
-
-	return 0.;
 }
 
 
