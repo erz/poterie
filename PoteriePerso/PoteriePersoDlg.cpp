@@ -341,13 +341,56 @@ void CPoteriePersoDlg::OnBnClickedSuiv()
 void CPoteriePersoDlg::OnBnClickedSauver()
 {
 	// TODO : ajoutez ici le code de votre gestionnaire de notification de contrôle
-	CFileDialog fOpenDlg(FALSE, CString("csv"), NULL, OFN_HIDEREADONLY, CString("Donnees Poterie (*.csv)|*.csv||"), this);
+	/*CFileDialog fOpenDlg(FALSE, CString("csv"), NULL, OFN_HIDEREADONLY, CString("Donnees Poterie (*.csv)|*.csv||"), this);
   
 	if(fOpenDlg.DoModal()==IDOK)
 	{
 		//On enregistre les données dans le fichier choisi
 		enregistrerDonnees(fOpenDlg.GetPathName());
 		MessageBox(CString("Vos données ont été enregistrées avec succès."));
+	}*/
+
+
+	// TODO : ajoutez ici le code de votre gestionnaire de notification de contrôle
+	LPMALLOC pMalloc; 
+	/* Gets the Shell's default allocator */ 
+	if (::SHGetMalloc(&pMalloc) == NOERROR) 
+	{ 
+		BROWSEINFO bi; 
+		char pszBuffer[MAX_PATH]; 
+		LPITEMIDLIST pidl; 
+		// Get help on BROWSEINFO struct - it's got all the bit settings. 
+		bi.hwndOwner = GetSafeHwnd(); 
+		bi.pidlRoot = NULL; 
+		bi.pszDisplayName = (LPWSTR)pszBuffer; 
+		bi.lpszTitle = _T("Répertoire d'enregistrement"); 
+		bi.ulFlags = BIF_RETURNFSANCESTORS | BIF_RETURNONLYFSDIRS |BIF_NEWDIALOGSTYLE; 
+		bi.lpfn = NULL; 
+		bi.lParam = 0; 
+		
+		// This next call issues the dialog box. 
+		if ((pidl = ::SHBrowseForFolder(&bi)) != NULL) 
+		{ 
+			if (::SHGetPathFromIDList(pidl, LPWSTR(pszBuffer))) 
+		   { 
+			   				
+				// At this point pszBuffer contains the selected path */. 
+				//::SetCurrentDirectory(LPWSTR(pszBuffer));
+				
+				CString rep;
+				rep = Char2CString(pszBuffer);
+				enregistrerDonnees(rep);
+				//MessageBox(rep);
+				//seq->setRepertoireCourant(rep);
+				//Parcours des fichiers du dossier
+
+		
+			} 
+			// Free the PIDL allocated by SHBrowseForFolder. 
+			pMalloc->Free(pidl); 
+		} 
+		// Release the shell's allocator. 
+		pMalloc->Release(); 
 	}
 
 }

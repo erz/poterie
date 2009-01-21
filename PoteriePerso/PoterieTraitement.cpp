@@ -38,7 +38,7 @@ void traitementTotal()
 	if (seq != NULL)
 	{
 		if (seq->getNbImages() > 0)
-		{
+		{ 
 			for (int i = 0 ; i < seq->getNbImages(); ++i)
 			{
 			
@@ -641,19 +641,58 @@ void CPoterieImage::trouver_contour()
 //Fonction d'enregistrement des données
 void enregistrerDonnees(CString path)
 {
-	fichierSortie = ouvertureFichier(fichierSortie, CString2Char(path));
+	//Fichier de sequence
+	CString ficSeq = path+CString("\\PoterieSequence.csv");
+	
+	fichierSortie = ouvertureFichier(fichierSortie, CString2Char(ficSeq));
 	if (fichierSortie!=NULL)
 	{
 		fprintf(fichierSortie, "N° Image;Ouverture(cm);Hauteur(cm);Diamètre maximal(cm);Hauteur du diamètre max(cm);Base(cm);Surface(cm²);Volume(L);Circularité;Hauteur du CDM(cm)\n");
 		for (int i = 0; i < seq->getNbImages(); ++i)
 		{	
 			fprintf(fichierSortie, "%d;%f;%f;%f;%f;%f;%f;%f;%f;%f\n", i, (seq->getData(i)->ouverture)*echelle,seq->getData(i)->hauteur*echelle,seq->getData(i)->maxDiam*echelle,seq->getData(i)->maxDiamHauteur*echelle,seq->getData(i)->base*echelle,seq->getData(i)->surface,seq->getData(i)->volume/1000.0,seq->getData(i)->circularite,seq->getData(i)->hauteurCDM);																																																																		
+			
+			//Fichiers de courbes (1 par image)
+			CString nomFic;
+			nomFic.Format(CString("\\PoterieCourbes_%d"),i);
+			CString ficCrb = path+nomFic;
+			FILE* fichierCourbes = new FILE;
+			fichierCourbes = ouvertureFichier(fichierCourbes, CString2Char(ficCrb));
+			if (fichierCourbes != NULL)
+			{
+				//Dimension du repere
+				int hauteur = seq->getImage(i)->getHeightCtr();
+				int largeur = seq->getImage(i)->getWidthCtr();
+
+				//Insertion des données
+				fprintf(fichierCourbes, "x (Points détectés);y (Points détectés);x (Points de contrôle BSpline);y (Points de contrôle BSpline);Vecteur de noeuds;x (BSpline);y(BSpline)\n");
+				
+				//points d'entrées
+				std::vector<Point*> pointsDetect = *(seq->getImage(i)->getContour());
+
+				//points de controle
+		
+				for (unsigned i = 0; i < 500; ++i)
+				{
+					//Insertion des points d'entrées
+					if (i < pointsDetect.size())
+						fprintf(fichierCourbes, "%d;%d\n", changementRepere(pointsDetect[pointsDetect.size()-1-i]->x, true, hauteur, largeur, echelle), changementRepere(pointsDetect[pointsDetect.size()-1-i]->y, false, hauteur, largeur, echelle));
+					
+					//Points de controle
+				}
+			}
+			else
+			{
+				cout << "Erreur d'écriture" << endl;
+			}
+			fermetureFichier(fichierCourbes);
 		}
 	}
 	else
 	{
 		cout<<"Erreur d'écriture"<<endl;	
 	}
+
 	fermetureFichier(fichierSortie);
 }
 

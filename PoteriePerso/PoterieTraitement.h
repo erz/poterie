@@ -68,3 +68,11 @@ struct TriAscendant
 			return a->y < b->y;
 	}
 };
+
+struct TriDescendant
+{		
+	inline bool operator() (Point * a, Point * b) const
+	{
+			return a->y > b->y;
+	}
+};
