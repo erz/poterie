@@ -17,6 +17,7 @@ class CPoterieCourbe
 		float* getVecteurNoeuds();
 		std::vector<Point *>* getBspline();
 		int getImax();
+		int nbrePtsControle;
 
 	private:
 		int imax;

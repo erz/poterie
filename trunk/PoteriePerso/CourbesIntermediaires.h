@@ -14,6 +14,7 @@ class CCourbesIntermediaires
 
 		void calculerCourbesIntermediaires();
 		double interpolationCubique(double y0,double y1,double y2,double y3,double mu);
+		double interpolationLinéaire(double v1, double v2, double mu);
 		float lagrange(float xi[], float yi[], int x, int n);
 		vector<vector<Point*>> *getListeCourbes();
 };
