@@ -654,7 +654,7 @@ void enregistrerDonnees(CString path)
 			
 			//Fichiers de courbes (1 par image)
 			CString nomFic;
-			nomFic.Format(CString("\\PoterieCourbes_%d"),i);
+			nomFic.Format(CString("\\PoterieCourbes_%d.csv"),i);
 			CString ficCrb = path+nomFic;
 			FILE* fichierCourbes = new FILE;
 			fichierCourbes = ouvertureFichier(fichierCourbes, CString2Char(ficCrb));

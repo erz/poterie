@@ -380,11 +380,7 @@ void CPoteriePersoDlg::OnBnClickedSauver()
 				CString rep;
 				rep = Char2CString(pszBuffer);
 				enregistrerDonnees(rep);
-				//MessageBox(rep);
-				//seq->setRepertoireCourant(rep);
-				//Parcours des fichiers du dossier
-
-		
+				MessageBox("Vos données ont été enregistrées avec succès.");		
 			} 
 			// Free the PIDL allocated by SHBrowseForFolder. 
 			pMalloc->Free(pidl); 
