@@ -50,6 +50,8 @@ protected:
 	OpenGLDevice openGLDevice;
 	CClientDC* dc;
 	float rotation;
+	float timerImage;
+	int NumeroImage;
 	int Height;
 	int Width;
 	
