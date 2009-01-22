@@ -19,8 +19,8 @@ COpenGLControl::COpenGLControl()
 {
 	dc = NULL;
 	rotation = 0.0f;
-	
-	
+	timerImage = 0;
+	NumeroImage = 0;
 }
 
 COpenGLControl::~COpenGLControl()
@@ -75,10 +75,9 @@ void COpenGLControl::DrawGLScene()
 	//***************************	
 	
 	
-	int NumeroImage=9;
 	vector<Point*> tmp=*(seq->getCourbe(NumeroImage)->getPointsControle());
 	
-	float sil[19][2];
+	float sil[22][2];
 
 	int inf=380;
 	for(int u=0;u<19;u++)
@@ -89,17 +88,24 @@ void COpenGLControl::DrawGLScene()
 	for(int u=0;u<19;u++)
 	{
 		
-			sil[u][0]=(int)(380-tmp[18-u]->x)-inf+recadrage;
-			sil[u][1]=(int)tmp[18-u]->y-tmp[0]->y;
-			cout<<"X:"<<sil[u][0]<<endl;
-			cout<<"Y:"<<sil[u][1]<<endl;cout<<"*********"<<endl;				
+			sil[u+3][0]=(int)(380-tmp[18-u]->x)-inf+recadrage;
+			sil[u+3][1]=(int)tmp[18-u]->y-tmp[0]->y;
+			//cout<<"X:"<<sil[u][0]<<endl;
+			//cout<<"Y:"<<sil[u][1]<<endl;cout<<"*********"<<endl;				
 	}
+
+	sil[0][0]=(int)(380-tmp[18]->x)-inf+recadrage;
+	sil[0][1]=(int)tmp[18]->y-tmp[0]->y;
+	sil[1][0]=(int)(380-tmp[18]->x)-inf+recadrage;
+	sil[1][1]=(int)tmp[18]->y-tmp[0]->y;
+	sil[2][0]=(int)(380-tmp[18]->x)-inf;
+	sil[2][1]=(int)tmp[18]->y-tmp[0]->y;
 
 	GLfloat vknots[12] = {0.0, 0.0, 0.0,1.0,1.0,2.0,2.0,3.0,3.0,4.0,4.0,4.0};
 	float uknots[30];
 	int numuknots;
 	int order=3;
-	int numsilpts=19;
+	int numsilpts=22;
 	//Matrice permettant de générer les pts de controle (rotation)
     float B[][3]= {   { 1.0, 0.0, 1.0},{ 0.707, 0.707, 0.707}
                  ,{ 0.0, 1.0, 1.0},{-0.707, 0.707, 0.707}
@@ -161,7 +167,7 @@ void COpenGLControl::DrawGLScene()
 	gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
     gluNurbsProperty(theNurb, GLU_CULLING, GLU_TRUE);
 	glRotatef(180.0, 1.0,0,0);
-	glScalef (0.005, 0.005, 0.005);
+	glScalef (0.004, 0.004, 0.004);
 	gluNurbsSurface(theNurb, 
             12, vknots,      
             numuknots, uknots,  
@@ -213,7 +219,16 @@ void COpenGLControl::Create(CRect rect, CWnd *parent)
 
 void COpenGLControl::OnPaint() 
 {
-	rotation += 0.5f;
+	rotation += 1.5f;
+
+	timerImage += 1.5f;
+
+	if (timerImage > 360.)
+	{
+		NumeroImage = (NumeroImage+1)%(seq->getNbImages());
+		timerImage = 0;
+		rotation = 0;
+	}
 
 	if (rotation >= 360.0f)
 	{
