@@ -17,7 +17,7 @@ void CCourbesIntermediaires::calculerCourbesIntermediaires()
 		//cout<<"Courbes Intermediaires:"<<endl;
 		
 		
-		for(int i=0;i<19;i++)
+		for(int i=0;i<seq->getCourbe(0)->getPointsControle()->size();i++)
 		{
 
 			vector<Point*> courbeIntermediaire;
@@ -88,7 +88,7 @@ void CCourbesIntermediaires::calculerCourbesIntermediaires()
 	vector<Point *> courbeIntermediaire;
 	
 	int numeroCourbe=7;
-	for(int k=0;k<19;k++)
+	for(int k=0;k<seq->getCourbe(0)->getPointsControle()->size();k++)
 	{
 		Point * Pt= new Point();
 		Pt->x=(*listeCourbes)[k][numeroCourbe]->x;
