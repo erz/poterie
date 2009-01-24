@@ -80,32 +80,33 @@ void COpenGLControl::DrawGLScene()
 	float sil[22][2];
 
 	int inf=380;
-	for(int u=0;u<19;u++)
+	for(int u=0;u<seq->getCourbe(0)->getPointsControle()->size();u++)
 	{
 		if((380-tmp[u]->x)<inf) inf=tmp[u]->x;
 	}
 	int recadrage=seq->getData(NumeroImage)->ouverture+(tmp[0]->x-inf);
-	for(int u=0;u<19;u++)
+	int maxpts=seq->getCourbe(0)->getPointsControle()->size()-1;
+	for(int u=0;u<seq->getCourbe(0)->getPointsControle()->size();u++)
 	{
 		
-			sil[u+3][0]=(int)(380-tmp[18-u]->x)-inf+recadrage;
-			sil[u+3][1]=(int)tmp[18-u]->y-tmp[0]->y;
+			sil[u+3][0]=(int)(380-tmp[maxpts-u]->x)-inf+recadrage;
+			sil[u+3][1]=(int)tmp[maxpts-u]->y-tmp[0]->y;
 			//cout<<"X:"<<sil[u][0]<<endl;
 			//cout<<"Y:"<<sil[u][1]<<endl;cout<<"*********"<<endl;				
 	}
 
-	sil[0][0]=(int)(380-tmp[18]->x)-inf+recadrage;
-	sil[0][1]=(int)tmp[18]->y-tmp[0]->y;
-	sil[1][0]=(int)(380-tmp[18]->x)-inf+recadrage;
-	sil[1][1]=(int)tmp[18]->y-tmp[0]->y;
-	sil[2][0]=(int)(380-tmp[18]->x)-inf;
-	sil[2][1]=(int)tmp[18]->y-tmp[0]->y;
+	sil[0][0]=(int)(380-tmp[maxpts]->x)-inf+recadrage;
+	sil[0][1]=(int)tmp[maxpts]->y-tmp[0]->y;
+	sil[1][0]=(int)(380-tmp[maxpts]->x)-inf+recadrage;
+	sil[1][1]=(int)tmp[maxpts]->y-tmp[0]->y;
+	sil[2][0]=(int)(380-tmp[maxpts]->x)-inf;
+	sil[2][1]=(int)tmp[maxpts]->y-tmp[0]->y;
 
 	GLfloat vknots[12] = {0.0, 0.0, 0.0,1.0,1.0,2.0,2.0,3.0,3.0,4.0,4.0,4.0};
 	float uknots[30];
 	int numuknots;
 	int order=3;
-	int numsilpts=22;
+	int numsilpts=maxpts+4;
 	//Matrice permettant de générer les pts de controle (rotation)
     float B[][3]= {   { 1.0, 0.0, 1.0},{ 0.707, 0.707, 0.707}
                  ,{ 0.0, 1.0, 1.0},{-0.707, 0.707, 0.707}
