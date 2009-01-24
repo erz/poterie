@@ -84,8 +84,10 @@ void COpenGLControl::DrawGLScene()
 	{
 		if((380-tmp[u]->x)<inf) inf=tmp[u]->x;
 	}
+
 	int recadrage=seq->getData(NumeroImage)->ouverture+(tmp[0]->x-inf);
 	int maxpts=seq->getCourbe(0)->getPointsControle()->size()-1;
+	
 	for(int u=0;u<seq->getCourbe(0)->getPointsControle()->size();u++)
 	{
 		
@@ -164,11 +166,12 @@ void COpenGLControl::DrawGLScene()
 	gluNurbsProperty(theNurb,GLU_SAMPLING_METHOD, GLU_DOMAIN_DISTANCE);
 	gluNurbsProperty(theNurb,GLU_U_STEP,10);
 	gluNurbsProperty(theNurb,GLU_V_STEP,10);
-	//gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_OUTLINE_POLYGON);
+	
 	gluNurbsProperty(theNurb, GLU_DISPLAY_MODE, GLU_FILL);
     gluNurbsProperty(theNurb, GLU_CULLING, GLU_TRUE);
 	glRotatef(180.0, 1.0,0,0);
 	glScalef (0.004, 0.004, 0.004);
+	
 	gluNurbsSurface(theNurb, 
             12, vknots,      
             numuknots, uknots,  
