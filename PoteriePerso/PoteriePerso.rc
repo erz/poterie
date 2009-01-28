@@ -102,7 +102,7 @@ BEGIN
     PUSHBUTTON      "Modelisation",IDMODELISATION,338,223,62,21,NOT WS_VISIBLE
     GROUPBOX        "Variables d'épaisseur",IDGROUPEPAISSEUR,19,192,380,54
     EDITTEXT        IDEP_VOLUME,36,220,41,12,ES_AUTOHSCROLL
-    LTEXT           "  Poids d'argile (g)    Epaisseur Moyenne (m)    Epaisseur Basse (%)  Epaisseur Milieu (%)  Epaisseur Haute (%)",IDEP_LEGENDE,29,205,357,14
+    LTEXT           "Volume d'argile (cm3)  Epaisseur Moyenne (m)   Epaisseur Basse (%)  Epaisseur Milieu (%)  Epaisseur Haute (%)",IDEP_LEGENDE,29,205,357,14
     EDITTEXT        IDEP_MOYENNE,109,220,41,12,ES_AUTOHSCROLL
     EDITTEXT        IDEP_BASSE,188,220,41,12,ES_AUTOHSCROLL
     EDITTEXT        IDEP_MILIEU,255,220,41,12,ES_AUTOHSCROLL

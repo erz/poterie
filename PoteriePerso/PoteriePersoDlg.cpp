@@ -131,7 +131,7 @@ BOOL CPoteriePersoDlg::OnInitDialog()
 	//Initialisations des variables d'épaisseur
 
 	CString volume, emoy, ebas, emil, ehaut;
-	volume.Format(CString("%.2f"), volumeMatiere*1.95);
+	volume.Format(CString("%.2f"), volumeMatiere);
 	emoy.Format(CString("%.3f"), epaisseurMoyenne);
 	ebas.Format(CString("%.2f"), pourcentageBas);
 	emil.Format(CString("%.2f"), pourcentageMilieu);
@@ -288,7 +288,7 @@ void CPoteriePersoDlg::OnBnClickedOuvrir()
 				CString hop;				
 				//volumeMatiere;
 				ep_volume.GetWindowTextW(hop);
-				volumeMatiere = atof(CString2Char(hop))/1.95;
+				volumeMatiere = atof(CString2Char(hop));
 				//epaisseurMoyenne;
 				ep_moyenne.GetWindowTextW(hop);
 				epaisseurMoyenne = atof(CString2Char(hop));
