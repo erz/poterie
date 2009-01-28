@@ -77,12 +77,14 @@ void COpenGLControl::DrawGLScene()
 	
 	vector<Point*> tmp=*(seq->getCourbe(NumeroImage)->getPointsControle());
 	
-	float sil[22][2];
+	float sil[100][2];
 
-	int inf=380;
+	int largeur = seq->getImage(NumeroImage)->getWidthCtr();
+	int inf=largeur;
+	cout << inf << endl;
 	for(int u=0;u<seq->getCourbe(0)->getPointsControle()->size();u++)
 	{
-		if((380-tmp[u]->x)<inf) inf=tmp[u]->x;
+		if((largeur-tmp[u]->x)<inf) inf=tmp[u]->x;
 	}
 
 	int recadrage=seq->getData(NumeroImage)->ouverture+(tmp[0]->x-inf);
@@ -91,17 +93,17 @@ void COpenGLControl::DrawGLScene()
 	for(int u=0;u<seq->getCourbe(0)->getPointsControle()->size();u++)
 	{
 		
-			sil[u+3][0]=(int)(380-tmp[maxpts-u]->x)-inf+recadrage;
+			sil[u+3][0]=(int)(largeur-tmp[maxpts-u]->x)-inf+recadrage;
 			sil[u+3][1]=(int)tmp[maxpts-u]->y-tmp[0]->y;
 			//cout<<"X:"<<sil[u][0]<<endl;
 			//cout<<"Y:"<<sil[u][1]<<endl;cout<<"*********"<<endl;				
 	}
 
-	sil[0][0]=(int)(380-tmp[maxpts]->x)-inf+recadrage;
+	sil[0][0]=(int)(largeur-tmp[maxpts]->x)-inf+recadrage;
 	sil[0][1]=(int)tmp[maxpts]->y-tmp[0]->y;
-	sil[1][0]=(int)(380-tmp[maxpts]->x)-inf+recadrage;
+	sil[1][0]=(int)(largeur-tmp[maxpts]->x)-inf+recadrage;
 	sil[1][1]=(int)tmp[maxpts]->y-tmp[0]->y;
-	sil[2][0]=(int)(380-tmp[maxpts]->x)-inf;
+	sil[2][0]=(int)(largeur-tmp[maxpts]->x)-inf;
 	sil[2][1]=(int)tmp[maxpts]->y-tmp[0]->y;
 
 	GLfloat vknots[12] = {0.0, 0.0, 0.0,1.0,1.0,2.0,2.0,3.0,3.0,4.0,4.0,4.0};
@@ -269,7 +271,7 @@ void COpenGLControl::OnSize(UINT nType, int cx, int cy)
 	glMatrixMode(GL_MODELVIEW);						
 	glLoadIdentity();
 
-	GLfloat ambientProperties[] = {0.8f, 0.8f, 0.08f, 1.0f};
+	GLfloat ambientProperties[] = {0.9f, 0.7f, 0.07f, 1.0f};
     GLfloat positionProperties[] = {2.0f, 2.0f, -2.0f, 0.0f};
    
     glLightfv( GL_LIGHT0, GL_AMBIENT, ambientProperties);

@@ -403,9 +403,9 @@ void CPoterieImage::trouver_contour()
 	CvMat *matCrop = cvCreateMatHeader( img->width/2, img->height/2, CV_8UC3 );
 	CvMat* src_region = cvGetSubRect(img, matCrop, cvRect(0, img->height/2, img->width/2, img->height/2) );
 	*/
-	IplImage* cropped = cvCreateImage( cvSize(img->width/2,(img->height/4)*3), 8, 3);
-	CvMat *matCrop = cvCreateMatHeader( img->width/2, (img->height/4)*3, CV_8UC3 );
-	CvMat* src_region = cvGetSubRect(img, matCrop, cvRect(0, img->height/4, img->width/2, (img->height/4)*3) );
+	IplImage* cropped = cvCreateImage( cvSize(img->width/2,(img->height/10)*9), 8, 3);
+	CvMat *matCrop = cvCreateMatHeader( img->width/2, (img->height/10)*9, CV_8UC3 );
+	CvMat* src_region = cvGetSubRect(img, matCrop, cvRect(0, img->height/10, img->width/2, (img->height/10)*9) );
 
 	cvCopy(src_region, cropped);
 
@@ -608,30 +608,21 @@ void CPoterieImage::trouver_contour()
 	}
 
 	//Heuristique des points en trop a l'ouverture
-	/*for (int i = 0; i < ContourPoterieTemp2->size(); ++i)
-	{
-		bool mettre = true;
-		if (i < 15 && (abs((*ContourPoterieTemp2)[i]->x - (*ContourPoterieTemp2)[i+1]->x) > 4))
-			mettre = false;
-		if ( i < 15 && abs((*ContourPoterieTemp2)[i]->x - (*ContourPoterieTemp2)[15]->x) > 30)
-			mettre = false;
-		if (mettre == true)
-			ContourPoterie->push_back((*ContourPoterieTemp2)[i]);
-	}*/
 	for (int i = ContourPoterieTemp2->size()-1; i >= 0; --i)
 	{
 		bool mettre = true;
-		if (i < 15 && (abs((*ContourPoterieTemp2)[i]->x - (*ContourPoterieTemp2)[i+1]->x) > 4))
+		if (i < 10 && (abs((*ContourPoterieTemp2)[i]->x - (*ContourPoterieTemp2)[i+1]->x) > 4))
 			mettre = false;
-		if ( i < 15 && abs((*ContourPoterieTemp2)[i]->x - (*ContourPoterieTemp2)[15]->x) > 30)
+		if ( i < 10 && abs((*ContourPoterieTemp2)[i]->x - (*ContourPoterieTemp2)[15]->x) > 50)
 			mettre = false;
 		//Si il y a un gros ecart en y, on arrete la
+		/*
 		if (i < ContourPoterieTemp2->size()-1)
 		{
 			//cout << (*ContourPoterieTemp2)[i]->y << " " << (*ContourPoterieTemp2)[i+1]->y << endl;
-			if ((*ContourPoterieTemp2)[i+1]->y - (*ContourPoterieTemp2)[i]->y > 50)
+			if ((*ContourPoterieTemp2)[i+1]->y - (*ContourPoterieTemp2)[i]->y > 120)
 				break;
-		}
+		}*/
 		if (mettre == true)
 			ContourPoterie->push_back((*ContourPoterieTemp2)[i]);
 	}
@@ -719,7 +710,7 @@ void enregistrerDonnees(CString path)
 
 					//Vecteur de noeud
 					if (i < imax)
-						fprintf(fichierCourbes, "%d;", vectN[i]);
+						fprintf(fichierCourbes, "%f;", vectN[i]);
 					else
 						fprintf(fichierCourbes, ";");
 					
