@@ -76,10 +76,13 @@ STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSM
 CAPTION "À propos de PoteriePerso"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,21,20
-    LTEXT           "PoteriePerso version 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 2008",IDC_STATIC,40,25,119,8
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "PoteriePerso version 1.0",IDC_STATIC,40,15,119,8,SS_NOPREFIX
+    RTEXT           "Copyright (C) 2009",IDC_STATIC,109,98,119,8
     DEFPUSHBUTTON   "OK",IDOK,169,14,50,16,WS_GROUP
+    CTEXT           "Cette application a été réalisé par Aurélien FIOL et Florent MAS dans le cadre de leur projet de fin d'étude à l'Ecole Supérieure d'Ingénieurs de Luminy.",IDC_STATIC,43,35,178,33
+    CTEXT           "PoteriePerso a été concue pour l'étude de poterie et toute autre utilisation peut conduire à des résultats imprévisibles.",IDC_STATIC,47,62,167,26
+    LTEXT           "Licence accordée à Enora GANDON ",IDC_STATIC,8,97,140,10
 END
 
 IDD_POTERIEPERSO_DIALOG DIALOGEX 0, 0, 416, 260
@@ -89,7 +92,7 @@ CAPTION "PoteriePerso"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     PUSHBUTTON      "Quitter",IDCANCEL,344,21,50,16
-    PUSHBUTTON      "&Aide",ID_HELP,287,21,50,16
+    PUSHBUTTON      "&A propos",ID_HELP,287,21,50,16
     PUSHBUTTON      "Précédent",IDPREC,35,189,50,14,NOT WS_VISIBLE
     PUSHBUTTON      "Suivant",IDSUIV,151,189,50,14,NOT WS_VISIBLE
     PUSHBUTTON      "Ouvrir",IDOUVRIR,36,21,50,14
