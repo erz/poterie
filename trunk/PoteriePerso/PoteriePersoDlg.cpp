@@ -377,8 +377,8 @@ void CPoteriePersoDlg::OnBnClickedSauver()
 				// At this point pszBuffer contains the selected path */. 
 				//::SetCurrentDirectory(LPWSTR(pszBuffer));
 				
-				CString rep;
-				rep = Char2CString(pszBuffer);
+				CString rep = Char2CString(pszBuffer);
+			
 				enregistrerDonnees(rep);
 				MessageBox(CString("Vos données ont été enregistrées avec succès."));		
 			} 

@@ -233,8 +233,8 @@ double CPoterieImage::angle( CvPoint* pt1, CvPoint* pt2, CvPoint* pt0 )
 
 void CPoterieImage::afficher_image()
 {
-	cvNamedWindow("Opencv",CV_WINDOW_AUTOSIZE);
-	cvShowImage("Opencv",img);
+	//cvNamedWindow("Opencv",CV_WINDOW_AUTOSIZE);
+	//cvShowImage("Opencv",img);
 	cvNamedWindow( "contours", 1 );
 	if (cnt_img == NULL)
 		trouver_contour();
@@ -709,8 +709,11 @@ void enregistrerDonnees(CString path)
 						fprintf(fichierCourbes, ";;");
 
 					//Vecteur de noeud
-					if (i < imax)
+					
+					if (i <= imax)
+					{
 						fprintf(fichierCourbes, "%f;", vectN[i]);
+					}
 					else
 						fprintf(fichierCourbes, ";");
 					
