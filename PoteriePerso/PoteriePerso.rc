@@ -144,13 +144,13 @@ BEGIN
     BEGIN
         BLOCK "040c04e4"
         BEGIN
-            VALUE "CompanyName", "TODO : <Nom de la société>"
-            VALUE "FileDescription", "TODO : <Description de fichier>"
+            VALUE "CompanyName", "Aurelien&Florent"
+            VALUE "FileDescription", "Logiciel d'étude de la mise en forme dans le domaine de la poterie."
             VALUE "FileVersion", "1.0.0.1"
             VALUE "InternalName", "PoteriePerso.exe"
-            VALUE "LegalCopyright", "TODO : (c) <Nom de la société>. Tous droits réservés."
+            VALUE "LegalCopyright", "(c) ESIL. Tous droits réservés."
             VALUE "OriginalFilename", "PoteriePerso.exe"
-            VALUE "ProductName", "TODO : <Nom du produit>"
+            VALUE "ProductName", "PoteriePerso"
             VALUE "ProductVersion", "1.0.0.1"
         END
     END

@@ -63,9 +63,9 @@ BOOL CPoteriePersoApp::InitInstance()
 	SetRegistryKey(_T("Applications locales générées par AppWizard"));
 
 	// créer une console
-    ::AllocConsole();
+   // ::AllocConsole();
     // synchroniser la CRT
-    InitializeConsoleStdIO();
+   // InitializeConsoleStdIO();
 	
 
 	CPoteriePersoDlg dlg;
