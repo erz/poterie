@@ -164,19 +164,19 @@ void CPoterieData::RefreshListe(CListBox *liste)
 
 	//On crée les strings d'affichage (on n'oublie pas l'echelle!)
 	CString ouv;
-	ouv.Format(CString("Ouverture : %.4lf cm"), ouverture*echelle);
+	ouv.Format(CString("Ouverture : %.2lf cm"), ouverture*echelle);
 	CString haut;
-	haut.Format(CString("Hauteur : %.4lf cm"), hauteur*echelle);
+	haut.Format(CString("Hauteur : %.2lf cm"), hauteur*echelle);
 	CString diam;
-	diam.Format(CString("Diamètre maximal : %.4lf cm"), maxDiam*echelle);
+	diam.Format(CString("Diamètre maximal : %.2lf cm"), maxDiam*echelle);
 	CString diamHaut;
-	diamHaut.Format(CString("Hauteur du diamètre max : %.4lf cm"), maxDiamHauteur*echelle);
+	diamHaut.Format(CString("Hauteur du diamètre max : %.2lf cm"), maxDiamHauteur*echelle);
 	CString bas;
-	bas.Format(CString("Base : %.4lf cm"), base*echelle);
+	bas.Format(CString("Base : %.2lf cm"), base*echelle);
 	CString Surface;
-	Surface.Format(CString("Surface : %.4lf cm²"), surface);
+	Surface.Format(CString("Surface : %.2lf cm²"), surface);
 	CString Volume;
-	Volume.Format(CString("Volume : %.4lf L"), volume/1000.0);
+	Volume.Format(CString("Volume : %.2lf L"), volume/1000.0);
 	CString Circularite;
 	Circularite.Format(CString("Circularite : %.2lf "), circularite);
 	CString HauteurCDM;
